@@ -103,6 +103,17 @@ export function Footer() {
           <div>© 2026 Yash Sandeep Shinde. Built with Next.js, GSAP & Tailwind.</div>
 
           <div className="flex items-center gap-6">
+            <a
+              href="/Yash_Shinde.pdf"
+              download="Yash_Shinde_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Download Resume PDF"
+              className="hover:text-white transition-colors flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none"
+            >
+              <span>Resume</span>
+              <ArrowUpRight className="w-3 h-3 text-white/50" />
+            </a>
             {social.map((link) => (
               <a
                 key={link.name}

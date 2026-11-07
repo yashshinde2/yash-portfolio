@@ -4,7 +4,7 @@ export const portfolioData = {
     headline: "Computer Science Engineer",
     summary:
       "Computer Science Engineering undergraduate with a solid foundation in programming. Experienced in using C++, Java, Go, Node.js, and Python to build real-time applications. Actively participates in hackathons to test problem-solving skills under pressure, with a strong focus on bridging software with embedded hardware to solve practical challenges.",
-    resumeLink: "#",
+    resumeLink: "/Yash_Shinde.pdf",
     location: "Kolhapur, India",
   },
 
@@ -21,7 +21,7 @@ export const portfolioData = {
     },
     {
       name: "Email",
-      url: "mailto:shindeyasho204@gmail.com",
+      url: "mailto:yashysshinde@gmail.com",
       icon: "mail",
     },
   ],

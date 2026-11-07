@@ -29,11 +29,17 @@ function MagneticAnchor({
   className,
   href,
   ariaLabel,
+  download,
+  target,
+  rel,
 }: {
   children: React.ReactNode;
   className?: string;
   href: string;
   ariaLabel?: string;
+  download?: boolean | string;
+  target?: string;
+  rel?: string;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
 
@@ -58,6 +64,9 @@ function MagneticAnchor({
       ref={ref}
       href={href}
       aria-label={ariaLabel}
+      download={download}
+      target={target}
+      rel={rel}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className={className}
@@ -226,7 +235,11 @@ export function Hero() {
 
           <MagneticAnchor
             href={hero.resumeLink}
-            className="px-6 py-3 rounded-full border border-white/20 text-white font-mono text-xs uppercase tracking-widest hover:border-white hover:bg-white/10 transition-all flex items-center gap-1.5"
+            download="Yash_Shinde_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            ariaLabel="Download Yash Shinde Resume PDF"
+            className="px-6 py-3 rounded-full border border-white/20 text-white font-mono text-xs uppercase tracking-widest hover:border-white hover:bg-white/10 transition-all flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
           >
             <span>Download Resume</span>
             <Download className="w-3.5 h-3.5" />

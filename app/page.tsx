@@ -61,6 +61,17 @@ export default function Home() {
                   Contact
                 </a>
               </li>
+              <li>
+                <a
+                  href="/Yash_Shinde.pdf"
+                  download="Yash_Shinde_Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1 rounded-full border border-white/20 text-white/80 hover:text-white hover:border-white transition-colors duration-200"
+                >
+                  Resume
+                </a>
+              </li>
             </ul>
 
             <button
@@ -102,6 +113,16 @@ export default function Home() {
               className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
             >
               Contact
+            </a>
+            <a
+              href="/Yash_Shinde.pdf"
+              download="Yash_Shinde_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block font-mono text-sm uppercase tracking-widest text-white hover:text-white py-2"
+            >
+              Download Resume ↗
             </a>
           </div>
         )}
