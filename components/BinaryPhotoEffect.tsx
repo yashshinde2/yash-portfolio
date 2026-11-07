@@ -422,3 +422,4 @@ export function BinaryPhotoEffect({
 
   return <canvas ref={canvasRef} className={className} />;
 }
+
