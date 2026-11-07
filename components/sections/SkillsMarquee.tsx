@@ -5,52 +5,45 @@ import { portfolioData } from "@/lib/portfolio-data";
 
 export function SkillsMarquee() {
   const { skills } = portfolioData;
-  const duplicatedSkills = [...skills, ...skills];
+  const marqueeItems = [...skills, ...skills, ...skills];
 
   return (
-    <section className="relative py-20 overflow-hidden bg-zinc-950/50">
-      {/* Background accent */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/2 right-0 w-96 h-96 bg-green-500/5 rounded-full blur-3xl opacity-30"></div>
+    <section className="relative py-14 overflow-hidden border-b border-white/10 bg-black">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 mb-8 flex items-center justify-between">
+        <h2 className="font-mono text-xs uppercase tracking-widest text-white/40">
+          [ 02 // Tech Stack & Skills ]
+        </h2>
+        <span className="font-mono text-xs uppercase tracking-widest text-white/20 hidden sm:inline">
+          Continuous Integration • Hardware & Software
+        </span>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center text-white mb-16 font-sans">
-          Tech Stack & Skills
-        </h2>
+      <div className="relative overflow-hidden w-full">
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-black to-transparent z-10" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-black to-transparent z-10" />
 
-        <div className="relative overflow-hidden">
-          {/* Gradient fade effect on sides */}
-          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-zinc-950 to-transparent z-20"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-zinc-950 to-transparent z-20"></div>
-
-          {/* Marquee container */}
-          <motion.div
-            initial={{ x: 0 }}
-            animate={{ x: -1920 }}
-            transition={{
-              duration: 40,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            className="flex gap-8 whitespace-nowrap"
-          >
-            {duplicatedSkills.map((skill, index) => (
-              <motion.div
-                key={`${skill}-${index}`}
-                className="relative px-6 py-3 rounded-full bg-white/5 border border-white/10 hover:border-blue-500/50 transition-all duration-300 hover:bg-white/10"
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 0 15px rgba(59, 130, 246, 0.3)",
-                }}
-              >
-                <span className="text-base sm:text-lg font-medium text-gray-300 font-sans">
-                  {skill}
-                </span>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+        <motion.div
+          initial={{ x: 0 }}
+          animate={{ x: "-33.333%" }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+          className="flex gap-4 sm:gap-6 whitespace-nowrap w-max"
+        >
+          {marqueeItems.map((skill, index) => (
+            <div
+              key={`${skill}-${index}`}
+              className="flex items-center gap-4 px-5 py-2.5 rounded-full border border-white/10 bg-white/[0.02] hover:border-white/30 hover:bg-white/[0.06] transition-all duration-200"
+            >
+              <span className="font-mono text-xs tracking-wider uppercase text-white/80">
+                {skill}
+              </span>
+              <span className="text-[10px] text-white/20 font-mono">✦</span>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
