@@ -77,14 +77,14 @@ export function Hackathons() {
       className="py-24 sm:py-36 px-4 sm:px-8 lg:px-16 border-b border-white/10 bg-black text-white relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto mb-16 sm:mb-24 text-center space-y-4">
-        <div className="font-mono text-xs uppercase tracking-widest text-white/50">
+        <div className="font-mono text-xs uppercase tracking-widest text-white/70">
           <ScrambleHeading text="[ 04 // HACKATHONS & EXPERIENCE ]" as="span" />
         </div>
         <ScrambleHeading
           text="GRAND PRIX // COMPETITIONS"
           className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tighter uppercase font-sans text-white"
         />
-        <div className="flex items-center justify-center gap-3 font-mono text-xs uppercase tracking-widest text-white/40">
+        <div className="flex items-center justify-center gap-3 font-mono text-xs uppercase tracking-widest text-white/70">
           <span>Circuit Telemetry</span>
           <span>✦</span>
           <span>6 Competitive Laps</span>

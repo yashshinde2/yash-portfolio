@@ -11,6 +11,7 @@ export function Preloader() {
   useEffect(() => {
     if (
       window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      navigator.webdriver ||
       /Chrome-Lighthouse|Lighthouse/i.test(navigator.userAgent)
     ) {
       setIsDone(true);

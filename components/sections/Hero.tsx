@@ -210,7 +210,7 @@ export function Hero() {
       <div className="pointer-events-none absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-black via-black/80 to-transparent z-25" />
 
       <div className="relative z-30 w-full flex flex-col sm:flex-row items-center sm:items-end justify-between gap-6">
-        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/50">
+        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/70">
           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
           <span>Kolhapur, IN</span>
         </div>
@@ -246,7 +246,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/50">
+        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/70">
           <span>Scroll</span>
           <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
         </div>

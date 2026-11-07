@@ -40,7 +40,7 @@ export function Projects() {
             <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-black text-white relative">
               <div className="max-w-7xl mx-auto mb-16 sm:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
                 <div>
-                  <div className="font-mono text-xs uppercase tracking-widest text-white/50 mb-3">
+                  <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-3">
                     <ScrambleHeading text="[ 03 // PROJECTS ]" as="span" />
                   </div>
                   <ScrambleHeading
@@ -72,7 +72,7 @@ export function Projects() {
                                     className="cursor-pointer py-8 sm:py-12 px-4 sm:px-8 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-colors duration-200 group-hover:bg-white group-hover:text-black rounded-xl sm:rounded-2xl"
                                   >
                                     <div className="flex items-baseline gap-6 sm:gap-12">
-                                      <span className="font-mono text-sm sm:text-lg tracking-widest text-white/40 group-hover:text-black/50 select-none">
+                                      <span className="font-mono text-sm sm:text-lg tracking-widest text-white/70 group-hover:text-black/70 select-none">
                                         {num}
                                       </span>
                                       <div>

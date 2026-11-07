@@ -98,7 +98,7 @@ export function Contact() {
     <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-black/10 bg-white text-black relative">
       <div className="max-w-7xl mx-auto space-y-16 sm:space-y-24">
         <div>
-          <div className="font-mono text-xs uppercase tracking-widest text-black/50 mb-4">
+          <div className="font-mono text-xs uppercase tracking-widest text-black/70 mb-4">
             <ScrambleHeading text="[ 05 // CONTACT ]" as="span" />
           </div>
 
@@ -106,7 +106,7 @@ export function Contact() {
             <h2 className="font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[11vw] tracking-tighter uppercase leading-[0.88] text-black">
               LET&apos;S BUILD
             </h2>
-            <div className="font-serif italic text-2xl sm:text-4xl text-black/70 font-normal">
+            <div className="font-serif italic text-2xl sm:text-4xl text-black/80 font-normal">
               High-performance systems, low-latency protocols, and hardware integrations.
             </div>
           </div>
@@ -116,10 +116,10 @@ export function Contact() {
           <div className="lg:col-span-5 space-y-6">
             <div className="p-6 sm:p-8 rounded-2xl border border-black/10 bg-black/[0.02] space-y-3">
               <div className="flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-widest text-black/40">
+                <span className="font-mono text-xs uppercase tracking-widest text-black/70">
                   Email // Click to Copy
                 </span>
-                <span className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded border border-black/20 text-black/60">
+                <span className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded border border-black/20 text-black/70">
                   Interactive
                 </span>
               </div>
@@ -129,7 +129,7 @@ export function Contact() {
                 onClick={copyEmail}
                 onMouseEnter={handleEmailHover}
                 className="w-full text-left group flex items-center justify-between gap-3 p-3 -mx-3 rounded-xl hover:bg-black/5 transition-all focus-visible:ring-2 focus-visible:ring-black focus-visible:outline-none"
-                aria-label="Click to copy email address"
+                aria-label={`Copy email address ${contact.email}`}
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <Mail className="w-5 h-5 text-black/40 group-hover:text-black transition-colors flex-shrink-0" />
@@ -147,7 +147,7 @@ export function Contact() {
                   <MapPin className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="font-mono text-xs uppercase tracking-widest text-black/40 mb-1">
+                  <div className="font-mono text-xs uppercase tracking-widest text-black/70 mb-1">
                     Location
                   </div>
                   <p className="text-black font-mono text-sm font-semibold">
@@ -164,7 +164,7 @@ export function Contact() {
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="font-mono text-xs uppercase tracking-widest text-black/40 mb-1">
+                    <div className="font-mono text-xs uppercase tracking-widest text-black/70 mb-1">
                       Phone
                     </div>
                     <p className="text-black font-mono text-sm font-semibold">
@@ -182,7 +182,7 @@ export function Contact() {
                 <div>
                   <label
                     htmlFor="contact-name"
-                    className="block font-mono text-xs uppercase tracking-wider text-black/60 mb-2"
+                    className="block font-mono text-xs uppercase tracking-wider text-black/80 mb-2"
                   >
                     Name
                   </label>
@@ -193,7 +193,7 @@ export function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Your name"
-                    className="w-full px-4 py-3.5 rounded-xl bg-white border border-black/15 text-black placeholder:text-black/30 font-sans text-sm focus-visible:ring-2 focus-visible:ring-black focus-visible:outline-none transition-colors"
+                    className="w-full px-4 py-3.5 rounded-xl bg-white border border-black/15 text-black placeholder:text-black/40 font-sans text-sm focus-visible:ring-2 focus-visible:ring-black focus-visible:outline-none transition-colors"
                     required
                   />
                 </div>
@@ -201,7 +201,7 @@ export function Contact() {
                 <div>
                   <label
                     htmlFor="contact-email"
-                    className="block font-mono text-xs uppercase tracking-wider text-black/60 mb-2"
+                    className="block font-mono text-xs uppercase tracking-wider text-black/80 mb-2"
                   >
                     Email
                   </label>
@@ -212,7 +212,7 @@ export function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="your@email.com"
-                    className="w-full px-4 py-3.5 rounded-xl bg-white border border-black/15 text-black placeholder:text-black/30 font-sans text-sm focus-visible:ring-2 focus-visible:ring-black focus-visible:outline-none transition-colors"
+                    className="w-full px-4 py-3.5 rounded-xl bg-white border border-black/15 text-black placeholder:text-black/40 font-sans text-sm focus-visible:ring-2 focus-visible:ring-black focus-visible:outline-none transition-colors"
                     required
                   />
                 </div>
@@ -220,7 +220,7 @@ export function Contact() {
                 <div>
                   <label
                     htmlFor="contact-message"
-                    className="block font-mono text-xs uppercase tracking-wider text-black/60 mb-2"
+                    className="block font-mono text-xs uppercase tracking-wider text-black/80 mb-2"
                   >
                     Message
                   </label>
@@ -231,7 +231,7 @@ export function Contact() {
                     onChange={handleChange}
                     placeholder="Tell me about your project or architecture requirements..."
                     rows={4}
-                    className="w-full px-4 py-3.5 rounded-xl bg-white border border-black/15 text-black placeholder:text-black/30 font-sans text-sm focus-visible:ring-2 focus-visible:ring-black focus-visible:outline-none transition-colors resize-none"
+                    className="w-full px-4 py-3.5 rounded-xl bg-white border border-black/15 text-black placeholder:text-black/40 font-sans text-sm focus-visible:ring-2 focus-visible:ring-black focus-visible:outline-none transition-colors resize-none"
                     required
                   />
                 </div>
