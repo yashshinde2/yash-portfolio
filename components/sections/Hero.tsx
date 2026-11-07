@@ -1,8 +1,11 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
+import gsap from "gsap";
 import { portfolioData } from "@/lib/portfolio-data";
-import { ArrowUpRight, Download, Mail, MapPin } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Download, Mail } from "lucide-react";
 
 function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -20,8 +23,97 @@ function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+function MagneticAnchor({
+  children,
+  className,
+  href,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  href: string;
+}) {
+  const ref = useRef<HTMLAnchorElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = (e.clientX - (rect.left + rect.width / 2)) * 0.35;
+    const y = (e.clientY - (rect.top + rect.height / 2)) * 0.35;
+    gsap.to(el, { x, y, duration: 0.3, ease: "power2.out" });
+  };
+
+  const handleMouseLeave = () => {
+    const el = ref.current;
+    if (!el) return;
+    gsap.to(el, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1, 0.4)" });
+  };
+
+  return (
+    <a
+      ref={ref}
+      href={href}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={className}
+    >
+      {children}
+    </a>
+  );
+}
+
 export function Hero() {
   const { hero, social } = portfolioData;
+  const [istTime, setIstTime] = useState("");
+  const textRef = useRef<HTMLDivElement>(null);
+  const photoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const formatted = new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      }).format(now);
+      setIstTime(`${formatted} IST`);
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const { innerWidth, innerHeight } = window;
+    const normX = (e.clientX / innerWidth - 0.5) * 2;
+    const normY = (e.clientY / innerHeight - 0.5) * 2;
+
+    if (textRef.current) {
+      gsap.to(textRef.current, {
+        x: normX * -16,
+        y: normY * -10,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+    }
+
+    if (photoRef.current) {
+      gsap.to(photoRef.current, {
+        x: normX * 12,
+        y: normY * 8,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+    }
+  };
+
+  const line1 = "YASH".split("");
+  const line2 = "SHINDE".split("");
 
   const socialIcons: Record<string, React.ReactNode> = {
     GitHub: <GithubIcon className="w-4 h-4" />,
@@ -30,102 +122,124 @@ export function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-between pt-32 pb-16 px-4 sm:px-6 lg:px-12 border-b border-white/10 bg-black text-white">
-      <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col justify-center">
+    <section
+      onMouseMove={handleMouseMove}
+      className="relative h-screen min-h-[680px] w-full overflow-hidden bg-black text-white select-none flex flex-col justify-between pt-20 pb-8 px-6 sm:px-12 border-b border-white/10"
+    >
+      <div className="relative z-30 flex items-center justify-between w-full font-mono text-xs uppercase tracking-widest text-white/50">
+        <div>B.Tech CSE &apos;27</div>
+        <div className="tabular-nums">{istTime || "LIVE IST"}</div>
+      </div>
+
+      <div
+        ref={textRef}
+        className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none"
+      >
+        <div className="text-center font-sans font-black tracking-tighter uppercase leading-[0.82] text-[18vw] sm:text-[18vw]">
+          <div className="overflow-hidden">
+            {line1.map((char, i) => (
+              <motion.span
+                key={`l1-${i}`}
+                initial={{ y: "115%" }}
+                animate={{ y: "0%" }}
+                transition={{
+                  duration: 0.9,
+                  delay: 0.2 + i * 0.05,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="inline-block"
+              >
+                {char}
+              </motion.span>
+            ))}
+          </div>
+
+          <div className="overflow-hidden">
+            {line2.map((char, i) => (
+              <motion.span
+                key={`l2-${i}`}
+                initial={{ y: "115%" }}
+                animate={{ y: "0%" }}
+                transition={{
+                  duration: 0.9,
+                  delay: 0.4 + i * 0.05,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="inline-block"
+              >
+                {char}
+              </motion.span>
+            ))}
+          </div>
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-white/10"
+          transition={{ duration: 0.8, delay: 0.7 }}
+          className="mt-4 font-serif italic text-xl sm:text-3xl md:text-4xl text-white/80 font-normal tracking-wide"
         >
-          <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/50">
-            <span className="inline-block w-2 h-2 rounded-full bg-white animate-pulse" />
-            <MapPin className="w-3.5 h-3.5 text-white/70" />
-            <span>{hero.location}</span>
-          </div>
-          <div className="font-mono text-xs uppercase tracking-widest text-white/40">
-            Systems • Hardware • Backend
-          </div>
+          {hero.headline}
         </motion.div>
+      </div>
 
-        <div className="space-y-6">
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
+      <div
+        ref={photoRef}
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex justify-center items-end h-[72vh] sm:h-[80vh] w-full max-w-4xl"
+      >
+        <div className="relative h-full w-full flex items-end justify-center [mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)]">
+          <Image
+            src="/yash.png"
+            alt={hero.name}
+            width={720}
+            height={960}
+            priority
+            className="h-full w-auto object-contain object-bottom filter grayscale contrast-[1.15]"
+          />
+        </div>
+      </div>
+
+      <div className="pointer-events-none absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-black via-black/80 to-transparent z-25" />
+
+      <div className="relative z-30 w-full flex flex-col sm:flex-row items-center sm:items-end justify-between gap-6">
+        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/50">
+          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+          <span>Kolhapur, IN</span>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <MagneticAnchor
+            href="#projects"
+            className="px-6 py-3 rounded-full bg-white text-black font-mono text-xs uppercase tracking-widest font-semibold hover:bg-white/90 transition-all flex items-center gap-1.5"
           >
-            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tighter uppercase leading-[0.9]">
-              {hero.name}
-            </h1>
-          </motion.div>
+            <span>View Projects</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </MagneticAnchor>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="flex items-baseline gap-3"
+          <MagneticAnchor
+            href={hero.resumeLink}
+            className="px-6 py-3 rounded-full border border-white/20 text-white font-mono text-xs uppercase tracking-widest hover:border-white hover:bg-white/10 transition-all flex items-center gap-1.5"
           >
-            <span className="font-serif italic text-3xl sm:text-5xl lg:text-6xl text-white/80 font-normal">
-              {hero.headline}
-            </span>
-          </motion.div>
+            <span>Download Resume</span>
+            <Download className="w-3.5 h-3.5" />
+          </MagneticAnchor>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-8"
-          >
-            <div className="lg:col-span-8 p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02]">
-              <div className="font-mono text-xs uppercase tracking-widest text-white/40 mb-4">
-                [ Overview // Background ]
-              </div>
-              <p className="font-sans text-base sm:text-lg lg:text-xl text-white/70 leading-relaxed font-light">
-                {hero.summary}
-              </p>
-            </div>
+          <div className="flex items-center gap-1 pl-2">
+            {social.map((link) => (
+              <MagneticAnchor
+                key={link.name}
+                href={link.url}
+                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white hover:bg-white/10 transition-all"
+              >
+                {socialIcons[link.name] || <ArrowUpRight className="w-3.5 h-3.5" />}
+              </MagneticAnchor>
+            ))}
+          </div>
+        </div>
 
-            <div className="lg:col-span-4 flex flex-col justify-between gap-6 p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02]">
-              <div className="space-y-3">
-                <a
-                  href="#projects"
-                  className="w-full inline-flex items-center justify-between px-6 py-4 rounded-xl bg-white text-black font-mono text-xs uppercase tracking-wider font-semibold hover:bg-white/90 transition-all duration-200"
-                >
-                  <span>View Projects</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </a>
-
-                <a
-                  href={hero.resumeLink}
-                  className="w-full inline-flex items-center justify-between px-6 py-4 rounded-xl border border-white/20 text-white font-mono text-xs uppercase tracking-wider hover:bg-white/10 transition-all duration-200"
-                >
-                  <span>Download Resume</span>
-                  <Download className="w-4 h-4 text-white/70" />
-                </a>
-              </div>
-
-              <div>
-                <div className="font-mono text-xs uppercase tracking-widest text-white/40 mb-3">
-                  Connect
-                </div>
-                <div className="flex gap-2">
-                  {social.map((link) => (
-                    <a
-                      key={link.name}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-lg border border-white/10 hover:border-white/40 hover:bg-white/5 transition-all text-white/80 hover:text-white"
-                      title={link.name}
-                    >
-                      {socialIcons[link.name] || <ArrowUpRight className="w-4 h-4" />}
-                      <span className="font-mono text-xs hidden sm:inline">{link.name}</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
+        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/50">
+          <span>Scroll</span>
+          <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
         </div>
       </div>
     </section>

@@ -6,6 +6,7 @@ import { SkillsMarquee } from "@/components/sections/SkillsMarquee";
 import { Projects } from "@/components/sections/Projects";
 import { Hackathons } from "@/components/sections/Hackathons";
 import { Contact } from "@/components/sections/Contact";
+import { portfolioData } from "@/lib/portfolio-data";
 import { Menu, X } from "lucide-react";
 
 export default function Home() {
@@ -90,6 +91,17 @@ export default function Home() {
       </nav>
 
       <Hero />
+
+      <section className="py-20 px-6 sm:px-12 border-b border-white/10 bg-black">
+        <div className="max-w-4xl mx-auto text-center space-y-4">
+          <div className="font-mono text-xs uppercase tracking-widest text-white/40">
+            [ Overview ]
+          </div>
+          <p className="font-sans text-base sm:text-xl text-white/70 font-light leading-relaxed">
+            {portfolioData.hero.summary}
+          </p>
+        </div>
+      </section>
 
       <SkillsMarquee />
 
