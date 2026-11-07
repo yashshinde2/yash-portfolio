@@ -18,6 +18,7 @@ export function AsciiFlashlight({
     if (!canvas) return;
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let animId: number;
     let isVisible = true;

@@ -9,7 +9,10 @@ export function CustomCursor() {
   const [isEnabled, setIsEnabled] = useState(false);
 
   useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) {
+    if (
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       return;
     }
     setIsEnabled(true);

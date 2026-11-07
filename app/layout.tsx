@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter_Tight, JetBrains_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -26,10 +26,45 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   title: "Yash Sandeep Shinde - Backend & IoT Engineer",
   description:
     "Computer Science Engineering student specializing in backend architecture, IoT, and hardware-integrated systems. Experienced in C++, Java, Go, Node.js, and Python.",
+  metadataBase: new URL("https://yashshinde.dev"),
+  openGraph: {
+    title: "Yash Sandeep Shinde - Backend & IoT Engineer",
+    description:
+      "Computer Science Engineering student specializing in backend architecture, IoT, and hardware-integrated systems.",
+    url: "https://yashshinde.dev",
+    siteName: "Yash Sandeep Shinde Portfolio",
+    images: [
+      {
+        url: "/yash.png",
+        width: 720,
+        height: 960,
+        alt: "Yash Sandeep Shinde - Monochrome Portrait",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Yash Sandeep Shinde - Backend & IoT Engineer",
+    description:
+      "Computer Science Engineering student specializing in backend architecture, IoT, and hardware-integrated systems.",
+    images: ["/yash.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

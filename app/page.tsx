@@ -8,6 +8,7 @@ import { Projects } from "@/components/sections/Projects";
 import { Hackathons } from "@/components/sections/Hackathons";
 import { Contact } from "@/components/sections/Contact";
 import { InvertingSection } from "@/components/InvertingSection";
+import { Footer } from "@/components/Footer";
 import { Menu, X } from "lucide-react";
 
 export default function Home() {
@@ -130,35 +131,7 @@ export default function Home() {
         <Contact />
       </InvertingSection>
 
-            <footer className="py-16 px-6 sm:px-12 border-t border-white/10 bg-black text-white">
-              <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 font-mono text-xs uppercase tracking-widest text-white/40">
-                <div>© 2026 Yash Sandeep Shinde. All rights reserved.</div>
-                <div className="flex gap-6">
-                  <a
-                    href="https://github.com/yashshinde2"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-white transition-colors"
-                  >
-                    GitHub
-                  </a>
-                  <a
-                    href="https://linkedin.com/in/yashshinde2"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-white transition-colors"
-                  >
-                    LinkedIn
-                  </a>
-                  <a
-                    href="mailto:shindeyasho204@gmail.com"
-                    className="hover:text-white transition-colors"
-                  >
-                    Email
-                  </a>
-                </div>
-              </div>
-            </footer>
-          </main>
-          );
+      <Footer />
+    </main>
+  );
 }
