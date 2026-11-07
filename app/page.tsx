@@ -119,9 +119,9 @@ export default function Home() {
         <GiantSkillsMarquee />
       </InvertingSection>
 
-        <InvertingSection bg="black" id="projects">
-          <Projects />
-        </InvertingSection>
+      <InvertingSection bg="black" id="projects">
+        <Projects />
+      </InvertingSection>
 
       <InvertingSection bg="black" id="hackathons">
         <Hackathons />
