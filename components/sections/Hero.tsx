@@ -28,10 +28,12 @@ function MagneticAnchor({
   children,
   className,
   href,
+  ariaLabel,
 }: {
   children: React.ReactNode;
   className?: string;
   href: string;
+  ariaLabel?: string;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
 
@@ -55,6 +57,7 @@ function MagneticAnchor({
     <a
       ref={ref}
       href={href}
+      aria-label={ariaLabel}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className={className}
@@ -127,7 +130,7 @@ export function Hero() {
       onMouseMove={handleMouseMove}
       className="relative h-screen min-h-[680px] w-full overflow-hidden bg-black text-white select-none flex flex-col justify-between pt-20 pb-8 px-6 sm:px-12 border-b border-white/10"
     >
-      <div className="relative z-30 flex items-center justify-between w-full font-mono text-xs uppercase tracking-widest text-white/50">
+      <div className="relative z-30 flex items-center justify-between w-full font-mono text-xs uppercase tracking-widest text-white/70">
         <div>B.Tech CSE &apos;27</div>
         <div className="tabular-nums">{istTime || "LIVE IST"}</div>
       </div>
@@ -234,7 +237,8 @@ export function Hero() {
               <MagneticAnchor
                 key={link.name}
                 href={link.url}
-                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white hover:bg-white/10 transition-all"
+                ariaLabel={link.name}
+                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white hover:bg-white/10 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
               >
                 {socialIcons[link.name] || <ArrowUpRight className="w-3.5 h-3.5" />}
               </MagneticAnchor>

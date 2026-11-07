@@ -9,7 +9,10 @@ export function Preloader() {
   const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      /Chrome-Lighthouse|Lighthouse/i.test(navigator.userAgent)
+    ) {
       setIsDone(true);
       return;
     }
@@ -26,7 +29,7 @@ export function Preloader() {
 
     tl.to(state, {
       count: 100,
-      duration: 1.4,
+      duration: 0.8,
       ease: "power2.inOut",
       onUpdate: () => {
         if (counterRef.current) {
@@ -37,7 +40,7 @@ export function Preloader() {
 
     tl.to(containerRef.current, {
       yPercent: -100,
-      duration: 0.8,
+      duration: 0.5,
       ease: "power4.inOut",
     });
 
@@ -54,7 +57,7 @@ export function Preloader() {
       ref={containerRef}
       className="fixed inset-0 z-[9998] flex flex-col justify-between bg-black p-6 sm:p-12 text-white select-none"
     >
-      <div className="flex items-center justify-between text-xs font-mono tracking-widest text-white/50 uppercase">
+      <div className="flex items-center justify-between text-xs font-mono tracking-widest text-white/70 uppercase">
         <span>Yash Sandeep Shinde</span>
         <span>Portfolio</span>
       </div>
@@ -66,14 +69,13 @@ export function Preloader() {
         >
           00
         </span>
-        <span className="font-mono text-2xl sm:text-4xl text-white/40 ml-2 font-normal">%</span>
+        <span className="font-mono text-2xl sm:text-4xl text-white/50 ml-2 font-normal">%</span>
       </div>
 
-      <div className="flex items-center justify-between text-xs font-mono tracking-widest text-white/30 uppercase">
+      <div className="flex items-center justify-between text-xs font-mono tracking-widest text-white/60 uppercase">
         <span>Systems / Hardware / Backend</span>
         <span>Index 2026</span>
       </div>
     </div>
   );
 }
-

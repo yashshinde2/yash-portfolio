@@ -66,10 +66,10 @@ export function Footer() {
           {duplicated.map((item, idx) => (
             <div
               key={`${item}-${idx}`}
-              className="flex items-center gap-8 font-mono text-xs uppercase tracking-widest text-white/50"
+              className="flex items-center gap-8 font-mono text-xs uppercase tracking-widest text-white/70"
             >
               <span>{item}</span>
-              <span className="text-white/20">✦</span>
+              <span className="text-white/30">✦</span>
             </div>
           ))}
         </div>
@@ -78,7 +78,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-6 sm:px-12 py-16 sm:py-24 space-y-16">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
-            <div className="font-mono text-xs uppercase tracking-widest text-white/40 mb-3">
+            <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-3">
               KOLHAPUR, MH, INDIA // 16.7050° N, 74.2433° E
             </div>
             <div className="font-mono text-2xl sm:text-4xl text-white font-bold tracking-tight">
@@ -99,7 +99,7 @@ export function Footer() {
           </button>
         </div>
 
-        <div className="pt-12 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 font-mono text-xs uppercase tracking-widest text-white/40">
+        <div className="pt-12 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 font-mono text-xs uppercase tracking-widest text-white/70">
           <div>© 2026 Yash Sandeep Shinde. Built with Next.js, GSAP & Tailwind.</div>
 
           <div className="flex items-center gap-6">
@@ -109,10 +109,11 @@ export function Footer() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={link.name}
                 className="hover:text-white transition-colors flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none"
               >
                 <span>{link.name}</span>
-                <ArrowUpRight className="w-3 h-3 text-white/40" />
+                <ArrowUpRight className="w-3 h-3 text-white/50" />
               </a>
             ))}
           </div>
