@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { portfolioData } from "@/lib/portfolio-data";
+import { AsciiFlashlight } from "@/components/AsciiFlashlight";
 import { ArrowDown, ArrowUpRight, Download, Mail } from "lucide-react";
 
 function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -195,6 +196,10 @@ export function Hero() {
             height={960}
             priority
             className="h-full w-auto object-contain object-bottom filter grayscale contrast-[1.15]"
+          />
+          <AsciiFlashlight
+            imageSrc="/yash.png"
+            className="pointer-events-none absolute inset-0 z-30 h-full w-full"
           />
         </div>
       </div>

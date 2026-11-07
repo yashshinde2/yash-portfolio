@@ -1,10 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useState } from "react";
-import { GlassCard } from "@/components/GlassCard";
 import { portfolioData } from "@/lib/portfolio-data";
 import { Mail, MapPin, Send } from "lucide-react";
+import { ScrambleHeading } from "@/components/ScrambleHeading";
 
 export function Contact() {
   const { contact } = portfolioData;
@@ -15,7 +14,9 @@ export function Contact() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -25,7 +26,6 @@ export function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("[v0] Form submitted:", formData);
     setIsSubmitted(true);
     setTimeout(() => {
       setFormData({ name: "", email: "", message: "" });
@@ -34,79 +34,68 @@ export function Contact() {
   };
 
   return (
-    <section className="relative py-20 px-4 sm:px-6 lg:px-8">
-      {/* Background elements */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl opacity-20"></div>
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-green-500/10 rounded-full blur-3xl opacity-20"></div>
+    <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-16 sm:mb-20 space-y-4">
+          <div className="font-mono text-xs uppercase tracking-widest text-black/50">
+            <ScrambleHeading text="[ 05 // CONTACT ]" as="span" />
+          </div>
+          <ScrambleHeading
+            text="LET'S CONNECT"
+            className="text-4xl sm:text-6xl font-bold tracking-tighter uppercase font-sans text-black"
+          />
+          <p className="text-black/60 font-sans text-base max-w-xl mx-auto font-light leading-relaxed">
+            Got an interesting project or collaboration opportunity? I&apos;d love to hear from you. Feel
+            free to reach out anytime.
+          </p>
+        </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center text-white mb-4 font-sans"
-        >
-          Let&apos;s Connect
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center text-gray-400 mb-12 max-w-2xl mx-auto"
-        >
-          Got an interesting project or collaboration opportunity? I&apos;d love to hear from you. Feel
-          free to reach out anytime.
-        </motion.p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Contact info */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="space-y-6"
-          >
-            <GlassCard glow glowColor="blue" interactive>
-              <div className="flex gap-4">
-                <Mail className="w-6 h-6 text-blue-400 flex-shrink-0 mt-1" />
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-12">
+          <div className="md:col-span-5 space-y-4">
+            <div className="p-6 sm:p-8 rounded-2xl border border-black/10 bg-black/[0.02]">
+              <div className="flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center text-black/60 flex-shrink-0">
+                  <Mail className="w-4 h-4" />
+                </div>
                 <div>
-                  <h3 className="font-semibold text-white mb-1 font-sans">Email</h3>
+                  <div className="font-mono text-xs uppercase tracking-widest text-black/40 mb-1">
+                    Email
+                  </div>
                   <a
                     href={`mailto:${contact.email}`}
-                    className="text-gray-400 hover:text-blue-400 transition-colors"
+                    className="text-black/80 hover:text-black font-mono text-xs sm:text-sm break-all transition-colors font-medium"
                   >
                     {contact.email}
                   </a>
                 </div>
               </div>
-            </GlassCard>
+            </div>
 
-            <GlassCard glow glowColor="green" interactive>
-              <div className="flex gap-4">
-                <MapPin className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+            <div className="p-6 sm:p-8 rounded-2xl border border-black/10 bg-black/[0.02]">
+              <div className="flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center text-black/60 flex-shrink-0">
+                  <MapPin className="w-4 h-4" />
+                </div>
                 <div>
-                  <h3 className="font-semibold text-white mb-1 font-sans">Location</h3>
-                  <p className="text-gray-400">{contact.location}</p>
+                  <div className="font-mono text-xs uppercase tracking-widest text-black/40 mb-1">
+                    Location
+                  </div>
+                  <p className="text-black/80 font-mono text-xs sm:text-sm font-medium">
+                    {contact.location}
+                  </p>
                 </div>
               </div>
-            </GlassCard>
-          </motion.div>
+            </div>
+          </div>
 
-          {/* Contact form */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <GlassCard glow glowColor="purple" interactive className="h-full">
+          <div className="md:col-span-7">
+            <div className="p-6 sm:p-8 rounded-2xl border border-black/10 bg-black/[0.02]">
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label
+                    htmlFor="name"
+                    className="block font-mono text-xs uppercase tracking-wider text-black/60 mb-2"
+                  >
                     Name
                   </label>
                   <input
@@ -116,13 +105,16 @@ export function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Your name"
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-black/15 text-black placeholder:text-black/30 font-sans text-sm focus:outline-none focus:border-black transition-colors"
                     required
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label
+                    htmlFor="email"
+                    className="block font-mono text-xs uppercase tracking-wider text-black/60 mb-2"
+                  >
                     Email
                   </label>
                   <input
@@ -132,13 +124,16 @@ export function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="your@email.com"
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-black/15 text-black placeholder:text-black/30 font-sans text-sm focus:outline-none focus:border-black transition-colors"
                     required
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label
+                    htmlFor="message"
+                    className="block font-mono text-xs uppercase tracking-wider text-black/60 mb-2"
+                  >
                     Message
                   </label>
                   <textarea
@@ -148,7 +143,7 @@ export function Contact() {
                     onChange={handleChange}
                     placeholder="Tell me about your project..."
                     rows={4}
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors resize-none"
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-black/15 text-black placeholder:text-black/30 font-sans text-sm focus:outline-none focus:border-black transition-colors resize-none"
                     required
                   />
                 </div>
@@ -156,24 +151,22 @@ export function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitted}
-                  className="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-700 text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-purple-500/50 disabled:shadow-none"
+                  className="w-full px-6 py-4 rounded-xl bg-black text-white hover:bg-black/85 disabled:bg-black/50 font-mono text-xs uppercase tracking-widest font-semibold transition-all flex items-center justify-center gap-2"
                 >
                   {isSubmitted ? (
-                    <>
-                      <span>Message sent! 🎉</span>
-                    </>
+                    <span>Message sent</span>
                   ) : (
                     <>
-                      <Send className="w-5 h-5" />
-                      Send Message
+                      <Send className="w-4 h-4" />
+                      <span>Send Message</span>
                     </>
                   )}
                 </button>
               </form>
-            </GlassCard>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { Hero } from "@/components/sections/Hero";
-import { SkillsMarquee } from "@/components/sections/SkillsMarquee";
+import { About } from "@/components/sections/About";
+import { GiantSkillsMarquee } from "@/components/sections/GiantSkillsMarquee";
 import { Projects } from "@/components/sections/Projects";
 import { Hackathons } from "@/components/sections/Hackathons";
 import { Contact } from "@/components/sections/Contact";
-import { portfolioData } from "@/lib/portfolio-data";
+import { InvertingSection } from "@/components/InvertingSection";
 import { Menu, X } from "lucide-react";
 
 export default function Home() {
@@ -14,8 +15,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-black text-white selection:bg-white selection:text-black">
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/80 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-4">
+      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/70 border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 py-4">
           <div className="flex justify-between items-center">
             <a href="#" className="flex items-center gap-3 group">
               <span className="font-mono text-sm font-bold tracking-widest uppercase text-white group-hover:text-white/80 transition-colors">
@@ -27,6 +28,14 @@ export default function Home() {
             </a>
 
             <ul className="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-widest text-white/60">
+              <li>
+                <a
+                  href="#about"
+                  className="hover:text-white transition-colors duration-200 py-1"
+                >
+                  About
+                </a>
+              </li>
               <li>
                 <a
                   href="#projects"
@@ -66,6 +75,13 @@ export default function Home() {
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-white/10 bg-black/95 px-6 py-6 space-y-4">
             <a
+              href="#about"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
+            >
+              About
+            </a>
+            <a
               href="#projects"
               onClick={() => setMobileMenuOpen(false)}
               className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
@@ -90,32 +106,29 @@ export default function Home() {
         )}
       </nav>
 
-      <Hero />
-
-      <section className="py-20 px-6 sm:px-12 border-b border-white/10 bg-black">
-        <div className="max-w-4xl mx-auto text-center space-y-4">
-          <div className="font-mono text-xs uppercase tracking-widest text-white/40">
-            [ Overview ]
-          </div>
-          <p className="font-sans text-base sm:text-xl text-white/70 font-light leading-relaxed">
-            {portfolioData.hero.summary}
-          </p>
-        </div>
+      <section id="hero">
+        <Hero />
       </section>
 
-      <SkillsMarquee />
+      <InvertingSection bg="white" id="about">
+        <About />
+      </InvertingSection>
 
-      <section id="projects">
+      <InvertingSection bg="black" id="skills">
+        <GiantSkillsMarquee />
+      </InvertingSection>
+
+      <InvertingSection bg="white" id="projects">
         <Projects />
-      </section>
+      </InvertingSection>
 
-      <section id="hackathons">
+      <InvertingSection bg="black" id="hackathons">
         <Hackathons />
-      </section>
+      </InvertingSection>
 
-      <section id="contact">
+      <InvertingSection bg="white" id="contact">
         <Contact />
-      </section>
+      </InvertingSection>
     </main>
   );
 }
