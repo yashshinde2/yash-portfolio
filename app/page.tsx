@@ -122,13 +122,13 @@ export default function Home() {
           <Projects />
         </InvertingSection>
 
-          <InvertingSection bg="white" id="hackathons">
-            <Hackathons />
-          </InvertingSection>
+      <InvertingSection bg="black" id="hackathons">
+        <Hackathons />
+      </InvertingSection>
 
-            <InvertingSection bg="black" id="contact">
-              <Contact />
-            </InvertingSection>
+      <InvertingSection bg="white" id="contact">
+        <Contact />
+      </InvertingSection>
 
             <footer className="py-16 px-6 sm:px-12 border-t border-white/10 bg-black text-white">
               <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 font-mono text-xs uppercase tracking-widest text-white/40">
