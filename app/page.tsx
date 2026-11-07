@@ -5,13 +5,16 @@ import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { GiantSkillsMarquee } from "@/components/sections/GiantSkillsMarquee";
 import { Projects } from "@/components/sections/Projects";
+import { CommitMatrix } from "@/components/sections/CommitMatrix";
 import { Hackathons } from "@/components/sections/Hackathons";
 import { Contact } from "@/components/sections/Contact";
+import { CommandPalette } from "@/components/CommandPalette";
 import { Footer } from "@/components/Footer";
 import { Menu, X } from "lucide-react";
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
 
   return (
     <main className="min-h-screen bg-black text-white selection:bg-white selection:text-black">
@@ -27,7 +30,7 @@ export default function Home() {
               </span>
             </a>
 
-            <ul className="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-widest text-white/60">
+            <ul className="hidden md:flex items-center gap-6 lg:gap-8 font-mono text-xs uppercase tracking-widest text-white/60">
               <li>
                 <a
                   href="#about"
@@ -42,6 +45,14 @@ export default function Home() {
                   className="hover:text-white transition-colors duration-200 py-1"
                 >
                   Projects
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#commit-matrix"
+                  className="hover:text-white transition-colors duration-200 py-1"
+                >
+                  Matrix
                 </a>
               </li>
               <li>
@@ -70,6 +81,17 @@ export default function Home() {
                 >
                   Resume
                 </a>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => setCommandPaletteOpen(true)}
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-white/20 hover:border-white text-white/70 hover:text-white font-mono text-[11px] transition-colors"
+                  aria-label="Open command palette"
+                >
+                  <span className="text-[10px] text-white/40">⌘K</span>
+                  <span>Ctrl K</span>
+                </button>
               </li>
             </ul>
 
@@ -100,6 +122,13 @@ export default function Home() {
               Projects
             </a>
             <a
+              href="#commit-matrix"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
+            >
+              Commit Matrix
+            </a>
+            <a
               href="#hackathons"
               onClick={() => setMobileMenuOpen(false)}
               className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
@@ -123,6 +152,19 @@ export default function Home() {
             >
               Download Resume ↗
             </a>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setCommandPaletteOpen(true);
+              }}
+              className="w-full text-left font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2 flex items-center justify-between"
+            >
+              <span>Command Palette</span>
+              <span className="text-xs px-2 py-0.5 rounded border border-white/20 text-white/60">
+                Ctrl K
+              </span>
+            </button>
           </div>
         )}
       </nav>
@@ -143,6 +185,10 @@ export default function Home() {
         <Projects />
       </section>
 
+      <section id="commit-matrix">
+        <CommitMatrix />
+      </section>
+
       <section id="hackathons">
         <Hackathons />
       </section>
@@ -152,6 +198,11 @@ export default function Home() {
       </section>
 
       <Footer />
+
+      <CommandPalette
+        open={commandPaletteOpen}
+        setOpen={setCommandPaletteOpen}
+      />
     </main>
   );
 }
