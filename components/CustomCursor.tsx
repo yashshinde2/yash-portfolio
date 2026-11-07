@@ -6,7 +6,9 @@ import gsap from "gsap";
 export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isInHero, setIsInHero] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
+  const [binaryChar, setBinaryChar] = useState("0");
 
   useEffect(() => {
     if (
@@ -29,6 +31,8 @@ export function CustomCursor() {
       gsap.to(cursor, { opacity: 1, duration: 0.2 });
       xTo(e.clientX);
       yTo(e.clientY);
+      const target = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
+      setIsInHero(Boolean(target?.closest("#hero, [data-hero]")));
     };
 
     const handlePointerOver = (e: MouseEvent) => {
@@ -42,6 +46,7 @@ export function CustomCursor() {
       } else {
         setIsHovered(false);
       }
+      setIsInHero(Boolean(target?.closest("#hero, [data-hero]")));
     };
 
     const handleMouseLeave = () => {
@@ -52,10 +57,15 @@ export function CustomCursor() {
     window.addEventListener("mouseover", handlePointerOver);
     document.addEventListener("mouseleave", handleMouseLeave);
 
+    const swapInterval = setInterval(() => {
+      setBinaryChar((prev) => (prev === "0" ? "1" : "0"));
+    }, 120);
+
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("mouseover", handlePointerOver);
       document.removeEventListener("mouseleave", handleMouseLeave);
+      clearInterval(swapInterval);
     };
   }, []);
 
@@ -64,10 +74,19 @@ export function CustomCursor() {
   return (
     <div
       ref={cursorRef}
-      className={`pointer-events-none fixed top-0 left-0 z-[9999] rounded-full bg-white mix-blend-difference transition-[width,height] duration-200 ease-out ${
-        isHovered ? "h-[72px] w-[72px]" : "h-[14px] w-[14px]"
+      className={`pointer-events-none fixed top-0 left-0 z-[9999] rounded-full mix-blend-difference flex items-center justify-center transition-[width,height,border-radius,background-color,border-color] duration-200 ease-out ${
+        isHovered
+          ? "h-[72px] w-[72px] bg-white border-0"
+          : isInHero
+          ? "h-[40px] w-[40px] bg-transparent border border-white"
+          : "h-[14px] w-[14px] bg-white border-0"
       }`}
-    />
+    >
+      {isInHero && !isHovered && (
+        <span className="font-mono text-[11px] font-bold text-white leading-none select-none">
+          {binaryChar}
+        </span>
+      )}
+    </div>
   );
 }
-

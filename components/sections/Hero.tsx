@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { portfolioData } from "@/lib/portfolio-data";
-import { AsciiFlashlight } from "@/components/AsciiFlashlight";
+import { BinaryPhotoEffect } from "@/components/BinaryPhotoEffect";
 import { ArrowDown, ArrowUpRight, Download, Mail } from "lucide-react";
 
 function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -138,6 +138,8 @@ export function Hero() {
 
   return (
     <section
+      data-hero
+      id="hero"
       onMouseMove={handleMouseMove}
       className="relative h-screen min-h-[680px] w-full overflow-hidden bg-black text-white select-none flex flex-col justify-between pt-20 pb-8 px-6 sm:px-12 border-b border-white/10"
     >
@@ -202,9 +204,9 @@ export function Hero() {
             priority
             className="h-full w-auto object-contain object-bottom filter grayscale contrast-[1.15]"
           />
-          <AsciiFlashlight
+          <BinaryPhotoEffect
             imageSrc="/yash.png"
-            className="pointer-events-none absolute inset-0 z-30 h-full w-full"
+            className="pointer-events-auto absolute inset-0 z-30 h-full w-full cursor-crosshair"
           />
         </div>
       </div>
