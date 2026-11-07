@@ -80,6 +80,7 @@ export function Hero() {
   const { hero, social } = portfolioData;
   const [istTime, setIstTime] = useState("");
   const textRef = useRef<HTMLDivElement>(null);
+  const frontTextRef = useRef<HTMLDivElement>(null);
   const photoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -106,8 +107,9 @@ export function Hero() {
     const normX = (e.clientX / innerWidth - 0.5) * 2;
     const normY = (e.clientY / innerHeight - 0.5) * 2;
 
-    if (textRef.current) {
-      gsap.to(textRef.current, {
+    const textTargets = [textRef.current, frontTextRef.current].filter(Boolean);
+    if (textTargets.length > 0) {
+      gsap.to(textTargets, {
         x: normX * -16,
         y: normY * -10,
         duration: 0.6,
@@ -148,7 +150,7 @@ export function Hero() {
         ref={textRef}
         className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none"
       >
-        <div className="text-center font-sans font-black tracking-tighter uppercase leading-[0.82] text-[18vw] sm:text-[18vw]">
+        <div className="text-center font-sans font-black tracking-tighter uppercase leading-[0.82] text-[18vw] sm:text-[18vw] text-white">
           <div className="overflow-hidden">
             {line1.map((char, i) => (
               <motion.span
@@ -185,15 +187,6 @@ export function Hero() {
             ))}
           </div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-          className="mt-4 font-serif italic text-xl sm:text-3xl md:text-4xl text-white/80 font-normal tracking-wide"
-        >
-          {hero.headline}
-        </motion.div>
       </div>
 
       <div
@@ -216,9 +209,67 @@ export function Hero() {
         </div>
       </div>
 
+      <div
+        ref={frontTextRef}
+        className="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-none"
+      >
+        <div
+          className="text-center font-sans font-black tracking-tighter uppercase leading-[0.82] text-[18vw] sm:text-[18vw]"
+          style={{
+            WebkitTextStroke: "1px rgba(255, 255, 255, 0.35)",
+            color: "transparent",
+          }}
+        >
+          <div className="overflow-hidden">
+            {line1.map((char, i) => (
+              <motion.span
+                key={`fl1-${i}`}
+                initial={{ y: "115%" }}
+                animate={{ y: "0%" }}
+                transition={{
+                  duration: 0.9,
+                  delay: 0.2 + i * 0.05,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="inline-block"
+              >
+                {char}
+              </motion.span>
+            ))}
+          </div>
+
+          <div className="overflow-hidden">
+            {line2.map((char, i) => (
+              <motion.span
+                key={`fl2-${i}`}
+                initial={{ y: "115%" }}
+                animate={{ y: "0%" }}
+                transition={{
+                  duration: 0.9,
+                  delay: 0.4 + i * 0.05,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="inline-block"
+              >
+                {char}
+              </motion.span>
+            ))}
+          </div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.7 }}
+          className="mt-4 font-serif italic text-xl sm:text-3xl md:text-4xl text-white/90 font-normal tracking-wide"
+        >
+          {hero.headline}
+        </motion.div>
+      </div>
+
       <div className="pointer-events-none absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-black via-black/80 to-transparent z-25" />
 
-      <div className="relative z-30 w-full flex flex-col sm:flex-row items-center sm:items-end justify-between gap-6">
+      <div className="relative z-40 w-full flex flex-col sm:flex-row items-center sm:items-end justify-between gap-6">
         <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/70">
           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
           <span>Kolhapur, IN</span>

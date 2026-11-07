@@ -7,7 +7,6 @@ import { GiantSkillsMarquee } from "@/components/sections/GiantSkillsMarquee";
 import { Projects } from "@/components/sections/Projects";
 import { Hackathons } from "@/components/sections/Hackathons";
 import { Contact } from "@/components/sections/Contact";
-import { InvertingSection } from "@/components/InvertingSection";
 import { Footer } from "@/components/Footer";
 import { Menu, X } from "lucide-react";
 
@@ -16,7 +15,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-black text-white selection:bg-white selection:text-black">
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/70 border-b border-white/10">
+      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/60 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 sm:px-12 py-4">
           <div className="flex justify-between items-center">
             <a href="#" className="flex items-center gap-3 group">
@@ -132,25 +131,25 @@ export default function Home() {
         <Hero />
       </section>
 
-      <InvertingSection bg="white" id="about">
+      <section id="about">
         <About />
-      </InvertingSection>
+      </section>
 
-      <InvertingSection bg="black" id="skills">
+      <section id="skills">
         <GiantSkillsMarquee />
-      </InvertingSection>
+      </section>
 
-      <InvertingSection bg="black" id="projects">
+      <section id="projects">
         <Projects />
-      </InvertingSection>
+      </section>
 
-      <InvertingSection bg="black" id="hackathons">
+      <section id="hackathons">
         <Hackathons />
-      </InvertingSection>
+      </section>
 
-      <InvertingSection bg="white" id="contact">
+      <section id="contact">
         <Contact />
-      </InvertingSection>
+      </section>
 
       <Footer />
     </main>
