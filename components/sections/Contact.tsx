@@ -3,8 +3,34 @@
 import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { portfolioData } from "@/lib/portfolio-data";
-import { Check, Copy, Mail, MapPin, Phone, Send } from "lucide-react";
+import {
+  AlertCircle,
+  ArrowUpRight,
+  Check,
+  Copy,
+  Mail,
+  MapPin,
+  Send,
+} from "lucide-react";
 import { ScrambleHeading } from "@/components/ScrambleHeading";
+
+function LinkedinIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  );
+}
 
 export function Contact() {
   const { contact } = portfolioData;
@@ -13,7 +39,14 @@ export function Contact() {
     email: "",
     message: "",
   });
+  const [errors, setErrors] = useState<{
+    name?: string;
+    email?: string;
+    message?: string;
+  }>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
   const [showToast, setShowToast] = useState(false);
   const [displayEmail, setDisplayEmail] = useState(contact.email);
   const isScramblingRef = useRef(false);
@@ -83,15 +116,70 @@ export function Contact() {
       ...prev,
       [name]: value,
     }));
+    if (errors[name as keyof typeof errors]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: undefined,
+      }));
+    }
+    if (serverError) setServerError(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validate = () => {
+    const newErrors: { name?: string; email?: string; message?: string } = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "[ ERR // Name is required ]";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "[ ERR // Email is required ]";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email.trim())) {
+        newErrors.email = "[ ERR // Valid email required ]";
+      }
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = "[ ERR // Message cannot be empty ]";
+    } else if (formData.message.trim().length < 5) {
+      newErrors.message = "[ ERR // Message too short ]";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setFormData({ name: "", email: "", message: "" });
-      setIsSubmitted(false);
-    }, 3000);
+    setServerError(null);
+
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setServerError(data.error || "Failed to deliver message.");
+      } else {
+        setIsSubmitted(true);
+        setFormData({ name: "", email: "", message: "" });
+        setTimeout(() => setIsSubmitted(false), 6000);
+      }
+    } catch {
+      setServerError("Network error. Please try again or email directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -157,28 +245,34 @@ export function Contact() {
               </div>
             </div>
 
-            {contact.phone && (
-              <div className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02]">
-                <div className="flex gap-4 items-start">
-                  <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/70 flex-shrink-0">
-                    <Phone className="w-4 h-4" />
+            <a
+              href="https://linkedin.com/in/yashshinde2"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02] hover:border-white/30 hover:bg-white/[0.04] transition-all group focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex gap-4 items-center">
+                  <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/70 group-hover:text-white group-hover:border-white/40 transition-colors flex-shrink-0">
+                    <LinkedinIcon className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-1">
-                      Phone
+                    <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-0.5">
+                      LinkedIn Profile
                     </div>
                     <p className="text-white font-mono text-sm font-semibold">
-                      {contact.phone}
+                      in/yashshinde2
                     </p>
                   </div>
                 </div>
+                <ArrowUpRight className="w-4 h-4 text-white/40 group-hover:text-white transition-colors" />
               </div>
-            )}
+            </a>
           </div>
 
           <div className="lg:col-span-7">
             <div className="p-6 sm:p-10 rounded-2xl border border-white/10 bg-white/[0.02]">
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <div>
                   <label
                     htmlFor="contact-name"
@@ -193,9 +287,15 @@ export function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Your name"
-                    className="w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border border-white/15 text-white placeholder:text-white/40 font-sans text-sm focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none transition-colors"
-                    required
+                    className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/40 font-sans text-sm focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none transition-colors ${
+                      errors.name ? "border-white/50" : "border-white/15"
+                    }`}
                   />
+                  {errors.name && (
+                    <span className="block mt-1 font-mono text-xs text-white/60">
+                      {errors.name}
+                    </span>
+                  )}
                 </div>
 
                 <div>
@@ -212,9 +312,15 @@ export function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="your@email.com"
-                    className="w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border border-white/15 text-white placeholder:text-white/40 font-sans text-sm focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none transition-colors"
-                    required
+                    className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/40 font-sans text-sm focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none transition-colors ${
+                      errors.email ? "border-white/50" : "border-white/15"
+                    }`}
                   />
+                  {errors.email && (
+                    <span className="block mt-1 font-mono text-xs text-white/60">
+                      {errors.email}
+                    </span>
+                  )}
                 </div>
 
                 <div>
@@ -231,20 +337,38 @@ export function Contact() {
                     onChange={handleChange}
                     placeholder="Tell me about your project or architecture requirements..."
                     rows={4}
-                    className="w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border border-white/15 text-white placeholder:text-white/40 font-sans text-sm focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none transition-colors resize-none"
-                    required
+                    className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/40 font-sans text-sm focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none transition-colors resize-none ${
+                      errors.message ? "border-white/50" : "border-white/15"
+                    }`}
                   />
+                  {errors.message && (
+                    <span className="block mt-1 font-mono text-xs text-white/60">
+                      {errors.message}
+                    </span>
+                  )}
                 </div>
+
+                {serverError && (
+                  <div className="flex items-center gap-2 p-3 rounded-xl border border-white/20 bg-white/5 font-mono text-xs text-white/80">
+                    <AlertCircle className="w-4 h-4 text-white flex-shrink-0" />
+                    <span>{serverError}</span>
+                  </div>
+                )}
 
                 <button
                   type="submit"
-                  disabled={isSubmitted}
+                  disabled={isSubmitting || isSubmitted}
                   className="w-full px-6 py-4 rounded-xl bg-white text-black hover:bg-white/90 disabled:bg-white/50 font-mono text-xs uppercase tracking-widest font-semibold transition-all flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                 >
-                  {isSubmitted ? (
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                      <span>Transmitting...</span>
+                    </span>
+                  ) : isSubmitted ? (
                     <span className="flex items-center gap-2">
                       <Check className="w-4 h-4" />
-                      Message sent successfully
+                      <span>Message Dispatched Successfully</span>
                     </span>
                   ) : (
                     <>

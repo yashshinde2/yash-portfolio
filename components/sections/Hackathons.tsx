@@ -5,7 +5,19 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { portfolioData } from "@/lib/portfolio-data";
 import { ScrambleHeading } from "@/components/ScrambleHeading";
-import { Flag, Trophy, Users, Zap } from "lucide-react";
+import { ArrowUpRight, Trophy, Users, Zap } from "lucide-react";
+
+function ChequeredFlagIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+    >
+      <path d="M4 2v20H2V2h2zm2 2h4v3H6V4zm4 0h4v3h-4V4zm4 0h4v3h-4V4zm-8 3h4v3H6V7zm4 0h4v3h-4V7zm4 0h4v3h-4V7zm-8 3h4v3H6v-3zm4 0h4v3h-4v-3zm4 0h4v3h-4v-3zm4-6v10H6V4h14z" />
+    </svg>
+  );
+}
 
 const desktopPositions = [
   "md:top-[40px] md:left-[4%]",
@@ -14,6 +26,7 @@ const desktopPositions = [
   "md:top-[610px] md:left-[54%]",
   "md:top-[800px] md:left-[4%]",
   "md:top-[990px] md:left-[54%]",
+  "md:top-[1180px] md:left-[4%]",
 ];
 
 export function Hackathons() {
@@ -24,6 +37,8 @@ export function Hackathons() {
   const dotRef = useRef<SVGCircleElement>(null);
   const pulseRef = useRef<SVGCircleElement>(null);
   const [activeLap, setActiveLap] = useState<number>(0);
+
+  const totalLaps = hackathons.length + 1;
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -56,20 +71,20 @@ export function Hackathons() {
           pulseRef.current.setAttribute("cy", `${point.y}`);
         }
 
-        const currentLapIndex = Math.floor(progress * hackathons.length);
-        setActiveLap(Math.min(currentLapIndex, hackathons.length - 1));
+        const currentLapIndex = Math.floor(progress * totalLaps);
+        setActiveLap(Math.min(currentLapIndex, totalLaps - 1));
       },
     });
 
     return () => {
       trigger.kill();
     };
-  }, [hackathons.length]);
+  }, [totalLaps]);
 
   const desktopD =
-    "M 400 0 C 400 50, 360 50, 360 100 C 360 200, 440 200, 440 300 C 440 400, 360 400, 360 500 C 360 600, 440 600, 440 700 C 440 800, 360 800, 360 900 C 360 1000, 440 1000, 440 1100 C 440 1150, 400 1150, 400 1200";
+    "M 400 0 C 400 50, 360 50, 360 100 C 360 200, 440 200, 440 300 C 440 400, 360 400, 360 500 C 360 600, 440 600, 440 700 C 440 800, 360 800, 360 900 C 360 1000, 440 1000, 440 1100 C 440 1200, 360 1200, 360 1300 C 360 1380, 400 1380, 400 1440";
 
-  const mobileD = "M 24 0 L 24 1200";
+  const mobileD = "M 24 0 L 24 1440";
 
   return (
     <div
@@ -87,13 +102,13 @@ export function Hackathons() {
         <div className="flex items-center justify-center gap-3 font-mono text-xs uppercase tracking-widest text-white/70">
           <span>Circuit Telemetry</span>
           <span>✦</span>
-          <span>6 Competitive Laps</span>
+          <span>7 Competitive Laps</span>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto relative md:min-h-[1250px]">
+      <div className="max-w-6xl mx-auto relative md:min-h-[1480px]">
         <svg
-          viewBox="0 0 800 1200"
+          viewBox="0 0 800 1440"
           className="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-10"
           preserveAspectRatio="none"
         >
@@ -132,7 +147,7 @@ export function Hackathons() {
         </svg>
 
         <svg
-          viewBox="0 0 48 1200"
+          viewBox="0 0 48 1440"
           className="md:hidden absolute inset-0 w-12 h-full pointer-events-none z-10"
           preserveAspectRatio="none"
         >
@@ -226,10 +241,64 @@ export function Hackathons() {
               </div>
             );
           })}
+
+          <div
+            className={`relative md:absolute md:w-[42%] md:top-[1180px] md:left-[4%] transition-all duration-300`}
+          >
+            <div className="pl-12 md:pl-0">
+              <div className="md:hidden absolute left-3 top-3 w-6 h-6 rounded-full border border-white/40 bg-black flex items-center justify-center font-mono text-[9px] text-white">
+                07
+              </div>
+
+              <a
+                href="#contact"
+                className={`block p-6 sm:p-8 rounded-2xl border transition-all duration-300 backdrop-blur-md group hover:border-white/50 hover:bg-white/[0.06] ${
+                  activeLap >= 6
+                    ? "border-white/40 bg-white/[0.04] shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+                    : "border-white/10 bg-white/[0.01]"
+                }`}
+              >
+                <div className="flex items-center justify-between gap-4 mb-4 pb-3 border-b border-white/10">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-xs uppercase tracking-widest text-white/40">
+                      LAP 07
+                    </span>
+                    <span className="text-white/20 font-mono">•</span>
+                    <span className="font-mono text-xs text-white/60">
+                      NEXT RACE
+                    </span>
+                  </div>
+
+                  <div className="px-3 py-1 rounded-full font-mono text-[10px] uppercase tracking-wider font-semibold border flex items-center gap-1.5 bg-white text-black border-white">
+                    <ChequeredFlagIcon className="w-3.5 h-3.5" />
+                    <span>Next Checkpoint</span>
+                  </div>
+                </div>
+
+                <h3 className="font-sans font-bold text-xl sm:text-2xl text-white tracking-tight mb-2 group-hover:text-white transition-colors">
+                  NEXT: YOUR TEAM?
+                </h3>
+
+                <div className="space-y-1.5 font-mono text-xs pt-2 border-t border-white/10">
+                  <p className="text-white/70">
+                    <span className="text-white/30">STATUS //</span> Open to High-Impact Engineering Roles
+                  </p>
+                  <p className="text-white/70">
+                    <span className="text-white/30">OBJECTIVE //</span> Build Next-Gen Systems Together
+                  </p>
+                </div>
+
+                <div className="mt-5 inline-flex items-center gap-2 font-mono text-xs text-white uppercase tracking-wider group-hover:underline">
+                  <span>Connect at Contact</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
 
         <div className="hidden md:flex absolute bottom-0 left-1/2 -translate-x-1/2 flex-col items-center gap-2 z-20 font-mono text-xs uppercase tracking-widest text-white/50">
-          <Flag className="w-4 h-4 text-white" />
+          <ChequeredFlagIcon className="w-4 h-4 text-white" />
           <span>Finish Line // Sector Completed</span>
         </div>
       </div>
