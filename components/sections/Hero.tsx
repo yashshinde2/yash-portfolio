@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { portfolioData } from "@/lib/portfolio-data";
-import { BinaryPhotoEffect } from "@/components/BinaryPhotoEffect";
+import { BinaryPhoto } from "@/components/binary-photo";
 import { ArrowDown, ArrowUpRight, Download, Mail } from "lucide-react";
 
 function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -143,7 +142,7 @@ export function Hero() {
       onMouseMove={handleMouseMove}
       className="relative h-screen min-h-[680px] w-full overflow-hidden bg-black text-white select-none flex flex-col justify-between pt-20 pb-8 px-6 sm:px-12 border-b border-white/10"
     >
-      <div className="relative z-30 flex items-center justify-between w-full font-mono text-xs uppercase tracking-widest text-white/70">
+      <div className="relative z-30 flex items-center justify-between w-full font-mono text-xs uppercase tracking-widest text-white/70 pointer-events-none">
         <div>B.Tech CSE &apos;27</div>
         <div className="tabular-nums">{istTime || "LIVE IST"}</div>
       </div>
@@ -195,18 +194,11 @@ export function Hero() {
         ref={photoRef}
         className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex justify-center items-end h-[72vh] sm:h-[80vh] w-full max-w-4xl"
       >
-        <div className="relative h-full w-full flex items-end justify-center [mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)]">
-          <Image
+        <div className="relative h-full w-full flex items-end justify-center pointer-events-none [mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)]">
+          <BinaryPhoto
             src="/yash.png"
             alt={hero.name}
-            width={720}
-            height={960}
-            priority
-            className="h-full w-auto object-contain object-bottom filter grayscale contrast-[1.15]"
-          />
-          <BinaryPhotoEffect
-            imageSrc="/yash.png"
-            className="pointer-events-auto absolute inset-0 z-30 h-full w-full cursor-crosshair"
+            className="pointer-events-auto filter grayscale contrast-[1.15] w-[min(560px,90vw)] max-w-full"
           />
         </div>
       </div>
@@ -271,7 +263,7 @@ export function Hero() {
 
       <div className="pointer-events-none absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-black via-black/80 to-transparent z-25" />
 
-      <div className="relative z-40 w-full flex flex-col sm:flex-row items-center sm:items-end justify-between gap-6">
+      <div className="relative z-40 w-full flex flex-col sm:flex-row items-center sm:items-end justify-between gap-6 pointer-events-none">
         <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/70">
           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
           <span>Kolhapur, IN</span>
@@ -280,7 +272,7 @@ export function Hero() {
         <div className="flex flex-wrap items-center justify-center gap-3">
           <MagneticAnchor
             href="#projects"
-            className="px-6 py-3 rounded-full bg-white text-black font-mono text-xs uppercase tracking-widest font-semibold hover:bg-white/90 transition-all flex items-center gap-1.5"
+            className="pointer-events-auto px-6 py-3 rounded-full bg-white text-black font-mono text-xs uppercase tracking-widest font-semibold hover:bg-white/90 transition-all flex items-center gap-1.5"
           >
             <span>View Projects</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
@@ -292,7 +284,7 @@ export function Hero() {
             target="_blank"
             rel="noopener noreferrer"
             ariaLabel="Download Yash Shinde Resume PDF"
-            className="px-6 py-3 rounded-full border border-white/20 text-white font-mono text-xs uppercase tracking-widest hover:border-white hover:bg-white/10 transition-all flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+            className="pointer-events-auto px-6 py-3 rounded-full border border-white/20 text-white font-mono text-xs uppercase tracking-widest hover:border-white hover:bg-white/10 transition-all flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
           >
             <span>Download Resume</span>
             <Download className="w-3.5 h-3.5" />
@@ -304,7 +296,7 @@ export function Hero() {
                 key={link.name}
                 href={link.url}
                 ariaLabel={link.name}
-                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white hover:bg-white/10 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                className="pointer-events-auto w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white hover:bg-white/10 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
               >
                 {socialIcons[link.name] || <ArrowUpRight className="w-3.5 h-3.5" />}
               </MagneticAnchor>
