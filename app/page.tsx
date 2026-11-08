@@ -5,7 +5,6 @@ import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { GiantSkillsMarquee } from "@/components/sections/GiantSkillsMarquee";
 import { Projects } from "@/components/sections/Projects";
-import { CommitMatrix } from "@/components/sections/CommitMatrix";
 import { Hackathons } from "@/components/sections/Hackathons";
 import { Contact } from "@/components/sections/Contact";
 import { CommandPalette } from "@/components/CommandPalette";
@@ -45,14 +44,6 @@ export default function Home() {
                   className="hover:text-white transition-colors duration-200 py-1"
                 >
                   Projects
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#commit-matrix"
-                  className="hover:text-white transition-colors duration-200 py-1"
-                >
-                  Matrix
                 </a>
               </li>
               <li>
@@ -122,13 +113,6 @@ export default function Home() {
               Projects
             </a>
             <a
-              href="#commit-matrix"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
-            >
-              Commit Matrix
-            </a>
-            <a
               href="#hackathons"
               onClick={() => setMobileMenuOpen(false)}
               className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
@@ -183,10 +167,6 @@ export default function Home() {
 
       <section id="projects">
         <Projects />
-      </section>
-
-      <section id="commit-matrix">
-        <CommitMatrix />
       </section>
 
       <section id="hackathons">

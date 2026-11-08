@@ -22,10 +22,16 @@ export function Projects() {
 
     const xTo = gsap.quickTo(card, "x", { duration: 0.18, ease: "power2.out" });
     const yTo = gsap.quickTo(card, "y", { duration: 0.18, ease: "power2.out" });
+    const rTo = gsap.quickTo(card, "rotation", { duration: 0.25, ease: "power2.out" });
 
+    let lastX = 0;
     const handleMouseMove = (e: MouseEvent) => {
+      const deltaX = e.clientX - lastX;
+      lastX = e.clientX;
+      const rotation = Math.max(-6, Math.min(6, deltaX * 0.3));
       xTo(e.clientX + 24);
       yTo(e.clientY + 24);
+      rTo(rotation);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -68,14 +74,14 @@ export function Projects() {
             >
               <div
                 onClick={() => toggleExpand(project.id)}
-                className="cursor-pointer py-8 sm:py-12 px-4 sm:px-8 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-colors duration-200 group-hover:bg-white group-hover:text-black rounded-xl sm:rounded-2xl"
+                className="cursor-pointer py-8 sm:py-12 px-4 sm:px-8 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all duration-300 group-hover:bg-white group-hover:text-black rounded-xl sm:rounded-2xl"
               >
                 <div className="flex items-baseline gap-6 sm:gap-12">
                   <span className="font-mono text-sm sm:text-lg tracking-widest text-white/70 group-hover:text-black/70 select-none">
                     {num}
                   </span>
                   <div>
-                    <h3 className="font-sans font-black text-[clamp(2rem,5vw,4.5rem)] tracking-[-0.02em] uppercase leading-[0.95] transition-colors">
+                    <h3 className="font-sans font-black text-[clamp(2rem,5vw,4.5rem)] tracking-[-0.02em] uppercase leading-[0.95] transition-transform duration-300 group-hover:translate-x-2">
                       {project.title}
                     </h3>
                   </div>
@@ -87,7 +93,7 @@ export function Projects() {
                       Award Winner
                     </span>
                   )}
-                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-black group-hover:bg-black group-hover:text-white transition-all duration-200">
+                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-black group-hover:bg-black group-hover:text-white transition-all duration-300 group-hover:scale-105">
                     <ChevronDown
                       className={`w-4 h-4 transition-transform duration-300 ${
                         isExpanded ? "rotate-180" : ""
