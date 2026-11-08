@@ -54,9 +54,12 @@ export function About() {
             [ Specifications // Background ]
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border border-white/10 rounded-2xl overflow-hidden divide-y sm:divide-y-0 sm:divide-x divide-white/10 bg-white/[0.02]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
             {specs.map((spec) => (
-              <div key={spec.label} className="p-6 sm:p-8 space-y-2">
+              <div
+                key={spec.label}
+                className="bg-black p-6 sm:p-8 space-y-2 hover:bg-white/[0.03] transition-colors"
+              >
                 <div className="font-mono text-xs uppercase tracking-widest text-white/60">
                   {spec.label}
                 </div>
@@ -70,7 +73,7 @@ export function About() {
           <div className="flex justify-end pt-4">
             <a
               href="#projects"
-              className="inline-flex items-center gap-3 px-6 py-4 rounded-full bg-white text-black font-mono text-xs uppercase tracking-widest font-semibold hover:bg-white/90 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+              className="inline-flex items-center gap-3 px-6 py-4 rounded-full bg-white text-black font-mono text-xs uppercase tracking-widest font-semibold hover:bg-white/90 hover:scale-[1.02] transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
             >
               <span>Explore Projects</span>
               <ArrowUpRight className="w-4 h-4" />
