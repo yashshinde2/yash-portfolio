@@ -152,3 +152,4 @@ export function BinaryTrail({ className = "" }: { className?: string }) {
 
   return <canvas ref={ref} aria-hidden className={className} />
 }
+
