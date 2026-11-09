@@ -43,3 +43,4 @@ export function DecodeText({ text, className, duration = 0.9, on = "scroll" }: P
     </span>
   )
 }
+
