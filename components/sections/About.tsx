@@ -22,8 +22,8 @@ export function About() {
     { label: "Core Subjects", value: "DSA, DBMS, OOP, Operating Systems" },
   ];
 
-  const quoteWords =
-    "I build complete working systems under tight deadlines, then ship them in the open.".split(
+  const statementWords =
+    "Bridging software with embedded hardware to solve practical challenges.".split(
       " "
     );
 
@@ -106,17 +106,21 @@ export function About() {
             ref={quoteRef}
             className="font-serif italic text-4xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.08] text-white font-normal tracking-tight"
           >
-            &ldquo;
-            {quoteWords.map((word, i) => (
-              <span
-                key={`${word}-${i}`}
-                className="quote-word inline-block mr-[0.25em] will-change-[opacity]"
-                style={{ opacity: 0.15 }}
-              >
-                {word}
-              </span>
-            ))}
-            &rdquo;
+            {statementWords.map((word, i) => {
+              const isFirst = i === 0;
+              const isLast = i === statementWords.length - 1;
+              return (
+                <span
+                  key={`${word}-${i}`}
+                  className={`quote-word inline-block will-change-[opacity] ${
+                    isLast ? "" : "mr-[0.25em]"
+                  }`}
+                  style={{ opacity: 0.15 }}
+                >
+                  {isFirst ? `“${word}` : isLast ? `${word}”` : word}
+                </span>
+              );
+            })}
           </blockquote>
 
           <div className="font-serif italic text-2xl sm:text-4xl text-white/80 font-normal leading-snug">
