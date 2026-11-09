@@ -195,9 +195,9 @@ export function Hero() {
 
       <div
         ref={photoRef}
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex justify-center items-end h-[58vh] sm:h-[80vh] w-full max-w-4xl"
+        className="absolute bottom-0 inset-x-0 z-20 pointer-events-none flex justify-center items-end h-[58vh] sm:h-[80vh] w-full"
       >
-        <div className="relative h-full w-full flex items-end justify-center pointer-events-none [mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)]">
+        <div className="relative h-full w-full max-w-4xl flex items-end justify-center pointer-events-none [mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)]">
           <BinaryPhoto
             src="/yash.png"
             alt={hero.name}
