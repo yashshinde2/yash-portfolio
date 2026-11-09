@@ -9,11 +9,7 @@ import { ArrowUpRight, Trophy, Users, Zap } from "lucide-react";
 
 function ChequeredFlagIcon({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className={className}
-    >
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
       <path d="M4 2v20H2V2h2zm2 2h4v3H6V4zm4 0h4v3h-4V4zm4 0h4v3h-4V4zm-8 3h4v3H6V7zm4 0h4v3h-4V7zm4 0h4v3h-4V7zm-8 3h4v3H6v-3zm4 0h4v3h-4v-3zm4 0h4v3h-4v-3zm4-6v10H6V4h14z" />
     </svg>
   );
@@ -29,6 +25,14 @@ const desktopPositions = [
   "md:top-[1180px] md:left-[4%]",
 ];
 
+interface Particle {
+  id: number;
+  x: number;
+  y: number;
+  char: string;
+  createdAt: number;
+}
+
 export function Hackathons() {
   const { hackathons } = portfolioData;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -36,12 +40,27 @@ export function Hackathons() {
   const mobilePathRef = useRef<SVGPathElement>(null);
   const dotRef = useRef<SVGCircleElement>(null);
   const pulseRef = useRef<SVGCircleElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const particlesRef = useRef<Particle[]>([]);
   const [activeLap, setActiveLap] = useState<number>(0);
 
   const totalLaps = hackathons.length + 1;
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduceMotion) {
+      cardsRef.current.forEach((c) => {
+        if (c) {
+          c.style.clipPath = "inset(0% 0 0 0)";
+          c.style.opacity = "1";
+          c.style.transform = "none";
+        }
+      });
+      return;
+    }
+
     gsap.registerPlugin(ScrollTrigger);
 
     const isMobile = window.innerWidth < 768;
@@ -51,6 +70,9 @@ export function Hackathons() {
     const totalLength = path.getTotalLength();
     path.style.strokeDasharray = `${totalLength}`;
     path.style.strokeDashoffset = `${totalLength}`;
+
+    let lastEmit = 0;
+    let rafId: number;
 
     const trigger = ScrollTrigger.create({
       trigger: containerRef.current,
@@ -71,15 +93,100 @@ export function Hackathons() {
           pulseRef.current.setAttribute("cy", `${point.y}`);
         }
 
+        const now = performance.now();
+        if (now - lastEmit > 75) {
+          lastEmit = now;
+          particlesRef.current.push({
+            id: Math.random(),
+            x: point.x + (Math.random() - 0.5) * 12,
+            y: point.y + (Math.random() - 0.5) * 12,
+            char: Math.random() > 0.5 ? "1" : "0",
+            createdAt: now,
+          });
+        }
+
         const currentLapIndex = Math.floor(progress * totalLaps);
         setActiveLap(Math.min(currentLapIndex, totalLaps - 1));
       },
     });
 
+    const updateParticles = () => {
+      const now = performance.now();
+      particlesRef.current = particlesRef.current.filter((p) => now - p.createdAt < 600);
+      setParticles([...particlesRef.current]);
+      rafId = requestAnimationFrame(updateParticles);
+    };
+    rafId = requestAnimationFrame(updateParticles);
+
+    cardsRef.current.forEach((card, idx) => {
+      if (!card) return;
+      const isLeft = idx % 2 === 0;
+      gsap.fromTo(
+        card,
+        {
+          clipPath: isLeft ? "inset(0 100% 0 0)" : "inset(0 0 0 100%)",
+          x: isLeft ? -40 : 40,
+          opacity: 0,
+        },
+        {
+          clipPath: "inset(0 0% 0 0)",
+          x: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%",
+            once: true,
+            onEnter: () => {
+              const badge = card.querySelector(".winner-badge");
+              if (badge) {
+                gsap.fromTo(
+                  badge,
+                  { scale: 1 },
+                  { scale: 1.18, duration: 0.22, yoyo: true, repeat: 1, ease: "power2.out" }
+                );
+              }
+            },
+          },
+        }
+      );
+    });
+
     return () => {
       trigger.kill();
+      cancelAnimationFrame(rafId);
     };
   }, [totalLaps]);
+
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const target = e.currentTarget;
+    const rect = target.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    const rotateX = -py * 4;
+    const rotateY = px * 4;
+    gsap.to(target, {
+      rotateX,
+      rotateY,
+      borderColor: "rgba(255, 255, 255, 0.6)",
+      duration: 0.25,
+      ease: "power2.out",
+      transformPerspective: 900,
+    });
+  };
+
+  const handleCardMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    gsap.to(target, {
+      rotateX: 0,
+      rotateY: 0,
+      borderColor: "rgba(255, 255, 255, 0.1)",
+      duration: 0.6,
+      ease: "elastic.out(1, 0.4)",
+    });
+  };
 
   const desktopD =
     "M 400 0 C 400 50, 360 50, 360 100 C 360 200, 440 200, 440 300 C 440 400, 360 400, 360 500 C 360 600, 440 600, 440 700 C 440 800, 360 800, 360 900 C 360 1000, 440 1000, 440 1100 C 440 1200, 360 1200, 360 1300 C 360 1380, 400 1380, 400 1440";
@@ -127,6 +234,26 @@ export function Hackathons() {
             strokeWidth="3.5"
             strokeLinecap="round"
           />
+          {particles.map((p) => {
+            const age = performance.now() - p.createdAt;
+            const opacity = Math.max(0, 1 - age / 600);
+            return (
+              <text
+                key={p.id}
+                x={p.x}
+                y={p.y}
+                fill="#ffffff"
+                opacity={opacity}
+                fontSize="11"
+                fontFamily="monospace"
+                fontWeight="bold"
+                textAnchor="middle"
+                dominantBaseline="middle"
+              >
+                {p.char}
+              </text>
+            );
+          })}
           <circle
             ref={pulseRef}
             cx="400"
@@ -179,7 +306,11 @@ export function Hackathons() {
             return (
               <div
                 key={`${event.date}-${event.title}`}
-                className={`relative md:absolute md:w-[42%] transition-all duration-300 ${posClass}`}
+                ref={(el) => {
+                  cardsRef.current[index] = el;
+                }}
+                className={`relative md:absolute md:w-[42%] will-change-[clip-path,transform] ${posClass}`}
+                style={{ perspective: "900px" }}
               >
                 <div className="pl-12 md:pl-0">
                   <div className="md:hidden absolute left-3 top-3 w-6 h-6 rounded-full border border-white/40 bg-black flex items-center justify-center font-mono text-[9px] text-white">
@@ -187,7 +318,9 @@ export function Hackathons() {
                   </div>
 
                   <div
-                    className={`p-6 sm:p-8 rounded-2xl border transition-all duration-300 backdrop-blur-md ${
+                    onMouseMove={handleCardMouseMove}
+                    onMouseLeave={handleCardMouseLeave}
+                    className={`p-6 sm:p-8 rounded-2xl border transition-all duration-300 backdrop-blur-md will-change-transform ${
                       isPassed
                         ? "border-white/30 bg-white/[0.04] shadow-[0_0_30px_rgba(255,255,255,0.03)]"
                         : "border-white/10 bg-white/[0.01]"
@@ -205,7 +338,7 @@ export function Hackathons() {
                       </div>
 
                       <div
-                        className={`px-3 py-1 rounded-full font-mono text-[10px] uppercase tracking-wider font-semibold border flex items-center gap-1.5 ${
+                        className={`winner-badge px-3 py-1 rounded-full font-mono text-[10px] uppercase tracking-wider font-semibold border flex items-center gap-1.5 ${
                           isWinner
                             ? "bg-white text-black border-white"
                             : isOrganizer
@@ -243,7 +376,11 @@ export function Hackathons() {
           })}
 
           <div
-            className={`relative md:absolute md:w-[42%] md:top-[1180px] md:left-[4%] transition-all duration-300`}
+            ref={(el) => {
+              cardsRef.current[hackathons.length] = el;
+            }}
+            className={`relative md:absolute md:w-[42%] md:top-[1180px] md:left-[4%] will-change-[clip-path,transform]`}
+            style={{ perspective: "900px" }}
           >
             <div className="pl-12 md:pl-0">
               <div className="md:hidden absolute left-3 top-3 w-6 h-6 rounded-full border border-white/40 bg-black flex items-center justify-center font-mono text-[9px] text-white">
@@ -252,7 +389,9 @@ export function Hackathons() {
 
               <a
                 href="#contact"
-                className={`block p-6 sm:p-8 rounded-2xl border transition-all duration-300 backdrop-blur-md group hover:border-white/50 hover:bg-white/[0.06] ${
+                onMouseMove={(e) => handleCardMouseMove(e as any)}
+                onMouseLeave={(e) => handleCardMouseLeave(e as any)}
+                className={`block p-6 sm:p-8 rounded-2xl border transition-all duration-300 backdrop-blur-md group hover:bg-white/[0.06] will-change-transform ${
                   activeLap >= 6
                     ? "border-white/40 bg-white/[0.04] shadow-[0_0_30px_rgba(255,255,255,0.05)]"
                     : "border-white/10 bg-white/[0.01]"

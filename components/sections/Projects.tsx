@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { portfolioData } from "@/lib/portfolio-data";
 import { Award, ArrowUpRight, ChevronDown, Terminal } from "lucide-react";
 import { DecodeText } from "@/components/decode-text";
@@ -14,28 +15,82 @@ export function Projects() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [hoveredProject, setHoveredProject] = useState<ProjectItem | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const rowsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduceMotion) {
+      rowsRef.current.forEach((r) => {
+        if (r) r.style.clipPath = "inset(0% 0 0 0)";
+      });
+      return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const rows = rowsRef.current.filter(Boolean);
+    if (rows.length > 0) {
+      gsap.fromTo(
+        rows,
+        { clipPath: "inset(100% 0 0 0)" },
+        {
+          clipPath: "inset(0% 0 0 0)",
+          duration: 0.75,
+          stagger: 0.08,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: listRef.current,
+            start: "top 80%",
+            once: true,
+          },
+        }
+      );
+    }
+
     if (window.matchMedia("(pointer: coarse)").matches) return;
-    const card = cardRef.current;
-    if (!card) return;
 
-    const xTo = gsap.quickTo(card, "x", { duration: 0.18, ease: "power2.out" });
-    const yTo = gsap.quickTo(card, "y", { duration: 0.18, ease: "power2.out" });
-    const rTo = gsap.quickTo(card, "rotation", { duration: 0.25, ease: "power2.out" });
-
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
     let lastX = 0;
+    let currentTilt = 0;
+    let targetTilt = 0;
+    let rafId: number;
+
     const handleMouseMove = (e: MouseEvent) => {
-      const deltaX = e.clientX - lastX;
+      targetX = e.clientX + 28;
+      targetY = e.clientY + 20;
+      const vx = e.clientX - lastX;
       lastX = e.clientX;
-      const rotation = Math.max(-6, Math.min(6, deltaX * 0.3));
-      xTo(e.clientX + 24);
-      yTo(e.clientY + 24);
-      rTo(rotation);
+      targetTilt = Math.max(-8, Math.min(8, vx * 0.4));
+    };
+
+    const loop = () => {
+      currentX += (targetX - currentX) * 0.15;
+      currentY += (targetY - currentY) * 0.15;
+      currentTilt += (targetTilt - currentTilt) * 0.15;
+      targetTilt += (0 - targetTilt) * 0.08;
+
+      if (cardRef.current) {
+        gsap.set(cardRef.current, {
+          x: currentX,
+          y: currentY,
+          rotation: currentTilt,
+        });
+      }
+      rafId = requestAnimationFrame(loop);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    rafId = requestAnimationFrame(loop);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const toggleExpand = (id: number) => {
@@ -60,7 +115,7 @@ export function Projects() {
         </p>
       </div>
 
-      <div className="max-w-7xl mx-auto border-t border-white/10 divide-y divide-white/10">
+      <div ref={listRef} className="max-w-7xl mx-auto border-t border-white/10 divide-y divide-white/10">
         {projects.map((project, index) => {
           const isExpanded = expandedId === project.id;
           const num = String(index + 1).padStart(2, "0");
@@ -68,32 +123,38 @@ export function Projects() {
           return (
             <div
               key={project.id}
-              className="group transition-colors duration-200"
+              ref={(el) => {
+                rowsRef.current[index] = el;
+              }}
+              className="group transition-colors duration-200 will-change-[clip-path]"
+              style={{ clipPath: "inset(0% 0 0 0)" }}
               onMouseEnter={() => setHoveredProject(project)}
               onMouseLeave={() => setHoveredProject(null)}
             >
               <div
                 onClick={() => toggleExpand(project.id)}
-                className="cursor-pointer py-8 sm:py-12 px-4 sm:px-8 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all duration-300 group-hover:bg-white group-hover:text-black rounded-xl sm:rounded-2xl"
+                className="relative cursor-pointer py-8 sm:py-12 px-4 sm:px-8 flex flex-col md:flex-row md:items-center justify-between gap-6 rounded-xl sm:rounded-2xl overflow-hidden transition-colors duration-300"
               >
-                <div className="flex items-baseline gap-6 sm:gap-12">
+                <div className="absolute inset-0 bg-white origin-bottom scale-y-0 transition-transform duration-[450ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-y-100 z-0 pointer-events-none rounded-xl sm:rounded-2xl" />
+
+                <div className="relative z-10 flex items-baseline gap-6 sm:gap-12 transition-colors duration-300 group-hover:text-black">
                   <span className="font-mono text-sm sm:text-lg tracking-widest text-white/70 group-hover:text-black/70 select-none">
-                    <DecodeText text={num} />
+                    <DecodeText text={num} on="hover" />
                   </span>
                   <div>
-                    <h3 className="font-sans font-black text-[clamp(2rem,5vw,4.5rem)] tracking-[-0.02em] uppercase leading-[0.95] transition-transform duration-300 group-hover:translate-x-2">
+                    <h3 className="font-sans font-black text-[clamp(2rem,5vw,4.5rem)] tracking-[-0.02em] uppercase leading-[0.95] transition-transform duration-300 ease-out group-hover:translate-x-6">
                       {project.title}
                     </h3>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 self-end md:self-center">
+                <div className="relative z-10 flex items-center gap-4 self-end md:self-center">
                   {project.award && (
                     <span className="px-3 py-1 rounded-full border border-white/20 text-white font-mono text-[10px] uppercase tracking-wider group-hover:border-black/30 group-hover:text-black group-hover:bg-black/5 transition-colors">
                       Award Winner
                     </span>
                   )}
-                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-black group-hover:bg-black group-hover:text-white transition-all duration-300 group-hover:scale-105">
+                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white group-hover:border-black group-hover:bg-black group-hover:text-white transition-all duration-300 group-hover:scale-105">
                     <ChevronDown
                       className={`w-4 h-4 transition-transform duration-300 ${
                         isExpanded ? "rotate-180" : ""
@@ -183,7 +244,7 @@ export function Projects() {
 
       <div
         ref={cardRef}
-        className={`fixed top-0 left-0 pointer-events-none z-50 w-72 sm:w-80 rounded-2xl border border-white/20 bg-black/95 text-white p-5 shadow-2xl backdrop-blur-md transition-opacity duration-200 hidden md:block ${
+        className={`fixed top-0 left-0 pointer-events-none z-50 w-72 sm:w-80 rounded-2xl border border-white/20 bg-black/95 text-white p-5 shadow-2xl backdrop-blur-md transition-opacity duration-200 hidden md:block will-change-transform ${
           hoveredProject ? "opacity-100 scale-100" : "opacity-0 scale-95"
         }`}
       >

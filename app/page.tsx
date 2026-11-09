@@ -34,7 +34,7 @@ export default function Home() {
               <li>
                 <a
                   href="#about"
-                  className="hover:text-white transition-colors duration-200 py-1"
+                  className="hover:text-white transition-colors duration-200 py-1 link-hover"
                 >
                   <DecodeText text="About" on="hover" />
                 </a>
@@ -42,7 +42,7 @@ export default function Home() {
               <li>
                 <a
                   href="#projects"
-                  className="hover:text-white transition-colors duration-200 py-1"
+                  className="hover:text-white transition-colors duration-200 py-1 link-hover"
                 >
                   <DecodeText text="Projects" on="hover" />
                 </a>
@@ -50,7 +50,7 @@ export default function Home() {
               <li>
                 <a
                   href="#hackathons"
-                  className="hover:text-white transition-colors duration-200 py-1"
+                  className="hover:text-white transition-colors duration-200 py-1 link-hover"
                 >
                   <DecodeText text="Hackathons" on="hover" />
                 </a>
@@ -58,7 +58,7 @@ export default function Home() {
               <li>
                 <a
                   href="#contact"
-                  className="hover:text-white transition-colors duration-200 py-1"
+                  className="hover:text-white transition-colors duration-200 py-1 link-hover"
                 >
                   <DecodeText text="Contact" on="hover" />
                 </a>

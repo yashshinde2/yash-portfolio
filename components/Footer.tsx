@@ -2,13 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowUp, ArrowUpRight } from "lucide-react";
 import { portfolioData } from "@/lib/portfolio-data";
+import { AnimatePresence, motion } from "framer-motion";
 
 export function Footer() {
   const { social } = portfolioData;
-  const [kolhapurTime, setKolhapurTime] = useState("");
+  const [timeChars, setTimeChars] = useState<string[]>([]);
   const btnRef = useRef<HTMLButtonElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const updateTime = () => {
@@ -20,7 +23,7 @@ export function Footer() {
         second: "2-digit",
         hour12: false,
       }).format(now);
-      setKolhapurTime(`${formatted} IST`);
+      setTimeChars(`${formatted} IST`.split(""));
     };
 
     updateTime();
@@ -28,13 +31,59 @@ export function Footer() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    const track = trackRef.current;
+    if (!track) return;
+
+    let xPos = 0;
+    let direction = -1;
+    let baseSpeed = 1.0;
+    let currentSpeed = 1.0;
+
+    const scrollTrigger = ScrollTrigger.create({
+      onUpdate: (self) => {
+        if (self.direction === 1) {
+          direction = -1;
+        } else if (self.direction === -1) {
+          direction = 1;
+        }
+        const velocity = Math.abs(self.getVelocity());
+        currentSpeed = baseSpeed + Math.min(velocity * 0.003, 6);
+      },
+    });
+
+    const updateMarquee = () => {
+      currentSpeed += (baseSpeed - currentSpeed) * 0.05;
+      xPos += direction * currentSpeed;
+
+      const halfWidth = track.scrollWidth / 2;
+      if (xPos <= -halfWidth) {
+        xPos += halfWidth;
+      } else if (xPos > 0) {
+        xPos -= halfWidth;
+      }
+
+      gsap.set(track, { x: xPos });
+    };
+
+    gsap.ticker.add(updateMarquee);
+
+    return () => {
+      gsap.ticker.remove(updateMarquee);
+      scrollTrigger.kill();
+    };
+  }, []);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const btn = btnRef.current;
     if (!btn) return;
     const rect = btn.getBoundingClientRect();
-    const x = (e.clientX - (rect.left + rect.width / 2)) * 0.35;
-    const y = (e.clientY - (rect.top + rect.height / 2)) * 0.35;
+    const x = ((e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2)) * 14;
+    const y = ((e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2)) * 14;
     gsap.to(btn, { x, y, scale: 1.04, duration: 0.25, ease: "power2.out" });
   };
 
@@ -45,7 +94,14 @@ export function Footer() {
   };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (window.__lenis) {
+      window.__lenis.scrollTo(0, {
+        duration: 1.4,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const tickerItems = [
@@ -57,12 +113,15 @@ export function Footer() {
     "COMPUTER SCIENCE '27",
   ];
 
-  const duplicated = [...tickerItems, ...tickerItems, ...tickerItems];
+  const duplicated = [...tickerItems, ...tickerItems, ...tickerItems, ...tickerItems];
 
   return (
     <footer className="relative bg-black text-white border-t border-white/10 overflow-hidden select-none">
       <div className="py-6 border-b border-white/10 overflow-hidden">
-        <div className="flex gap-8 whitespace-nowrap animate-[marquee_30s_linear_infinite] will-change-transform">
+        <div
+          ref={trackRef}
+          className="flex gap-8 whitespace-nowrap will-change-transform"
+        >
           {duplicated.map((item, idx) => (
             <div
               key={`${item}-${idx}`}
@@ -81,8 +140,27 @@ export function Footer() {
             <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-3">
               KOLHAPUR, MH, INDIA // 16.7050° N, 74.2433° E
             </div>
-            <div className="font-mono text-2xl sm:text-4xl text-white font-bold tracking-tight">
-              {kolhapurTime || "LOCAL TIME"}
+            <div className="font-mono text-2xl sm:text-4xl text-white font-bold tracking-tight flex items-center h-10">
+              {timeChars.map((char, index) => (
+                <span
+                  key={`col-${index}`}
+                  className="inline-block overflow-hidden relative"
+                  style={{ width: char === " " ? "0.45em" : char === ":" ? "0.35em" : "0.62em" }}
+                >
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    <motion.span
+                      key={`${char}-${index}`}
+                      initial={{ y: 8, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -8, opacity: 0 }}
+                      transition={{ duration: 0.22, ease: "easeOut" }}
+                      className="inline-block"
+                    >
+                      {char}
+                    </motion.span>
+                  </AnimatePresence>
+                </span>
+              ))}
             </div>
           </div>
 
@@ -109,7 +187,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Download Resume PDF"
-              className="hover:text-white transition-colors flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none"
+              className="hover:text-white transition-colors flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none link-hover"
             >
               <span>Resume</span>
               <ArrowUpRight className="w-3 h-3 text-white/50" />
@@ -121,7 +199,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.name}
-                className="hover:text-white transition-colors flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none"
+                className="hover:text-white transition-colors flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none link-hover"
               >
                 <span>{link.name}</span>
                 <ArrowUpRight className="w-3 h-3 text-white/50" />

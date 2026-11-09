@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { DecodeText } from "@/components/decode-text";
 
 const SKILLS = ["C++", "Java", "Go", "Node.js", "Python"];
 
@@ -64,7 +65,7 @@ export function GiantSkillsMarquee() {
       className="relative py-16 sm:py-24 overflow-hidden border-b border-white/10 bg-black text-white select-none"
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-12 mb-6 flex items-center justify-between font-mono text-xs uppercase tracking-widest text-white/40">
-        <span>[ 02 // Core Technologies ]</span>
+        <DecodeText text="[ 02 // CORE TECHNOLOGIES ]" />
         <span>Kinetic Marquee // Velocity Responsive</span>
       </div>
 

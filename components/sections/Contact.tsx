@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import gsap from "gsap";
 import { portfolioData } from "@/lib/portfolio-data";
 import {
   AlertCircle,
@@ -48,16 +49,88 @@ export function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [showToast, setShowToast] = useState(false);
+  const [emailText, setEmailText] = useState(contact.email);
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+
+  const titleChars = "LET'S BUILD".split("");
+  const letterRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const currentWeights = useRef<number[]>(titleChars.map(() => 300));
+  const targetWeights = useRef<number[]>(titleChars.map(() => 300));
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const sendBtnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduceMotion) {
+      letterRefs.current.forEach((el) => {
+        if (el) el.style.fontWeight = "900";
+      });
+      return;
+    }
+
+    let rafId: number;
+
+    const handlePointerMove = (e: PointerEvent) => {
+      letterRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+        if (dist < 220) {
+          const factor = 1 - dist / 220;
+          targetWeights.current[i] = 300 + factor * 600;
+        } else {
+          targetWeights.current[i] = 300;
+        }
+      });
+    };
+
+    const updateWeights = () => {
+      letterRefs.current.forEach((el, i) => {
+        if (!el) return;
+        currentWeights.current[i] += (targetWeights.current[i] - currentWeights.current[i]) * 0.15;
+        el.style.fontWeight = Math.round(currentWeights.current[i]).toString();
+      });
+      rafId = requestAnimationFrame(updateWeights);
+    };
+
+    window.addEventListener("pointermove", handlePointerMove);
+    rafId = requestAnimationFrame(updateWeights);
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  const handleSendMagneticMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const btn = sendBtnRef.current;
+    if (!btn) return;
+    const rect = btn.getBoundingClientRect();
+    const x = ((e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2)) * 14;
+    const y = ((e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2)) * 14;
+    gsap.to(btn, { x, y, duration: 0.25, ease: "power2.out" });
+  };
+
+  const handleSendMagneticLeave = () => {
+    const btn = sendBtnRef.current;
+    if (!btn) return;
+    gsap.to(btn, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1, 0.4)" });
+  };
 
   const copyEmail = async () => {
     try {
       await navigator.clipboard.writeText(contact.email);
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 2400);
-    } catch {
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 2400);
-    }
+    } catch {}
+    setEmailText("COPIED");
+    setShowToast(true);
+    setTimeout(() => {
+      setEmailText(contact.email);
+      setShowToast(false);
+    }, 2200);
   };
 
   const handleChange = (
@@ -143,8 +216,22 @@ export function Contact() {
           </div>
 
           <div className="space-y-4">
-            <h2 className="font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[11vw] tracking-tighter uppercase leading-[0.88] text-white">
-              <DecodeText text="LET'S BUILD" />
+            <h2
+              ref={headlineRef}
+              className="font-sans text-6xl sm:text-8xl md:text-9xl lg:text-[11vw] tracking-tighter uppercase leading-[0.88] text-white select-none"
+            >
+              {titleChars.map((char, i) => (
+                <span
+                  key={`char-${i}`}
+                  ref={(el) => {
+                    letterRefs.current[i] = el;
+                  }}
+                  className="inline-block transition-[font-weight] duration-75 will-change-[font-weight]"
+                  style={{ fontWeight: 300 }}
+                >
+                  {char === " " ? "\u00A0" : char}
+                </span>
+              ))}
             </h2>
             <div className="font-serif italic text-2xl sm:text-4xl text-white/80 font-normal">
               High-performance systems, low-latency protocols, and hardware integrations.
@@ -173,7 +260,7 @@ export function Contact() {
                 <div className="flex items-center gap-3 min-w-0">
                   <Mail className="w-5 h-5 text-white/50 group-hover:text-white transition-colors flex-shrink-0" />
                   <span className="font-mono text-sm sm:text-base text-white font-semibold tracking-tight truncate">
-                    <DecodeText text={contact.email} on="hover" />
+                    <DecodeText key={emailText} text={emailText} />
                   </span>
                 </div>
                 <Copy className="w-4 h-4 text-white/50 group-hover:text-white transition-colors flex-shrink-0" />
@@ -223,77 +310,104 @@ export function Contact() {
 
           <div className="lg:col-span-7">
             <div className="p-6 sm:p-10 rounded-2xl border border-white/10 bg-white/[0.02]">
-              <form onSubmit={handleSubmit} noValidate className="space-y-5">
-                <div>
+              <form onSubmit={handleSubmit} noValidate className="space-y-6">
+                <div className="relative">
                   <label
                     htmlFor="contact-name"
-                    className="block font-mono text-xs uppercase tracking-wider text-white/80 mb-2"
+                    className="block font-mono text-xs uppercase tracking-wider text-white/70 mb-2"
                   >
                     Name
                   </label>
-                  <input
-                    type="text"
-                    id="contact-name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Your name"
-                    className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/40 font-sans text-sm focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none transition-colors ${
-                      errors.name ? "border-white/50" : "border-white/15"
-                    }`}
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      id="contact-name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      onFocus={() => setFocusedField("name")}
+                      onBlur={() => setFocusedField(null)}
+                      placeholder="Your name"
+                      className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-sm focus:outline-none transition-colors ${
+                        errors.name ? "border-white/50" : "border-white/15"
+                      }`}
+                    />
+                    <div
+                      className={`absolute bottom-0 inset-x-0 h-[2px] bg-white origin-center transition-transform duration-300 pointer-events-none rounded-b-xl ${
+                        focusedField === "name" ? "scale-x-100" : "scale-x-0"
+                      }`}
+                    />
+                  </div>
                   {errors.name && (
-                    <span className="block mt-1 font-mono text-xs text-white/60">
+                    <span className="block mt-1.5 font-mono text-xs text-white/70">
                       {errors.name}
                     </span>
                   )}
                 </div>
 
-                <div>
+                <div className="relative">
                   <label
                     htmlFor="contact-email"
-                    className="block font-mono text-xs uppercase tracking-wider text-white/80 mb-2"
+                    className="block font-mono text-xs uppercase tracking-wider text-white/70 mb-2"
                   >
                     Email
                   </label>
-                  <input
-                    type="email"
-                    id="contact-email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="your@email.com"
-                    className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/40 font-sans text-sm focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none transition-colors ${
-                      errors.email ? "border-white/50" : "border-white/15"
-                    }`}
-                  />
+                  <div className="relative">
+                    <input
+                      type="email"
+                      id="contact-email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      onFocus={() => setFocusedField("email")}
+                      onBlur={() => setFocusedField(null)}
+                      placeholder="your@email.com"
+                      className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-sm focus:outline-none transition-colors ${
+                        errors.email ? "border-white/50" : "border-white/15"
+                      }`}
+                    />
+                    <div
+                      className={`absolute bottom-0 inset-x-0 h-[2px] bg-white origin-center transition-transform duration-300 pointer-events-none rounded-b-xl ${
+                        focusedField === "email" ? "scale-x-100" : "scale-x-0"
+                      }`}
+                    />
+                  </div>
                   {errors.email && (
-                    <span className="block mt-1 font-mono text-xs text-white/60">
+                    <span className="block mt-1.5 font-mono text-xs text-white/70">
                       {errors.email}
                     </span>
                   )}
                 </div>
 
-                <div>
+                <div className="relative">
                   <label
                     htmlFor="contact-message"
-                    className="block font-mono text-xs uppercase tracking-wider text-white/80 mb-2"
+                    className="block font-mono text-xs uppercase tracking-wider text-white/70 mb-2"
                   >
                     Message
                   </label>
-                  <textarea
-                    id="contact-message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Tell me about your project or architecture requirements..."
-                    rows={4}
-                    className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/40 font-sans text-sm focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none transition-colors resize-none ${
-                      errors.message ? "border-white/50" : "border-white/15"
-                    }`}
-                  />
+                  <div className="relative">
+                    <textarea
+                      id="contact-message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      onFocus={() => setFocusedField("message")}
+                      onBlur={() => setFocusedField(null)}
+                      placeholder="Tell me about your project or architecture requirements..."
+                      rows={4}
+                      className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-sm focus:outline-none transition-colors resize-none ${
+                        errors.message ? "border-white/50" : "border-white/15"
+                      }`}
+                    />
+                    <div
+                      className={`absolute bottom-0 inset-x-0 h-[2px] bg-white origin-center transition-transform duration-300 pointer-events-none rounded-b-xl ${
+                        focusedField === "message" ? "scale-x-100" : "scale-x-0"
+                      }`}
+                    />
+                  </div>
                   {errors.message && (
-                    <span className="block mt-1 font-mono text-xs text-white/60">
+                    <span className="block mt-1.5 font-mono text-xs text-white/70">
                       {errors.message}
                     </span>
                   )}
@@ -307,24 +421,27 @@ export function Contact() {
                 )}
 
                 <button
+                  ref={sendBtnRef}
                   type="submit"
                   disabled={isSubmitting || isSubmitted}
+                  onMouseMove={handleSendMagneticMove}
+                  onMouseLeave={handleSendMagneticLeave}
                   className="w-full px-6 py-4 rounded-xl bg-white text-black hover:bg-white/90 disabled:bg-white/50 font-mono text-xs uppercase tracking-widest font-semibold transition-all flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center gap-2">
                       <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                      <span>Transmitting...</span>
+                      <DecodeText text="TRANSMITTING..." />
                     </span>
                   ) : isSubmitted ? (
                     <span className="flex items-center gap-2">
                       <Check className="w-4 h-4" />
-                      <span>Message Dispatched Successfully</span>
+                      <DecodeText text="SENT" />
                     </span>
                   ) : (
                     <>
                       <Send className="w-4 h-4" />
-                      <span>Send Message</span>
+                      <DecodeText text="SEND MESSAGE" />
                     </>
                   )}
                 </button>
