@@ -320,6 +320,8 @@ export function Hackathons() {
                   <div
                     onMouseMove={handleCardMouseMove}
                     onMouseLeave={handleCardMouseLeave}
+                    data-cursor="view"
+                    data-cursor-label="RACE"
                     className={`p-6 sm:p-8 rounded-2xl border transition-all duration-300 backdrop-blur-md will-change-transform ${
                       isPassed
                         ? "border-white/30 bg-white/[0.04] shadow-[0_0_30px_rgba(255,255,255,0.03)]"

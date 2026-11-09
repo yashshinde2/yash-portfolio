@@ -128,6 +128,8 @@ export function About() {
             {specs.map((spec) => (
               <div
                 key={spec.label}
+                data-cursor="view"
+                data-cursor-label="SPEC"
                 className="relative py-6 sm:py-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3 overflow-hidden group hover:bg-white/[0.02] px-4 rounded-lg transition-colors"
               >
                 <div className="font-mono text-xs uppercase tracking-widest text-white/50">

@@ -61,8 +61,8 @@ export function Projects() {
     let rafId: number;
 
     const handleMouseMove = (e: MouseEvent) => {
-      targetX = e.clientX + 28;
-      targetY = e.clientY + 20;
+      targetX = Math.min(e.clientX + 28, window.innerWidth - 340);
+      targetY = Math.min(e.clientY + 20, window.innerHeight - 260);
       const vx = e.clientX - lastX;
       lastX = e.clientX;
       targetTilt = Math.max(-8, Math.min(8, vx * 0.4));
@@ -133,6 +133,8 @@ export function Projects() {
             >
               <div
                 onClick={() => toggleExpand(project.id)}
+                data-cursor="view"
+                data-cursor-label="VIEW"
                 className="relative cursor-pointer py-8 sm:py-12 px-4 sm:px-8 flex flex-col md:flex-row md:items-center justify-between gap-6 rounded-xl sm:rounded-2xl overflow-hidden transition-colors duration-300"
               >
                 <div className="absolute inset-0 bg-white origin-bottom scale-y-0 transition-transform duration-[450ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-y-100 z-0 pointer-events-none rounded-xl sm:rounded-2xl" />

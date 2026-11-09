@@ -69,7 +69,11 @@ export function GiantSkillsMarquee() {
         <span>Kinetic Marquee // Velocity Responsive</span>
       </div>
 
-      <div className="relative overflow-hidden w-full">
+      <div
+        className="relative overflow-hidden w-full"
+        data-cursor="view"
+        data-cursor-label="STACK"
+      >
         <div className="pointer-events-none absolute left-0 inset-y-0 w-24 sm:w-40 bg-gradient-to-r from-black to-transparent z-10" />
         <div className="pointer-events-none absolute right-0 inset-y-0 w-24 sm:w-40 bg-gradient-to-l from-black to-transparent z-10" />
 

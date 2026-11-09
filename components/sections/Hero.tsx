@@ -138,6 +138,7 @@ export function Hero() {
   return (
     <section
       data-hero
+      data-cursor="binary"
       id="hero"
       onMouseMove={handleMouseMove}
       className="relative h-screen min-h-[680px] w-full overflow-hidden bg-black text-white select-none flex flex-col justify-between pt-20 pb-8 px-6 sm:px-12 border-b border-white/10"
@@ -192,13 +193,13 @@ export function Hero() {
 
       <div
         ref={photoRef}
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex justify-center items-end h-[72vh] sm:h-[80vh] w-full max-w-4xl"
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex justify-center items-end h-[58vh] sm:h-[80vh] w-full max-w-4xl"
       >
         <div className="relative h-full w-full flex items-end justify-center pointer-events-none [mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)]">
           <BinaryPhoto
             src="/yash.png"
             alt={hero.name}
-            className="pointer-events-auto filter grayscale contrast-[1.15] w-[min(560px,90vw)] max-w-full"
+            className="pointer-events-auto filter grayscale contrast-[1.15] w-[min(520px,88vw)] max-w-full"
           />
         </div>
       </div>

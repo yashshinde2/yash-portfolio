@@ -218,6 +218,8 @@ export function Contact() {
           <div className="space-y-4">
             <h2
               ref={headlineRef}
+              data-cursor="view"
+              data-cursor-label="BUILD"
               className="font-sans text-6xl sm:text-8xl md:text-9xl lg:text-[11vw] tracking-tighter uppercase leading-[0.88] text-white select-none"
             >
               {titleChars.map((char, i) => (
