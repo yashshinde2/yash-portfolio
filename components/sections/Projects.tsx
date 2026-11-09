@@ -151,9 +151,14 @@ export function Projects() {
                 </div>
 
                 <div className="relative z-10 flex items-center gap-4 self-end md:self-center">
-                  {project.award && (
+                  {project.dates && (
+                    <span className="font-mono text-xs text-white/50 group-hover:text-black/60 transition-colors">
+                      {project.dates}
+                    </span>
+                  )}
+                  {(project.badge || project.award) && (
                     <span className="px-3 py-1 rounded-full border border-white/20 text-white font-mono text-[10px] uppercase tracking-wider group-hover:border-black/30 group-hover:text-black group-hover:bg-black/5 transition-colors">
-                      Award Winner
+                      {project.badge || (project.award ? "Award Winner" : null)}
                     </span>
                   )}
                   <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white group-hover:border-black group-hover:bg-black group-hover:text-white transition-all duration-300 group-hover:scale-105">
@@ -187,13 +192,13 @@ export function Projects() {
                             </p>
                           </div>
 
-                          {project.highlights && (
+                          {"highlights" in project && Array.isArray((project as any).highlights) && (
                             <div>
                               <div className="font-mono text-xs uppercase tracking-widest text-white/40 mb-3">
                                 <DecodeText text="[ Highlights ]" />
                               </div>
                               <div className="space-y-2">
-                                {project.highlights.map((highlight) => (
+                                {((project as any).highlights as string[]).map((highlight) => (
                                   <div
                                     key={highlight}
                                     className="flex items-center gap-2 font-mono text-xs text-white/70"
@@ -224,15 +229,19 @@ export function Projects() {
                             </div>
                           </div>
 
-                          <a
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-between px-6 py-4 rounded-xl bg-white text-black font-mono text-xs uppercase tracking-widest font-semibold hover:bg-white/90 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
-                          >
-                            <span>Open Project</span>
-                            <ArrowUpRight className="w-4 h-4" />
-                          </a>
+                          {project.github && (
+                            <a
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              data-cursor="view"
+                              data-cursor-label="GITHUB"
+                              className="inline-flex items-center justify-between px-6 py-4 rounded-xl bg-white text-black font-mono text-xs uppercase tracking-widest font-semibold hover:bg-white/90 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                            >
+                              <span>View on GitHub</span>
+                              <ArrowUpRight className="w-4 h-4" />
+                            </a>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -264,6 +273,12 @@ export function Projects() {
               {hoveredProject.title}
             </div>
 
+            {hoveredProject.dates && (
+              <div className="font-mono text-[10px] text-white/50">
+                {hoveredProject.dates}
+              </div>
+            )}
+
             <p className="text-white/60 text-xs font-light line-clamp-2 leading-relaxed">
               {hoveredProject.description}
             </p>
@@ -279,10 +294,10 @@ export function Projects() {
               ))}
             </div>
 
-            {hoveredProject.award && (
+            {(hoveredProject.badge || hoveredProject.award) && (
               <div className="pt-2 border-t border-white/10 flex items-center gap-1.5 text-[10px] font-mono text-white/90 uppercase tracking-wider">
                 <Award className="w-3 h-3" />
-                <span>Award-Winning Project</span>
+                <span>{hoveredProject.badge || "Award Winner"}</span>
               </div>
             )}
           </div>

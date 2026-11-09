@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { portfolioData } from "@/lib/portfolio-data";
 import { DecodeText } from "@/components/decode-text";
-import { ArrowUpRight, Trophy, Users, Zap } from "lucide-react";
+import { ArrowUpRight, Flag, Trophy, Users, Zap } from "lucide-react";
 
 function ChequeredFlagIcon({ className }: { className?: string }) {
   return (
@@ -23,6 +23,8 @@ const desktopPositions = [
   "md:top-[800px] md:left-[4%]",
   "md:top-[990px] md:left-[54%]",
   "md:top-[1180px] md:left-[4%]",
+  "md:top-[1370px] md:left-[54%]",
+  "md:top-[1560px] md:left-[4%]",
 ];
 
 interface Particle {
@@ -189,9 +191,9 @@ export function Hackathons() {
   };
 
   const desktopD =
-    "M 400 0 C 400 50, 360 50, 360 100 C 360 200, 440 200, 440 300 C 440 400, 360 400, 360 500 C 360 600, 440 600, 440 700 C 440 800, 360 800, 360 900 C 360 1000, 440 1000, 440 1100 C 440 1200, 360 1200, 360 1300 C 360 1380, 400 1380, 400 1440";
+    "M 400 0 C 400 50, 360 50, 360 100 C 360 200, 440 200, 440 300 C 440 400, 360 400, 360 500 C 360 600, 440 600, 440 700 C 440 800, 360 800, 360 900 C 360 1000, 440 1000, 440 1100 C 440 1200, 360 1200, 360 1300 C 360 1400, 440 1400, 440 1500 C 440 1600, 360 1600, 360 1700 C 360 1770, 400 1770, 400 1820";
 
-  const mobileD = "M 24 0 L 24 1440";
+  const mobileD = "M 24 0 L 24 1820";
 
   return (
     <div
@@ -209,13 +211,13 @@ export function Hackathons() {
         <div className="flex items-center justify-center gap-3 font-mono text-xs uppercase tracking-widest text-white/70">
           <span>Circuit Telemetry</span>
           <span>✦</span>
-          <span>7 Competitive Laps</span>
+          <span>8 Laps // Competitions, Organizing, Open Source</span>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto relative md:min-h-[1480px]">
+      <div className="max-w-6xl mx-auto relative md:min-h-[1880px]">
         <svg
-          viewBox="0 0 800 1440"
+          viewBox="0 0 800 1820"
           className="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-10"
           preserveAspectRatio="none"
         >
@@ -274,7 +276,7 @@ export function Hackathons() {
         </svg>
 
         <svg
-          viewBox="0 0 48 1440"
+          viewBox="0 0 48 1820"
           className="md:hidden absolute inset-0 w-12 h-full pointer-events-none z-10"
           preserveAspectRatio="none"
         >
@@ -300,6 +302,7 @@ export function Hackathons() {
             const lapNum = String(index + 1).padStart(2, "0");
             const posClass = desktopPositions[index] || "md:top-0 md:left-0";
             const isWinner = event.achievement === "Winner";
+            const isFinalist = event.achievement === "Finalist";
             const isOrganizer = event.achievement === "Organizer";
             const isPassed = activeLap >= index;
 
@@ -340,16 +343,16 @@ export function Hackathons() {
                       </div>
 
                       <div
-                        className={`winner-badge px-3 py-1 rounded-full font-mono text-[10px] uppercase tracking-wider font-semibold border flex items-center gap-1.5 ${
-                          isWinner
-                            ? "bg-white text-black border-white"
-                            : isOrganizer
-                            ? "border-white/40 text-white bg-white/10"
+                        className={`px-3 py-1 rounded-full font-mono text-[10px] uppercase tracking-wider font-semibold border flex items-center gap-1.5 ${
+                          isWinner || isFinalist
+                            ? "winner-badge bg-white text-black border-white"
                             : "border-white/20 text-white/70 bg-white/[0.02]"
                         }`}
                       >
                         {isWinner ? (
                           <Trophy className="w-3 h-3" />
+                        ) : isFinalist ? (
+                          <Flag className="w-3 h-3" />
                         ) : isOrganizer ? (
                           <Zap className="w-3 h-3" />
                         ) : (
@@ -364,12 +367,22 @@ export function Hackathons() {
                     </h3>
 
                     <div className="space-y-1.5 font-mono text-xs pt-2 border-t border-white/10">
-                      <p className="text-white/70">
-                        <span className="text-white/30">TEAM //</span> {event.team}
-                      </p>
-                      <p className="text-white/70">
-                        <span className="text-white/30">PROJECT //</span> {event.project}
-                      </p>
+                      {"details" in event && Array.isArray((event as any).details) ? (
+                        ((event as any).details as { label: string; value: string }[]).map((d) => (
+                          <p key={d.label} className="text-white/70">
+                            <span className="text-white/30">{d.label} //</span> {d.value}
+                          </p>
+                        ))
+                      ) : (
+                        <>
+                          <p className="text-white/70">
+                            <span className="text-white/30">TEAM //</span> {event.team}
+                          </p>
+                          <p className="text-white/70">
+                            <span className="text-white/30">PROJECT //</span> {event.project}
+                          </p>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -381,20 +394,22 @@ export function Hackathons() {
             ref={(el) => {
               cardsRef.current[hackathons.length] = el;
             }}
-            className={`relative md:absolute md:w-[42%] md:top-[1180px] md:left-[4%] will-change-[clip-path,transform]`}
+            className={`relative md:absolute md:w-[42%] ${desktopPositions[hackathons.length]} will-change-[clip-path,transform]`}
             style={{ perspective: "900px" }}
           >
             <div className="pl-12 md:pl-0">
               <div className="md:hidden absolute left-3 top-3 w-6 h-6 rounded-full border border-white/40 bg-black flex items-center justify-center font-mono text-[9px] text-white">
-                <DecodeText text="07" />
+                <DecodeText text="09" />
               </div>
 
               <a
                 href="#contact"
+                data-cursor="view"
+                data-cursor-label="CONTACT"
                 onMouseMove={(e) => handleCardMouseMove(e as any)}
                 onMouseLeave={(e) => handleCardMouseLeave(e as any)}
                 className={`block p-6 sm:p-8 rounded-2xl border transition-all duration-300 backdrop-blur-md group hover:bg-white/[0.06] will-change-transform ${
-                  activeLap >= 6
+                  activeLap >= 8
                     ? "border-white/40 bg-white/[0.04] shadow-[0_0_30px_rgba(255,255,255,0.05)]"
                     : "border-white/10 bg-white/[0.01]"
                 }`}
@@ -402,7 +417,7 @@ export function Hackathons() {
                 <div className="flex items-center justify-between gap-4 mb-4 pb-3 border-b border-white/10">
                   <div className="flex items-center gap-2">
                     <span className="font-mono text-xs uppercase tracking-widest text-white/40">
-                      <DecodeText text="LAP 07" />
+                      <DecodeText text="LAP 09" />
                     </span>
                     <span className="text-white/20 font-mono">•</span>
                     <span className="font-mono text-xs text-white/60">
@@ -417,15 +432,15 @@ export function Hackathons() {
                 </div>
 
                 <h3 className="font-sans font-bold text-xl sm:text-2xl text-white tracking-tight mb-2 group-hover:text-white transition-colors">
-                  NEXT: YOUR TEAM?
+                  NEXT RACE // NEXT: YOUR TEAM?
                 </h3>
 
                 <div className="space-y-1.5 font-mono text-xs pt-2 border-t border-white/10">
                   <p className="text-white/70">
-                    <span className="text-white/30">STATUS //</span> Open to High-Impact Engineering Roles
+                    <span className="text-white/30">STATUS //</span> Open to internships and entry-level software engineering roles
                   </p>
                   <p className="text-white/70">
-                    <span className="text-white/30">OBJECTIVE //</span> Build Next-Gen Systems Together
+                    <span className="text-white/30">OBJECTIVE //</span> Build useful software with a great team
                   </p>
                 </div>
 
