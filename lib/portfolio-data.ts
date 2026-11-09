@@ -1,7 +1,7 @@
 export const portfolioData = {
   hero: {
     name: "Yash Sandeep Shinde",
-    headline: "Java & C++ Developer",
+    headline: "Computer Science Engineer",
     summary:
       "I am a B.Tech Computer Science and Engineering student at D. Y. Patil School of Engineering and Management, Kolhapur. I have hands-on programming experience in Java and C++. I regularly participate in hackathons, where I build complete working systems with teams under tight deadlines. I also contribute to open-source projects through GitHub issues and pull requests.",
     resumeLink: "/Yash_Shinde.pdf",
