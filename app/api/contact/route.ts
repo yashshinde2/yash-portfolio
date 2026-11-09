@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify({
           from: "Portfolio Contact <onboarding@resend.dev>",
-          to: ["shindeyash0204@gmail.com"],
+          to: ["yashysshinde@gmail.com"],
           reply_to: email,
           subject: `Portfolio Inquiry from ${name}`,
           text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,

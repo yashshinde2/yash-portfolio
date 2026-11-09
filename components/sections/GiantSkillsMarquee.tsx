@@ -5,7 +5,19 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { DecodeText } from "@/components/decode-text";
 
-const SKILLS = ["C++", "Java", "Go", "Node.js", "Python"];
+const SKILLS = [
+  "Java",
+  "C++",
+  "MySQL",
+  "Git",
+  "GitHub",
+  "Linux",
+  "REST APIs",
+  "DSA",
+  "DBMS",
+  "OOP",
+  "Operating Systems",
+];
 
 export function GiantSkillsMarquee() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -66,7 +78,7 @@ export function GiantSkillsMarquee() {
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-12 mb-6 flex items-center justify-between font-mono text-xs uppercase tracking-widest text-white/40">
         <DecodeText text="[ 02 // CORE TECHNOLOGIES ]" />
-        <span>Kinetic Marquee // Velocity Responsive</span>
+        <span>Languages, tools and fundamentals</span>
       </div>
 
       <div

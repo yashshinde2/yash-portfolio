@@ -34,19 +34,19 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Yash Sandeep Shinde - Backend & IoT Engineer",
+  title: "Yash Sandeep Shinde - Java & C++ Developer",
   description:
-    "Computer Science Engineering student specializing in backend architecture, IoT, and hardware-integrated systems. Experienced in C++, Java, Go, Node.js, and Python.",
-  metadataBase: new URL("https://yashshinde.dev"),
+    "B.Tech Computer Science and Engineering student at D. Y. Patil School of Engineering and Management, Kolhapur. Java and C++ developer, hackathon winner and open-source contributor.",
+  metadataBase: new URL("https://yash-shinde.vercel.app"),
   openGraph: {
-    title: "Yash Sandeep Shinde - Backend & IoT Engineer",
+    title: "Yash Sandeep Shinde - Java & C++ Developer",
     description:
-      "Computer Science Engineering student specializing in backend architecture, IoT, and hardware-integrated systems.",
-    url: "https://yashshinde.dev",
+      "B.Tech Computer Science and Engineering student at D. Y. Patil School of Engineering and Management, Kolhapur. Java and C++ developer, hackathon winner and open-source contributor.",
+    url: "https://yash-shinde.vercel.app",
     siteName: "Yash Sandeep Shinde Portfolio",
     images: [
       {
-        url: "/yash.png",
+        url: "https://yash-shinde.vercel.app/yash.png",
         width: 720,
         height: 960,
         alt: "Yash Sandeep Shinde - Monochrome Portrait",
@@ -57,10 +57,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Yash Sandeep Shinde - Backend & IoT Engineer",
+    title: "Yash Sandeep Shinde - Java & C++ Developer",
     description:
-      "Computer Science Engineering student specializing in backend architecture, IoT, and hardware-integrated systems.",
-    images: ["/yash.png"],
+      "B.Tech Computer Science and Engineering student at D. Y. Patil School of Engineering and Management, Kolhapur. Java and C++ developer, hackathon winner and open-source contributor.",
+    images: ["https://yash-shinde.vercel.app/yash.png"],
   },
   robots: {
     index: true,

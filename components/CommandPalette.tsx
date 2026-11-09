@@ -12,7 +12,6 @@ import {
   FolderGit2,
   Home,
   Mail,
-  Terminal,
   Trophy,
   User,
   Zap,
@@ -159,17 +158,6 @@ export function CommandPalette({
                   </Command.Item>
 
                   <Command.Item
-                    onSelect={() => handleNavigate("#memory-dump")}
-                    className="flex items-center justify-between px-3 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider text-white/80 cursor-pointer data-[selected=true]:bg-white data-[selected=true]:text-black transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Terminal className="w-4 h-4" />
-                      <span>Hex Memory Dump</span>
-                    </div>
-                    <span className="text-[10px] opacity-60">05</span>
-                  </Command.Item>
-
-                  <Command.Item
                     onSelect={() => handleNavigate("#hackathons")}
                     className="flex items-center justify-between px-3 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider text-white/80 cursor-pointer data-[selected=true]:bg-white data-[selected=true]:text-black transition-colors"
                   >
@@ -177,7 +165,7 @@ export function CommandPalette({
                       <Trophy className="w-4 h-4" />
                       <span>Hackathons Grand Prix</span>
                     </div>
-                    <span className="text-[10px] opacity-60">06</span>
+                    <span className="text-[10px] opacity-60">05</span>
                   </Command.Item>
 
                   <Command.Item
@@ -188,7 +176,7 @@ export function CommandPalette({
                       <Mail className="w-4 h-4" />
                       <span>Contact / Let&apos;s Build</span>
                     </div>
-                    <span className="text-[10px] opacity-60">07</span>
+                    <span className="text-[10px] opacity-60">06</span>
                   </Command.Item>
                 </Command.Group>
 

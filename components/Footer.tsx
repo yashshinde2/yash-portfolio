@@ -106,10 +106,10 @@ export function Footer() {
 
   const tickerItems = [
     "YASH SANDEEP SHINDE",
-    "SYSTEMS ARCHITECTURE",
-    "EMBEDDED HARDWARE",
-    "BACKEND PROTOCOLS",
-    "IOT SENSORS",
+    "JAVA",
+    "C++",
+    "OPEN SOURCE",
+    "HACKATHONS",
     "COMPUTER SCIENCE '27",
   ];
 

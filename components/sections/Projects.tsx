@@ -111,7 +111,7 @@ export function Projects() {
         </div>
 
         <p className="text-white/60 font-sans text-base max-w-md font-light leading-relaxed">
-          Hardware-integrated systems and real-time applications pushing the boundaries of software-hardware integration
+          Projects built at hackathons and for the open-source community.
         </p>
       </div>
 

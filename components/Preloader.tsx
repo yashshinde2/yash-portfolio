@@ -74,7 +74,7 @@ export function Preloader() {
       </div>
 
       <div className="flex items-center justify-between text-xs font-mono tracking-widest text-white/60 uppercase">
-        <span>Systems / Hardware / Backend</span>
+        <span>Java / C++ / Open Source</span>
         <span>Index 2026</span>
       </div>
     </div>

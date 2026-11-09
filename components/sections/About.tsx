@@ -3,24 +3,29 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { portfolioData } from "@/lib/portfolio-data";
 import { DecodeText } from "@/components/decode-text";
 import { ArrowUpRight } from "lucide-react";
 
 export function About() {
-  const { hero } = portfolioData;
   const quoteRef = useRef<HTMLQuoteElement>(null);
   const specTableRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLAnchorElement>(null);
 
   const specs = [
-    { label: "Role", value: hero.headline },
-    { label: "Location", value: hero.location },
-    { label: "Degree", value: "B.Tech CSE '27" },
-    { label: "Core Stack", value: "C++, Java, Go, Node.js, Python" },
+    { label: "Role", value: "Computer Science Engineering Student" },
+    { label: "Location", value: "Kolhapur, India" },
+    { label: "Degree", value: "B.Tech CSE, 2027" },
+    { label: "CGPA", value: "8.7 / 10" },
+    { label: "Languages", value: "Java, C++" },
+    { label: "Databases", value: "MySQL" },
+    { label: "Tools", value: "Git, GitHub, Linux" },
+    { label: "Core Subjects", value: "DSA, DBMS, OOP, Operating Systems" },
   ];
 
-  const quoteWords = "Bridging software with embedded hardware to solve practical challenges.".split(" ");
+  const quoteWords =
+    "I build complete working systems under tight deadlines, then ship them in the open.".split(
+      " "
+    );
 
   useEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -92,7 +97,7 @@ export function About() {
             <DecodeText text="[ 01 // ABOUT ]" />
           </div>
           <div className="font-mono text-xs uppercase tracking-widest text-white/70">
-            Engineering Philosophy • Kolhapur, India
+            Profile • Kolhapur, India
           </div>
         </div>
 
@@ -115,8 +120,17 @@ export function About() {
           </blockquote>
 
           <div className="font-serif italic text-2xl sm:text-4xl text-white/80 font-normal leading-snug">
-            Tested under pressure across national hackathons, building low-latency backend systems and connected hardware.
+            Winner of an internal Smart India Hackathon, TrackShift finalist, and open-source contributor through GSSoC 2026.
           </div>
+        </div>
+
+        <div className="space-y-4 max-w-4xl pt-4">
+          <div className="font-mono text-xs uppercase tracking-widest text-white/40">
+            <DecodeText text="[ Summary ]" />
+          </div>
+          <p className="font-sans text-base sm:text-lg text-white/80 font-light leading-relaxed">
+            I am a B.Tech Computer Science and Engineering student at D. Y. Patil School of Engineering and Management, Kolhapur. I have hands-on programming experience in Java and C++. I regularly participate in hackathons, where I build complete working systems with teams under tight deadlines. I also contribute to open-source projects through GitHub issues and pull requests.
+          </p>
         </div>
 
         <div className="pt-8 border-t border-white/10 space-y-8">
@@ -144,6 +158,16 @@ export function About() {
                 />
               </div>
             ))}
+          </div>
+
+          <div className="pt-6 border-t border-white/10 space-y-3 font-mono text-xs text-white/70">
+            <div className="text-white/40 uppercase tracking-widest text-[11px]">
+              <DecodeText text="[ Certificates ]" />
+            </div>
+            <div className="space-y-1.5">
+              <div className="text-white/80">C and C++ Programming — DISHA Computer Institute — Grade A++ — 2023</div>
+              <div className="text-white/80">Java Programming — NPTEL, IIT Bombay (Spoken Tutorial) — 2025</div>
+            </div>
           </div>
 
           <div className="flex justify-end pt-4">

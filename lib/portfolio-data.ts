@@ -1,9 +1,9 @@
 export const portfolioData = {
   hero: {
     name: "Yash Sandeep Shinde",
-    headline: "Computer Science Engineer",
+    headline: "Java & C++ Developer",
     summary:
-      "Computer Science Engineering undergraduate with a solid foundation in programming. Experienced in using C++, Java, Go, Node.js, and Python to build real-time applications. Actively participates in hackathons to test problem-solving skills under pressure, with a strong focus on bridging software with embedded hardware to solve practical challenges.",
+      "I am a B.Tech Computer Science and Engineering student at D. Y. Patil School of Engineering and Management, Kolhapur. I have hands-on programming experience in Java and C++. I regularly participate in hackathons, where I build complete working systems with teams under tight deadlines. I also contribute to open-source projects through GitHub issues and pull requests.",
     resumeLink: "/Yash_Shinde.pdf",
     location: "Kolhapur, India",
   },
@@ -27,19 +27,17 @@ export const portfolioData = {
   ],
 
   skills: [
-    "C++",
-    "Python",
     "Java",
-    "Go",
-    "Node.js",
-    "TypeScript",
-    "React.js",
-    "HTML",
-    "CSS",
+    "C++",
     "MySQL",
     "Git",
+    "GitHub",
     "Linux",
-    "IoT Sensors",
+    "REST APIs",
+    "DSA",
+    "DBMS",
+    "OOP",
+    "Operating Systems",
   ],
 
   projects: [
@@ -47,8 +45,8 @@ export const portfolioData = {
       id: 1,
       title: "E-Tongue for Dravya Identification",
       description:
-        "Sensor-based classification system using hardware-integrated Python and pattern recognition.",
-      technologies: ["Python", "Sensors", "Pattern Recognition", "Hardware"],
+        "Sensor-based classification system using Python and pattern recognition.",
+      technologies: ["Python", "Sensors", "Pattern Recognition", "Data Analysis"],
       highlights: ["Award-Winning Project", "SIH Internal Hackathon Winner"],
       link: "#",
       award: true,
@@ -58,7 +56,7 @@ export const portfolioData = {
       title: "Hammer Time - Secure File Transfer",
       description:
         "High-performance secure file transfer protocol with advanced encryption and networking.",
-      technologies: ["Go", "Networking", "Encryption", "TCP/IP"],
+      technologies: ["Networking", "Encryption", "TCP/IP", "Security"],
       highlights: ["TrackShift Hackathon"],
       link: "#",
       award: false,
@@ -68,7 +66,7 @@ export const portfolioData = {
       title: "Call for Life",
       description:
         "Real-time blood and plasma donation management system connecting donors with recipients.",
-      technologies: ["Node.js", "HTML", "CSS", "Database Management"],
+      technologies: ["HTML", "CSS", "Database Management", "Web"],
       highlights: ["Prarambha Hackathon"],
       link: "#",
       award: false,
@@ -77,7 +75,7 @@ export const portfolioData = {
       id: 4,
       title: "Smart Bharat AI Assistant",
       description: "AI-based assistant for intelligent query handling and NLP-driven responses.",
-      technologies: ["TypeScript", "Node.js", "NLP", "APIs"],
+      technologies: ["TypeScript", "NLP", "APIs", "AI Assistant"],
       highlights: ["Prabal Hackathon"],
       link: "#",
       award: false,
@@ -85,8 +83,8 @@ export const portfolioData = {
     {
       id: 5,
       title: "Agriculture Robot",
-      description: "IoT-based automated irrigation system using weather intelligence and automation.",
-      technologies: ["ESP32", "WeatherAPI", "Android", "IoT"],
+      description: "Automated irrigation system using weather intelligence and automation.",
+      technologies: ["ESP32", "WeatherAPI", "Android", "Automation"],
       highlights: ["Smart Agriculture"],
       link: "#",
       award: false,
@@ -113,7 +111,7 @@ export const portfolioData = {
       title: "TrackShift Hackathon",
       achievement: "Participant",
       team: "Team Hammer Time",
-      project: "Secure Go File Transfer",
+      project: "Secure File Transfer",
     },
     {
       date: "04/2025",
@@ -123,14 +121,14 @@ export const portfolioData = {
       project: "Smart Bharat AI Assistant",
     },
     {
-      date: "Ongoing",
+      date: "01/2026 – 02/2026",
       title: "Hackoutsav National-Level Hackathon Organizer",
       achievement: "Organizer",
       team: "Event Management",
       project: "National Hackathon",
     },
     {
-      date: "Ongoing",
+      date: "08/2025 – 09/2025",
       title: "SIH Internal Hackathon Organizer",
       achievement: "Organizer",
       team: "Event Management",
@@ -139,7 +137,7 @@ export const portfolioData = {
   ],
 
   contact: {
-    email: "shindeyasho204@gmail.com",
+    email: "yashysshinde@gmail.com",
     phone: "+91 (optional)",
     location: "Kolhapur, India",
   },

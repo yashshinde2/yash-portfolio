@@ -5,7 +5,6 @@ import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { GiantSkillsMarquee } from "@/components/sections/GiantSkillsMarquee";
 import { Projects } from "@/components/sections/Projects";
-import { MemoryDump } from "@/components/sections/MemoryDump";
 import { Hackathons } from "@/components/sections/Hackathons";
 import { Contact } from "@/components/sections/Contact";
 import { CommandPalette } from "@/components/CommandPalette";
@@ -46,14 +45,6 @@ export default function Home() {
                   className="hover:text-white transition-colors duration-200 py-1 link-hover"
                 >
                   <DecodeText text="Projects" on="hover" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#memory-dump"
-                  className="hover:text-white transition-colors duration-200 py-1 link-hover"
-                >
-                  <DecodeText text="Memory" on="hover" />
                 </a>
               </li>
               <li>
@@ -123,13 +114,6 @@ export default function Home() {
               <DecodeText text="Projects" on="hover" />
             </a>
             <a
-              href="#memory-dump"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
-            >
-              <DecodeText text="Memory Dump" on="hover" />
-            </a>
-            <a
               href="#hackathons"
               onClick={() => setMobileMenuOpen(false)}
               className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
@@ -184,10 +168,6 @@ export default function Home() {
 
       <section id="projects">
         <Projects />
-      </section>
-
-      <section id="memory-dump">
-        <MemoryDump />
       </section>
 
       <section id="hackathons">

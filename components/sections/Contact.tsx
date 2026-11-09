@@ -236,7 +236,7 @@ export function Contact() {
               ))}
             </h2>
             <div className="font-serif italic text-2xl sm:text-4xl text-white/80 font-normal">
-              High-performance systems, low-latency protocols, and hardware integrations.
+              Open to internships and entry-level software engineering roles.
             </div>
           </div>
         </div>
@@ -247,9 +247,6 @@ export function Contact() {
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs uppercase tracking-widest text-white/70">
                   Email // Click to Copy
-                </span>
-                <span className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded border border-white/20 text-white/70">
-                  Interactive
                 </span>
               </div>
 
