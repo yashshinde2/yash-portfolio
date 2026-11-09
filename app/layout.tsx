@@ -34,12 +34,12 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Yash Sandeep Shinde - Java & C++ Developer",
+  title: "Yash Sandeep Shinde - Computer Science Engineer",
   description:
     "B.Tech Computer Science and Engineering student at D. Y. Patil School of Engineering and Management, Kolhapur. Java and C++ developer, hackathon winner and open-source contributor.",
   metadataBase: new URL("https://yash-shinde.vercel.app"),
   openGraph: {
-    title: "Yash Sandeep Shinde - Java & C++ Developer",
+    title: "Yash Sandeep Shinde - Computer Science Engineer",
     description:
       "B.Tech Computer Science and Engineering student at D. Y. Patil School of Engineering and Management, Kolhapur. Java and C++ developer, hackathon winner and open-source contributor.",
     url: "https://yash-shinde.vercel.app",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Yash Sandeep Shinde - Java & C++ Developer",
+    title: "Yash Sandeep Shinde - Computer Science Engineer",
     description:
       "B.Tech Computer Science and Engineering student at D. Y. Patil School of Engineering and Management, Kolhapur. Java and C++ developer, hackathon winner and open-source contributor.",
     images: ["https://yash-shinde.vercel.app/yash.png"],
