@@ -137,7 +137,7 @@ export function MemoryDump() {
   return (
     <div
       ref={containerRef}
-      className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-transparent text-white relative font-mono select-none"
+      className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-black text-white relative font-mono select-none"
     >
       <div className="max-w-7xl mx-auto space-y-12 sm:space-y-16">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
@@ -166,7 +166,7 @@ export function MemoryDump() {
 
         <div
           ref={tableRef}
-          className="border border-white/10 rounded-2xl overflow-hidden bg-black/70 backdrop-blur-md p-4 sm:p-6 lg:p-8 space-y-3"
+          className="border border-white/10 rounded-2xl overflow-hidden bg-black/50 backdrop-blur-md p-4 sm:p-6 lg:p-8 space-y-3"
         >
           <div className="flex items-center justify-between text-[11px] uppercase tracking-widest text-white/40 pb-3 border-b border-white/10 px-2 sm:px-4">
             <div className="w-20 sm:w-28 flex items-center gap-1.5">

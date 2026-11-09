@@ -116,7 +116,7 @@ export function Footer() {
   const duplicated = [...tickerItems, ...tickerItems, ...tickerItems, ...tickerItems];
 
   return (
-    <footer className="relative bg-transparent text-white border-t border-white/10 overflow-hidden select-none">
+    <footer className="relative bg-black text-white border-t border-white/10 overflow-hidden select-none">
       <div className="py-6 border-b border-white/10 overflow-hidden">
         <div
           ref={trackRef}

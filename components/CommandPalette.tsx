@@ -91,7 +91,7 @@ export function CommandPalette({
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-xl rounded-2xl border border-white/20 bg-black/80 backdrop-blur-xl text-white shadow-2xl overflow-hidden flex flex-col select-none animate-in fade-in zoom-in-95 duration-150"
+            className="w-full max-w-xl rounded-2xl border border-white/20 bg-black text-white shadow-2xl overflow-hidden flex flex-col select-none animate-in fade-in zoom-in-95 duration-150"
           >
             <Command label="Command Palette" className="w-full">
               <div className="flex items-center px-4 border-b border-white/10">

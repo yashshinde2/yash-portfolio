@@ -246,7 +246,7 @@ export function Projects() {
 
       <div
         ref={cardRef}
-        className={`fixed top-0 left-0 pointer-events-none z-50 w-72 sm:w-80 rounded-2xl border border-white/20 bg-black/70 text-white p-5 shadow-2xl backdrop-blur-md transition-opacity duration-200 hidden md:block will-change-transform ${
+        className={`fixed top-0 left-0 pointer-events-none z-50 w-72 sm:w-80 rounded-2xl border border-white/20 bg-black/95 text-white p-5 shadow-2xl backdrop-blur-md transition-opacity duration-200 hidden md:block will-change-transform ${
           hoveredProject ? "opacity-100 scale-100" : "opacity-0 scale-95"
         }`}
       >
