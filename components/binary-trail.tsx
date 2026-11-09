@@ -1,16 +1,16 @@
 "use client"
 import { useEffect, useRef } from "react"
 
-type P = { x: number; y: number; vx: number; vy: number; age: number; life: number; bit: number; size: number; curl: number }
-
 export function BinaryTrail({ className = "" }: { className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    if (matchMedia("(pointer: coarse)").matches) return
     const canvas = ref.current!
     const host = canvas.parentElement!
     const ctx = canvas.getContext("2d")!
+    const gap = 19
 
     const sprite = (ch: string) => {
       const s = document.createElement("canvas")
@@ -26,112 +26,100 @@ export function BinaryTrail({ className = "" }: { className?: string }) {
     }
     const sprites = [sprite("0"), sprite("1")]
 
-    const ps: P[] = []
-    let w = 0
-    let h = 0
-    let lx = 0
-    let ly = 0
+    const hash = (i: number, j: number, s: number) => {
+      const v = Math.sin(i * 127.1 + j * 311.7 + s * 74.7) * 43758.5453
+      return v - Math.floor(v)
+    }
+
+    let dpr = 1
+    let tx = 0
+    let ty = 0
+    let cx = 0
+    let cy = 0
+    let act = 0
     let has = false
-    let phase = 0
-    let raf = 0
-    let last = 0
     let running = false
+    let raf = 0
+    const t0 = performance.now()
 
     const resize = () => {
-      const dpr = Math.min(devicePixelRatio || 1, 2)
-      w = host.clientWidth
-      h = host.clientHeight
-      canvas.width = w * dpr
-      canvas.height = h * dpr
-      canvas.style.width = w + "px"
-      canvas.style.height = h + "px"
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      dpr = Math.min(devicePixelRatio || 1, 2)
+      canvas.width = host.clientWidth * dpr
+      canvas.height = host.clientHeight * dpr
+      canvas.style.width = host.clientWidth + "px"
+      canvas.style.height = host.clientHeight + "px"
     }
 
     const loop = (now: number) => {
-      const dt = Math.min((now - last) / 16.667, 3)
-      last = now
-      ctx.clearRect(0, 0, w, h)
-      let n = 0
-      for (let i = 0; i < ps.length; i++) {
-        const p = ps[i]
-        p.age += dt * 16.667
-        if (p.age >= p.life) continue
-        const c = Math.cos(p.curl * dt)
-        const s = Math.sin(p.curl * dt)
-        const vx = p.vx * c - p.vy * s
-        const vy = p.vx * s + p.vy * c
-        p.vx = vx * 0.992
-        p.vy = vy * 0.992
-        p.x += p.vx * dt
-        p.y += p.vy * dt
-        const t = p.age / p.life
-        const a = (1 - t) * (1 - t) * 0.95
-        const sz = p.size * (1 - t * 0.35)
-        ctx.globalAlpha = a
-        ctx.drawImage(sprites[p.bit], p.x - sz * 0.364, p.y - sz / 2, sz * 0.727, sz)
-        ps[n++] = p
-      }
-      ps.length = n
-      ctx.globalAlpha = 1
-      if (n > 0) {
-        raf = requestAnimationFrame(loop)
-      } else {
+      const t = (now - t0) / 1000
+      act *= 0.985
+      cx += (tx - cx) * 0.18
+      cy += (ty - cy) * 0.18
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      if (act < 0.01) {
         running = false
-        ctx.clearRect(0, 0, w, h)
+        return
       }
+      const rad = 95 + act * 55
+      const i0 = Math.floor((cx - rad) / gap) - 1
+      const i1 = Math.ceil((cx + rad) / gap) + 1
+      const j0 = Math.floor((cy - rad) / gap) - 1
+      const j1 = Math.ceil((cy + rad) / gap) + 1
+
+      for (let j = j0; j <= j1; j++) {
+        for (let i = i0; i <= i1; i++) {
+          const hx = hash(i, j, 1)
+          if (hx > 0.8) continue
+          const x0 = i * gap + (hash(i, j, 2) - 0.5) * gap * 0.7
+          const y0 = j * gap + (hash(i, j, 3) - 0.5) * gap * 0.7
+          const dx = x0 - cx
+          const dy = y0 - cy
+          const d = Math.hypot(dx, dy)
+          if (d >= rad || d < 4) continue
+          const f = 1 - d / rad
+          const e = f * f * (3 - 2 * f)
+          const a = e * act * 0.95
+          if (a < 0.03) continue
+          const th = Math.atan2(dy, dx) + e * act * 0.5
+          const dd = d + Math.sin(d * 0.1 - t * 2.4) * 4 * e
+          const x = cx + Math.cos(th) * dd
+          const y = cy + Math.sin(th) * dd
+          let r = th + Math.PI / 2 + (1 - f) * 0.6
+          r = ((((r + Math.PI / 2) % Math.PI) + Math.PI) % Math.PI) - Math.PI / 2
+          const bit = hash(i, j, 4 + Math.floor(t * 1.6 + hx * 10)) > 0.5 ? 1 : 0
+          const sz = 8 + e * 7
+          const c = Math.cos(r)
+          const s = Math.sin(r)
+          ctx.globalAlpha = a
+          ctx.setTransform(dpr * c, dpr * s, -dpr * s, dpr * c, dpr * x, dpr * y)
+          ctx.drawImage(sprites[bit], -sz * 0.364, -sz / 2, sz * 0.727, sz)
+        }
+      }
+      ctx.globalAlpha = 1
+      raf = requestAnimationFrame(loop)
     }
 
     const onMove = (e: PointerEvent) => {
-      if (e.pointerType === "touch") return
       const r = host.getBoundingClientRect()
       const x = e.clientX - r.left
       const y = e.clientY - r.top
       if (!has) {
-        lx = x
-        ly = y
+        cx = x
+        cy = y
+        tx = x
+        ty = y
         has = true
-        return
       }
-      const dx = x - lx
-      const dy = y - ly
-      const dist = Math.hypot(dx, dy)
-      if (dist < 2) return
-      const nx = -dy / dist
-      const ny = dx / dist
-      const amp = 12 + Math.min(dist, 70) * 0.35
-      const steps = Math.ceil(dist / 7)
-      for (let s = 1; s <= steps; s++) {
-        const px = lx + (dx * s) / steps
-        const py = ly + (dy * s) / steps
-        phase += 0.3
-        for (let k = 0; k < 3; k++) {
-          if (ps.length >= 1400) break
-          const a = phase + k * 2.0944
-          const off = Math.sin(a) * amp
-          const drift = Math.cos(a) * 0.9
-          ps.push({
-            x: px + nx * off,
-            y: py + ny * off,
-            vx: nx * drift,
-            vy: ny * drift,
-            age: 0,
-            life: 1100 + Math.random() * 800,
-            bit: Math.random() > 0.5 ? 1 : 0,
-            size: 9 + Math.random() * 6,
-            curl: (Math.random() - 0.5) * 0.05,
-          })
-        }
-      }
-      lx = x
-      ly = y
+      const d = Math.hypot(x - tx, y - ty)
+      tx = x
+      ty = y
+      act = Math.min(1, Math.max(act, 0.3 + d / 28))
       if (!running) {
         running = true
-        last = performance.now()
         raf = requestAnimationFrame(loop)
       }
     }
-
     const onLeave = () => {
       has = false
     }
@@ -152,4 +140,3 @@ export function BinaryTrail({ className = "" }: { className?: string }) {
 
   return <canvas ref={ref} aria-hidden className={className} />
 }
-
