@@ -194,7 +194,7 @@ export function MemoryDump() {
                   onMouseLeave={() => handleRowLeave(idx)}
                   data-cursor="view"
                   data-cursor-label="DUMP"
-                  className={`group flex items-center justify-between py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl transition-all duration-200 cursor-crosshair ${
+                  className={`group flex items-center justify-between py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl transition-all duration-200 ${
                     isHovered
                       ? "bg-white text-black shadow-xl"
                       : isAnyHovered
