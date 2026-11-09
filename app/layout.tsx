@@ -3,7 +3,7 @@ import { Inter_Tight, JetBrains_Mono, Instrument_Serif } from "next/font/google"
 import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { FilmGrain } from "@/components/FilmGrain";
-import { CustomCursor } from "@/components/CustomCursor";
+import { Cursor } from "@/components/cursor";
 import { Preloader } from "@/components/Preloader";
 
 const interTight = Inter_Tight({
@@ -79,7 +79,7 @@ export default function RootLayout({
     >
       <body className="bg-black text-white antialiased font-sans selection:bg-white selection:text-black min-h-screen">
         <Preloader />
-        <CustomCursor />
+        <Cursor />
         <FilmGrain />
         <SmoothScroll>{children}</SmoothScroll>
       </body>

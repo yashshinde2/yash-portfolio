@@ -27,10 +27,10 @@ body {
   overflow-x: hidden;
 }
 
-::selection {
-  background-color: #ffffff;
-  color: #000000;
+@media (pointer: fine) {
+  html, a, button, [role="button"], input, textarea { cursor: none; }
 }
+::selection { background: #fff; color: #000; }
 
 @keyframes marquee {
   0% {
