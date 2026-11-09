@@ -18,8 +18,8 @@ export default function Home() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
 
   return (
-    <main className="min-h-screen bg-transparent text-white selection:bg-white selection:text-black">
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/70 border-b border-white/10">
+    <main className="min-h-screen bg-black text-white selection:bg-white selection:text-black">
+      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/60 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 sm:px-12 py-4">
           <div className="flex justify-between items-center">
             <a href="#" className="flex items-center gap-3 group">
@@ -107,7 +107,7 @@ export default function Home() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-white/10 bg-black/70 backdrop-blur-md px-6 py-6 space-y-4">
+          <div className="md:hidden border-t border-white/10 bg-black/95 px-6 py-6 space-y-4">
             <a
               href="#about"
               onClick={() => setMobileMenuOpen(false)}

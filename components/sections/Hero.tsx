@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import gsap from "gsap";
 import { portfolioData } from "@/lib/portfolio-data";
 import { BinaryPhoto } from "@/components/binary-photo";
+import { BinaryTrail } from "@/components/binary-trail";
 import { ArrowDown, ArrowUpRight, Download, Mail } from "lucide-react";
 
 function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -141,8 +142,9 @@ export function Hero() {
       data-cursor="binary"
       id="hero"
       onMouseMove={handleMouseMove}
-      className="relative h-screen min-h-[680px] w-full overflow-hidden text-white select-none flex flex-col justify-between pt-20 pb-8 px-6 sm:px-12 border-b border-white/10"
+      className="relative h-screen min-h-[680px] w-full overflow-hidden bg-black text-white select-none flex flex-col justify-between pt-20 pb-8 px-6 sm:px-12 border-b border-white/10"
     >
+      <BinaryTrail className="pointer-events-none absolute inset-0 z-[15] mix-blend-difference" />
       <div className="relative z-30 flex items-center justify-between w-full font-mono text-xs uppercase tracking-widest text-white/70 pointer-events-none">
         <div>B.Tech CSE &apos;27</div>
         <div className="tabular-nums">{istTime || "LIVE IST"}</div>

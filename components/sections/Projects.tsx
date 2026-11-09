@@ -98,7 +98,7 @@ export function Projects() {
   };
 
   return (
-    <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-transparent text-white relative">
+    <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-black text-white relative">
       <div className="max-w-7xl mx-auto mb-16 sm:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
         <div>
           <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-3">
@@ -173,7 +173,7 @@ export function Projects() {
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    className="overflow-hidden bg-black/70 backdrop-blur-md rounded-2xl my-4 border border-white/10"
+                    className="overflow-hidden bg-white/[0.03] rounded-2xl my-4 border border-white/10"
                   >
                     <div className="p-6 sm:p-10 space-y-8">
                       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

@@ -6,7 +6,6 @@ import { FilmGrain } from "@/components/FilmGrain";
 import { Cursor } from "@/components/cursor";
 import { Preloader } from "@/components/Preloader";
 import { ScrollProgress } from "@/components/ScrollProgress";
-import { BinaryField } from "@/components/binary-field";
 
 const interTight = Inter_Tight({
   variable: "--font-sans",
@@ -79,15 +78,12 @@ export default function RootLayout({
       lang="en"
       className={`${interTight.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} bg-black text-white dark`}
     >
-      <body className="text-white antialiased font-sans selection:bg-white selection:text-black min-h-screen">
+      <body className="bg-black text-white antialiased font-sans selection:bg-white selection:text-black min-h-screen">
         <ScrollProgress />
         <Preloader />
         <Cursor />
-        <BinaryField />
         <FilmGrain />
-        <div className="relative z-10">
-          <SmoothScroll>{children}</SmoothScroll>
-        </div>
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );
