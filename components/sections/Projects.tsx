@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import gsap from "gsap";
 import { portfolioData } from "@/lib/portfolio-data";
 import { Award, ArrowUpRight, ChevronDown, Terminal } from "lucide-react";
-import { ScrambleHeading } from "@/components/ScrambleHeading";
+import { DecodeText } from "@/components/decode-text";
 
 type ProjectItem = (typeof portfolioData.projects)[number];
 
@@ -47,11 +47,11 @@ export function Projects() {
       <div className="max-w-7xl mx-auto mb-16 sm:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
         <div>
           <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-3">
-            <ScrambleHeading text="[ 03 // PROJECTS ]" as="span" />
+            <DecodeText text="[ 03 // PROJECTS ]" />
           </div>
-          <ScrambleHeading
+          <DecodeText
             text="SELECTED WORKS"
-            className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tighter uppercase font-sans text-white"
+            className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tighter uppercase font-sans text-white block"
           />
         </div>
 
@@ -78,7 +78,7 @@ export function Projects() {
               >
                 <div className="flex items-baseline gap-6 sm:gap-12">
                   <span className="font-mono text-sm sm:text-lg tracking-widest text-white/70 group-hover:text-black/70 select-none">
-                    {num}
+                    <DecodeText text={num} />
                   </span>
                   <div>
                     <h3 className="font-sans font-black text-[clamp(2rem,5vw,4.5rem)] tracking-[-0.02em] uppercase leading-[0.95] transition-transform duration-300 group-hover:translate-x-2">
@@ -117,7 +117,7 @@ export function Projects() {
                         <div className="lg:col-span-8 space-y-6">
                           <div>
                             <div className="font-mono text-xs uppercase tracking-widest text-white/40 mb-2">
-                              [ Overview ]
+                              <DecodeText text="[ Overview ]" />
                             </div>
                             <p className="font-sans text-base sm:text-xl text-white/80 font-light leading-relaxed">
                               {project.description}
@@ -127,7 +127,7 @@ export function Projects() {
                           {project.highlights && (
                             <div>
                               <div className="font-mono text-xs uppercase tracking-widest text-white/40 mb-3">
-                                [ Highlights ]
+                                <DecodeText text="[ Highlights ]" />
                               </div>
                               <div className="space-y-2">
                                 {project.highlights.map((highlight) => (
@@ -147,7 +147,7 @@ export function Projects() {
                         <div className="lg:col-span-4 flex flex-col justify-between gap-6 border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-8">
                           <div>
                             <div className="font-mono text-xs uppercase tracking-widest text-white/40 mb-3">
-                              [ Technologies ]
+                              <DecodeText text="[ Technologies ]" />
                             </div>
                             <div className="flex flex-wrap gap-2">
                               {project.technologies.map((tech) => (

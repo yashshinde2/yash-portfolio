@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { portfolioData } from "@/lib/portfolio-data";
-import { ScrambleHeading } from "@/components/ScrambleHeading";
+import { DecodeText } from "@/components/decode-text";
 import { ArrowUpRight } from "lucide-react";
 
 export function About() {
@@ -20,7 +20,7 @@ export function About() {
       <div className="max-w-7xl mx-auto space-y-16 sm:space-y-24">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div className="font-mono text-xs uppercase tracking-widest text-white/70">
-            <ScrambleHeading text="[ 01 // ABOUT ]" as="span" />
+            <DecodeText text="[ 01 // ABOUT ]" />
           </div>
           <div className="font-mono text-xs uppercase tracking-widest text-white/70">
             Engineering Philosophy • Kolhapur, India
@@ -35,7 +35,7 @@ export function About() {
             transition={{ duration: 0.8 }}
             className="font-serif italic text-4xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.08] text-white font-normal tracking-tight"
           >
-            &ldquo;Bridging software with embedded hardware to solve practical challenges.&rdquo;
+            &ldquo;<DecodeText text="Bridging software with embedded hardware to solve practical challenges." />&rdquo;
           </motion.blockquote>
 
           <motion.div
@@ -51,7 +51,7 @@ export function About() {
 
         <div className="pt-8 border-t border-white/10 space-y-8">
           <div className="font-mono text-xs uppercase tracking-widest text-white/40">
-            [ Specifications // Background ]
+            <DecodeText text="[ Specifications // Background ]" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
@@ -64,7 +64,7 @@ export function About() {
                   {spec.label}
                 </div>
                 <div className="font-mono text-sm sm:text-base text-white font-semibold">
-                  {spec.value}
+                  <DecodeText text={spec.value} />
                 </div>
               </div>
             ))}

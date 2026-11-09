@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { portfolioData } from "@/lib/portfolio-data";
-import { ScrambleHeading } from "@/components/ScrambleHeading";
+import { DecodeText } from "@/components/decode-text";
 import { ArrowUpRight, Trophy, Users, Zap } from "lucide-react";
 
 function ChequeredFlagIcon({ className }: { className?: string }) {
@@ -93,11 +93,11 @@ export function Hackathons() {
     >
       <div className="max-w-7xl mx-auto mb-16 sm:mb-24 text-center space-y-4">
         <div className="font-mono text-xs uppercase tracking-widest text-white/70">
-          <ScrambleHeading text="[ 04 // HACKATHONS & EXPERIENCE ]" as="span" />
+          <DecodeText text="[ 04 // HACKATHONS & EXPERIENCE ]" />
         </div>
-        <ScrambleHeading
+        <DecodeText
           text="GRAND PRIX // COMPETITIONS"
-          className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tighter uppercase font-sans text-white"
+          className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tighter uppercase font-sans text-white block"
         />
         <div className="flex items-center justify-center gap-3 font-mono text-xs uppercase tracking-widest text-white/70">
           <span>Circuit Telemetry</span>
@@ -183,7 +183,7 @@ export function Hackathons() {
               >
                 <div className="pl-12 md:pl-0">
                   <div className="md:hidden absolute left-3 top-3 w-6 h-6 rounded-full border border-white/40 bg-black flex items-center justify-center font-mono text-[9px] text-white">
-                    {lapNum}
+                    <DecodeText text={lapNum} />
                   </div>
 
                   <div
@@ -196,7 +196,7 @@ export function Hackathons() {
                     <div className="flex items-center justify-between gap-4 mb-4 pb-3 border-b border-white/10">
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-xs uppercase tracking-widest text-white/40">
-                          LAP {lapNum}
+                          <DecodeText text={`LAP ${lapNum}`} />
                         </span>
                         <span className="text-white/20 font-mono">•</span>
                         <span className="font-mono text-xs text-white/60">
@@ -247,7 +247,7 @@ export function Hackathons() {
           >
             <div className="pl-12 md:pl-0">
               <div className="md:hidden absolute left-3 top-3 w-6 h-6 rounded-full border border-white/40 bg-black flex items-center justify-center font-mono text-[9px] text-white">
-                07
+                <DecodeText text="07" />
               </div>
 
               <a
@@ -261,7 +261,7 @@ export function Hackathons() {
                 <div className="flex items-center justify-between gap-4 mb-4 pb-3 border-b border-white/10">
                   <div className="flex items-center gap-2">
                     <span className="font-mono text-xs uppercase tracking-widest text-white/40">
-                      LAP 07
+                      <DecodeText text="LAP 07" />
                     </span>
                     <span className="text-white/20 font-mono">•</span>
                     <span className="font-mono text-xs text-white/60">

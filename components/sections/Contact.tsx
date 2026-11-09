@@ -12,7 +12,7 @@ import {
   MapPin,
   Send,
 } from "lucide-react";
-import { ScrambleHeading } from "@/components/ScrambleHeading";
+import { DecodeText } from "@/components/decode-text";
 
 function LinkedinIcon({ className }: { className?: string }) {
   return (
@@ -48,54 +48,6 @@ export function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [showToast, setShowToast] = useState(false);
-  const [displayEmail, setDisplayEmail] = useState(contact.email);
-  const isScramblingRef = useRef(false);
-
-  const handleEmailHover = () => {
-    if (
-      isScramblingRef.current ||
-      (typeof window !== "undefined" &&
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-    ) {
-      return;
-    }
-
-    isScramblingRef.current = true;
-    const original = contact.email;
-    const chars = "!<>-_\\/[]{}—=+*^?#01";
-    let frame = 0;
-    let animId: number;
-
-    const animate = () => {
-      let complete = 0;
-      let next = "";
-      for (let i = 0; i < original.length; i++) {
-        if (original[i] === "@" || original[i] === ".") {
-          next += original[i];
-          complete++;
-          continue;
-        }
-        const progress = frame - i * 1.5;
-        if (progress >= 8) {
-          next += original[i];
-          complete++;
-        } else if (progress >= 0) {
-          next += chars[Math.floor(Math.random() * chars.length)];
-        } else {
-          next += original[i];
-        }
-      }
-      setDisplayEmail(next);
-      frame++;
-      if (complete < original.length) {
-        animId = requestAnimationFrame(animate);
-      } else {
-        isScramblingRef.current = false;
-      }
-    };
-
-    animId = requestAnimationFrame(animate);
-  };
 
   const copyEmail = async () => {
     try {
@@ -187,12 +139,12 @@ export function Contact() {
       <div className="max-w-7xl mx-auto space-y-16 sm:space-y-24">
         <div>
           <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-4">
-            <ScrambleHeading text="[ 05 // CONTACT ]" as="span" />
+            <DecodeText text="[ 05 // CONTACT ]" />
           </div>
 
           <div className="space-y-4">
             <h2 className="font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[11vw] tracking-tighter uppercase leading-[0.88] text-white">
-              LET&apos;S BUILD
+              <DecodeText text="LET'S BUILD" />
             </h2>
             <div className="font-serif italic text-2xl sm:text-4xl text-white/80 font-normal">
               High-performance systems, low-latency protocols, and hardware integrations.
@@ -215,14 +167,13 @@ export function Contact() {
               <button
                 type="button"
                 onClick={copyEmail}
-                onMouseEnter={handleEmailHover}
                 className="w-full text-left group flex items-center justify-between gap-3 p-3 -mx-3 rounded-xl hover:bg-white/5 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                 aria-label={`Copy email address ${contact.email}`}
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <Mail className="w-5 h-5 text-white/50 group-hover:text-white transition-colors flex-shrink-0" />
                   <span className="font-mono text-sm sm:text-base text-white font-semibold tracking-tight truncate">
-                    {displayEmail}
+                    <DecodeText text={contact.email} on="hover" />
                   </span>
                 </div>
                 <Copy className="w-4 h-4 text-white/50 group-hover:text-white transition-colors flex-shrink-0" />

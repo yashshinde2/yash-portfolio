@@ -9,6 +9,7 @@ import { Hackathons } from "@/components/sections/Hackathons";
 import { Contact } from "@/components/sections/Contact";
 import { CommandPalette } from "@/components/CommandPalette";
 import { Footer } from "@/components/Footer";
+import { DecodeText } from "@/components/decode-text";
 import { Menu, X } from "lucide-react";
 
 export default function Home() {
@@ -35,7 +36,7 @@ export default function Home() {
                   href="#about"
                   className="hover:text-white transition-colors duration-200 py-1"
                 >
-                  About
+                  <DecodeText text="About" on="hover" />
                 </a>
               </li>
               <li>
@@ -43,7 +44,7 @@ export default function Home() {
                   href="#projects"
                   className="hover:text-white transition-colors duration-200 py-1"
                 >
-                  Projects
+                  <DecodeText text="Projects" on="hover" />
                 </a>
               </li>
               <li>
@@ -51,7 +52,7 @@ export default function Home() {
                   href="#hackathons"
                   className="hover:text-white transition-colors duration-200 py-1"
                 >
-                  Hackathons
+                  <DecodeText text="Hackathons" on="hover" />
                 </a>
               </li>
               <li>
@@ -59,7 +60,7 @@ export default function Home() {
                   href="#contact"
                   className="hover:text-white transition-colors duration-200 py-1"
                 >
-                  Contact
+                  <DecodeText text="Contact" on="hover" />
                 </a>
               </li>
               <li>
@@ -70,7 +71,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="px-3 py-1 rounded-full border border-white/20 text-white/80 hover:text-white hover:border-white transition-colors duration-200"
                 >
-                  Resume
+                  <DecodeText text="Resume" on="hover" />
                 </a>
               </li>
               <li>
@@ -103,28 +104,28 @@ export default function Home() {
               onClick={() => setMobileMenuOpen(false)}
               className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
             >
-              About
+              <DecodeText text="About" on="hover" />
             </a>
             <a
               href="#projects"
               onClick={() => setMobileMenuOpen(false)}
               className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
             >
-              Projects
+              <DecodeText text="Projects" on="hover" />
             </a>
             <a
               href="#hackathons"
               onClick={() => setMobileMenuOpen(false)}
               className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
             >
-              Hackathons
+              <DecodeText text="Hackathons" on="hover" />
             </a>
             <a
               href="#contact"
               onClick={() => setMobileMenuOpen(false)}
               className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
             >
-              Contact
+              <DecodeText text="Contact" on="hover" />
             </a>
             <a
               href="/Yash_Shinde.pdf"
@@ -134,7 +135,7 @@ export default function Home() {
               onClick={() => setMobileMenuOpen(false)}
               className="block font-mono text-sm uppercase tracking-widest text-white hover:text-white py-2"
             >
-              Download Resume ↗
+              <DecodeText text="Download Resume ↗" on="hover" />
             </a>
             <button
               type="button"
