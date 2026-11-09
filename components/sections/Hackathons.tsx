@@ -196,7 +196,7 @@ export function Hackathons() {
   return (
     <div
       ref={containerRef}
-      className="py-24 sm:py-36 px-4 sm:px-8 lg:px-16 border-b border-white/10 bg-black text-white relative overflow-hidden"
+      className="py-24 sm:py-36 px-4 sm:px-8 lg:px-16 border-b border-white/10 bg-transparent text-white relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto mb-16 sm:mb-24 text-center space-y-4">
         <div className="font-mono text-xs uppercase tracking-widest text-white/70">
@@ -324,8 +324,8 @@ export function Hackathons() {
                     data-cursor-label="RACE"
                     className={`p-6 sm:p-8 rounded-2xl border transition-all duration-300 backdrop-blur-md will-change-transform ${
                       isPassed
-                        ? "border-white/30 bg-white/[0.04] shadow-[0_0_30px_rgba(255,255,255,0.03)]"
-                        : "border-white/10 bg-white/[0.01]"
+                        ? "border-white/30 bg-black/70 shadow-[0_0_30px_rgba(255,255,255,0.03)]"
+                        : "border-white/10 bg-black/70"
                     }`}
                   >
                     <div className="flex items-center justify-between gap-4 mb-4 pb-3 border-b border-white/10">
@@ -393,10 +393,10 @@ export function Hackathons() {
                 href="#contact"
                 onMouseMove={(e) => handleCardMouseMove(e as any)}
                 onMouseLeave={(e) => handleCardMouseLeave(e as any)}
-                className={`block p-6 sm:p-8 rounded-2xl border transition-all duration-300 backdrop-blur-md group hover:bg-white/[0.06] will-change-transform ${
+                className={`block p-6 sm:p-8 rounded-2xl border transition-all duration-300 backdrop-blur-md group hover:bg-black/80 will-change-transform ${
                   activeLap >= 6
-                    ? "border-white/40 bg-white/[0.04] shadow-[0_0_30px_rgba(255,255,255,0.05)]"
-                    : "border-white/10 bg-white/[0.01]"
+                    ? "border-white/40 bg-black/70 shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+                    : "border-white/10 bg-black/70"
                 }`}
               >
                 <div className="flex items-center justify-between gap-4 mb-4 pb-3 border-b border-white/10">

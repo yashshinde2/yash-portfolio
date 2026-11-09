@@ -141,7 +141,7 @@ export function Hero() {
       data-cursor="binary"
       id="hero"
       onMouseMove={handleMouseMove}
-      className="relative h-screen min-h-[680px] w-full overflow-hidden bg-black text-white select-none flex flex-col justify-between pt-20 pb-8 px-6 sm:px-12 border-b border-white/10"
+      className="relative h-screen min-h-[680px] w-full overflow-hidden text-white select-none flex flex-col justify-between pt-20 pb-8 px-6 sm:px-12 border-b border-white/10"
     >
       <div className="relative z-30 flex items-center justify-between w-full font-mono text-xs uppercase tracking-widest text-white/70 pointer-events-none">
         <div>B.Tech CSE &apos;27</div>

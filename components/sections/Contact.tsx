@@ -208,7 +208,7 @@ export function Contact() {
   };
 
   return (
-    <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-black text-white relative">
+    <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-transparent text-white relative">
       <div className="max-w-7xl mx-auto space-y-16 sm:space-y-24">
         <div>
           <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-4">
@@ -243,7 +243,7 @@ export function Contact() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-8 border-t border-white/10">
           <div className="lg:col-span-5 space-y-6">
-            <div className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02] space-y-3">
+            <div className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-black/70 backdrop-blur-md space-y-3">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs uppercase tracking-widest text-white/70">
                   Email // Click to Copy
@@ -269,7 +269,7 @@ export function Contact() {
               </button>
             </div>
 
-            <div className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02]">
+            <div className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-black/70 backdrop-blur-md">
               <div className="flex gap-4 items-start">
                 <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/70 flex-shrink-0">
                   <MapPin className="w-4 h-4" />
@@ -289,7 +289,7 @@ export function Contact() {
               href="https://linkedin.com/in/yashshinde2"
               target="_blank"
               rel="noopener noreferrer"
-              className="block p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02] hover:border-white/30 hover:bg-white/[0.04] transition-all group focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+              className="block p-6 sm:p-8 rounded-2xl border border-white/10 bg-black/70 backdrop-blur-md hover:border-white/30 hover:bg-black/80 transition-all group focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
             >
               <div className="flex items-center justify-between">
                 <div className="flex gap-4 items-center">
@@ -311,7 +311,7 @@ export function Contact() {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-10 rounded-2xl border border-white/10 bg-white/[0.02]">
+            <div className="p-6 sm:p-10 rounded-2xl border border-white/10 bg-black/70 backdrop-blur-md">
               <form onSubmit={handleSubmit} noValidate className="space-y-6">
                 <div className="relative">
                   <label

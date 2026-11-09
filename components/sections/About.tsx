@@ -85,7 +85,7 @@ export function About() {
   };
 
   return (
-    <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-black text-white">
+    <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-transparent text-white">
       <div className="max-w-7xl mx-auto space-y-16 sm:space-y-24">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div className="font-mono text-xs uppercase tracking-widest text-white/70">
