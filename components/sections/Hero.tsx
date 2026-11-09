@@ -209,13 +209,13 @@ export function Hero() {
         className="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-none"
       >
         <div
-          className="text-center font-sans font-black tracking-tighter uppercase leading-[0.82] text-[18vw] sm:text-[18vw]"
+          className="text-center font-sans font-black tracking-tighter uppercase leading-[0.82] text-[18vw] sm:text-[18vw] pointer-events-none"
           style={{
             WebkitTextStroke: "1px rgba(255, 255, 255, 0.35)",
             color: "transparent",
           }}
         >
-          <div className="overflow-hidden">
+          <div className="overflow-hidden pointer-events-none">
             {line1.map((char, i) => (
               <motion.span
                 key={`fl1-${i}`}
@@ -226,14 +226,14 @@ export function Hero() {
                   delay: 0.2 + i * 0.05,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="inline-block"
+                className="inline-block pointer-events-none"
               >
                 {char}
               </motion.span>
             ))}
           </div>
 
-          <div className="overflow-hidden">
+          <div className="overflow-hidden pointer-events-none">
             {line2.map((char, i) => (
               <motion.span
                 key={`fl2-${i}`}
@@ -244,7 +244,7 @@ export function Hero() {
                   delay: 0.4 + i * 0.05,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="inline-block"
+                className="inline-block pointer-events-none"
               >
                 {char}
               </motion.span>
@@ -256,7 +256,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
-          className="mt-4 font-serif italic text-xl sm:text-3xl md:text-4xl text-white/90 font-normal tracking-wide"
+          className="mt-4 font-serif italic text-xl sm:text-3xl md:text-4xl text-white/90 font-normal tracking-wide pointer-events-none"
         >
           {hero.headline}
         </motion.div>

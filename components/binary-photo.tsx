@@ -98,15 +98,11 @@ export function BinaryPhoto({ src, alt, className = "", radius = 160, cellW = 9,
             if (diff < 50) hv = Math.max(hv, (1 - diff / 50) * 0.95)
           }
           heat[k] = hv
-          if (hv < 0.03) continue
+          if (hv < 0.03 || alpha[k] <= 0.5) continue
           if (Math.random() < 0.05) bits[k] ^= 1
-          const inside = alpha[k] > 0.5
-          if (inside) {
-            ctx.fillStyle = `rgba(0,0,0,${hv * 0.72})`
-            ctx.fillRect(i * cellW, j * cellH, cellW, cellH)
-          }
-          const s = inside ? hv * (0.45 + 0.55 * lum[k]) : hv * 0.14
-          ctx.fillStyle = `rgba(255,255,255,${s})`
+          ctx.fillStyle = `rgba(0,0,0,${hv * 0.72})`
+          ctx.fillRect(i * cellW, j * cellH, cellW, cellH)
+          ctx.fillStyle = `rgba(255,255,255,${hv * (0.45 + 0.55 * lum[k])})`
           ctx.fillText(bits[k] ? "1" : "0", cx, cy)
         }
       }
@@ -170,4 +166,3 @@ export function BinaryPhoto({ src, alt, className = "", radius = 160, cellW = 9,
     </div>
   )
 }
-
