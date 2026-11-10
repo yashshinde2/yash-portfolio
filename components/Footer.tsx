@@ -12,7 +12,6 @@ export function Footer() {
   const [timeChars, setTimeChars] = useState<string[]>([]);
   const btnRef = useRef<HTMLButtonElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const footerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const updateTime = () => {
@@ -37,27 +36,12 @@ export function Footer() {
     gsap.registerPlugin(ScrollTrigger);
 
     const track = trackRef.current;
-    const footer = footerRef.current;
-    if (!track || !footer) return;
-
-    let isVisible = true;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          isVisible = e.isIntersecting;
-        });
-      },
-      { threshold: 0 }
-    );
-    observer.observe(footer);
+    if (!track) return;
 
     let xPos = 0;
     let direction = -1;
-    const isMobile =
-      window.innerWidth < 768 ||
-      window.matchMedia("(pointer: coarse)").matches;
-    const baseSpeed = isMobile ? 0.6 : 1.0;
-    let currentSpeed = baseSpeed;
+    let baseSpeed = 1.0;
+    let currentSpeed = 1.0;
 
     const scrollTrigger = ScrollTrigger.create({
       onUpdate: (self) => {
@@ -67,12 +51,11 @@ export function Footer() {
           direction = 1;
         }
         const velocity = Math.abs(self.getVelocity());
-        currentSpeed = baseSpeed + Math.min(velocity * 0.003, isMobile ? 3 : 6);
+        currentSpeed = baseSpeed + Math.min(velocity * 0.003, 6);
       },
     });
 
     const updateMarquee = () => {
-      if (!isVisible) return;
       currentSpeed += (baseSpeed - currentSpeed) * 0.05;
       xPos += direction * currentSpeed;
 
@@ -89,7 +72,6 @@ export function Footer() {
     gsap.ticker.add(updateMarquee);
 
     return () => {
-      observer.disconnect();
       gsap.ticker.remove(updateMarquee);
       scrollTrigger.kill();
     };
@@ -97,7 +79,6 @@ export function Footer() {
 
   const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (window.matchMedia("(pointer: coarse), (hover: none)").matches) return;
     const btn = btnRef.current;
     if (!btn) return;
     const rect = btn.getBoundingClientRect();
@@ -135,19 +116,16 @@ export function Footer() {
   const duplicated = [...tickerItems, ...tickerItems, ...tickerItems, ...tickerItems];
 
   return (
-    <footer
-      ref={footerRef}
-      className="relative bg-black text-white border-t border-white/10 overflow-hidden select-none pb-[calc(max(2rem,env(safe-area-inset-bottom)))]"
-    >
-      <div className="py-4 sm:py-6 border-b border-white/10 overflow-hidden">
+    <footer className="relative bg-black text-white border-t border-white/10 overflow-hidden select-none">
+      <div className="py-6 border-b border-white/10 overflow-hidden">
         <div
           ref={trackRef}
-          className="flex gap-6 sm:gap-8 whitespace-nowrap will-change-transform"
+          className="flex gap-8 whitespace-nowrap will-change-transform"
         >
           {duplicated.map((item, idx) => (
             <div
               key={`${item}-${idx}`}
-              className="flex items-center gap-6 sm:gap-8 font-mono text-[11px] sm:text-xs uppercase tracking-widest text-white/70"
+              className="flex items-center gap-8 font-mono text-xs uppercase tracking-widest text-white/70"
             >
               <span>{item}</span>
               <span className="text-white/30">✦</span>
@@ -156,10 +134,10 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-12 py-12 sm:py-24 space-y-12 sm:space-y-16">
-        <div className="flex flex-col sm:flex-row items-center sm:items-end justify-between gap-6 sm:gap-8 text-center sm:text-left">
-          <div className="flex flex-col items-center sm:items-start">
-            <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-2 sm:mb-3">
+      <div className="max-w-7xl mx-auto px-6 sm:px-12 py-16 sm:py-24 space-y-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+          <div>
+            <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-3">
               KOLHAPUR, MH, INDIA // 16.7050° N, 74.2433° E
             </div>
             <div className="font-mono text-2xl sm:text-4xl text-white font-bold tracking-tight flex items-center h-10">
@@ -191,7 +169,7 @@ export function Footer() {
             onClick={scrollToTop}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="self-center sm:self-auto min-h-[44px] px-6 py-3.5 rounded-full border border-white/20 bg-white/5 hover:border-white hover:bg-white hover:text-black transition-all duration-300 font-mono text-xs uppercase tracking-widest flex items-center justify-center gap-3 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+            className="self-start md:self-auto px-6 py-4 rounded-full border border-white/20 bg-white/5 hover:border-white hover:bg-white hover:text-black transition-all duration-300 font-mono text-xs uppercase tracking-widest flex items-center gap-3 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
             aria-label="Back to top"
           >
             <span>Back to Top</span>
@@ -199,19 +177,17 @@ export function Footer() {
           </button>
         </div>
 
-        <div className="pt-8 sm:pt-12 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 font-mono text-xs uppercase tracking-widest text-white/70 text-center sm:text-left">
-          <div className="text-[11px] sm:text-xs">
-            © 2026 Yash Sandeep Shinde. Built with Next.js, GSAP & Tailwind.
-          </div>
+        <div className="pt-12 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 font-mono text-xs uppercase tracking-widest text-white/70">
+          <div>© 2026 Yash Sandeep Shinde. Built with Next.js, GSAP & Tailwind.</div>
 
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-6">
+          <div className="flex items-center gap-6">
             <a
               href="/Yash_Shinde.pdf"
               download="Yash_Shinde_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Download Resume PDF"
-              className="min-h-[44px] px-2 py-2 hover:text-white transition-colors flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none link-hover"
+              className="hover:text-white transition-colors flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none link-hover"
             >
               <span>Resume</span>
               <ArrowUpRight className="w-3 h-3 text-white/50" />
@@ -223,7 +199,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.name}
-                className="min-h-[44px] px-2 py-2 hover:text-white transition-colors flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none link-hover"
+                className="hover:text-white transition-colors flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none link-hover"
               >
                 <span>{link.name}</span>
                 <ArrowUpRight className="w-3 h-3 text-white/50" />

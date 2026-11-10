@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { GiantSkillsMarquee } from "@/components/sections/GiantSkillsMarquee";
@@ -11,59 +10,18 @@ import { Contact } from "@/components/sections/Contact";
 import { CommandPalette } from "@/components/CommandPalette";
 import { Footer } from "@/components/Footer";
 import { DecodeText } from "@/components/decode-text";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
 
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileMenuOpen]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setMobileMenuOpen(false);
-      }
-    };
-    const handleHash = () => setMobileMenuOpen(false);
-
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("hashchange", handleHash);
-    window.addEventListener("popstate", handleHash);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("hashchange", handleHash);
-      window.removeEventListener("popstate", handleHash);
-    };
-  }, []);
-
-  const navLinks = [
-    { label: "About", href: "#about" },
-    { label: "Projects", href: "#projects" },
-    { label: "Hackathons", href: "#hackathons" },
-    { label: "Contact", href: "#contact" },
-  ];
-
   return (
     <main className="min-h-screen bg-black text-white selection:bg-white selection:text-black">
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/60 border-b border-white/10 pt-[env(safe-area-inset-top)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-12 py-3 sm:py-4">
+      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/60 border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 py-4">
           <div className="flex justify-between items-center">
-            <a
-              href="#"
-              aria-label="Home"
-              className="flex items-center gap-3 group min-h-[44px] min-w-[44px]"
-            >
+            <a href="#" className="flex items-center gap-3 group">
               <span className="font-mono text-sm font-bold tracking-widest uppercase text-white group-hover:text-white/80 transition-colors">
                 YSS
               </span>
@@ -73,32 +31,54 @@ export default function Home() {
             </a>
 
             <ul className="hidden md:flex items-center gap-6 lg:gap-8 font-mono text-xs uppercase tracking-widest text-white/60">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="hover:text-white transition-colors duration-200 py-2 link-hover min-h-[44px] inline-flex items-center"
-                  >
-                    <DecodeText text={link.label} on="hover" />
-                  </a>
-                </li>
-              ))}
+              <li>
+                <a
+                  href="#about"
+                  className="hover:text-white transition-colors duration-200 py-1 link-hover"
+                >
+                  <DecodeText text="About" on="hover" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#projects"
+                  className="hover:text-white transition-colors duration-200 py-1 link-hover"
+                >
+                  <DecodeText text="Projects" on="hover" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#hackathons"
+                  className="hover:text-white transition-colors duration-200 py-1 link-hover"
+                >
+                  <DecodeText text="Hackathons" on="hover" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#contact"
+                  className="hover:text-white transition-colors duration-200 py-1 link-hover"
+                >
+                  <DecodeText text="Contact" on="hover" />
+                </a>
+              </li>
               <li>
                 <a
                   href="/Yash_Shinde.pdf"
                   download="Yash_Shinde_Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-full border border-white/20 text-white/80 hover:text-white hover:border-white transition-colors duration-200 min-h-[44px] inline-flex items-center"
+                  className="px-3 py-1 rounded-full border border-white/20 text-white/80 hover:text-white hover:border-white transition-colors duration-200"
                 >
                   <DecodeText text="Resume" on="hover" />
                 </a>
               </li>
-              <li className="hidden lg:flex [@media(hover:none)]:hidden">
+              <li>
                 <button
                   type="button"
                   onClick={() => setCommandPaletteOpen(true)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/20 hover:border-white text-white/70 hover:text-white font-mono text-[11px] transition-colors min-h-[36px]"
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-white/20 hover:border-white text-white/70 hover:text-white font-mono text-[11px] transition-colors"
                   aria-label="Open command palette"
                 >
                   <span className="text-[10px] text-white/40">⌘K</span>
@@ -108,94 +88,71 @@ export default function Home() {
             </ul>
 
             <button
-              type="button"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
-              aria-expanded={mobileMenuOpen}
-              aria-controls="mobile-navigation-menu"
-              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-              className="md:hidden min-w-[44px] min-h-[44px] p-2 flex items-center justify-center text-white/80 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded"
+              aria-label="Toggle navigation menu"
+              className="md:hidden p-2 text-white/80 hover:text-white transition-colors"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
-      </nav>
 
-      <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            id="mobile-navigation-menu"
-            initial={{ opacity: 0, y: -16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="fixed inset-0 z-50 bg-black flex flex-col justify-between px-6 pt-[calc(max(1rem,env(safe-area-inset-top)))] pb-[calc(max(2rem,env(safe-area-inset-bottom)))] md:hidden"
-          >
-            <div className="flex justify-between items-center py-3 border-b border-white/10">
-              <a
-                href="#"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-2 min-h-[44px]"
-              >
-                <span className="font-mono text-base font-bold tracking-widest uppercase text-white">
-                  YSS
-                </span>
-                <span className="font-mono text-[10px] tracking-widest uppercase px-2 py-0.5 rounded border border-white/20 text-white/50">
-                  Index 2026
-                </span>
-              </a>
-
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(false)}
-                aria-label="Close menu"
-                className="min-w-[44px] min-h-[44px] flex items-center justify-center text-white/80 hover:text-white"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            <nav className="flex flex-col gap-5 my-auto py-8">
-              {navLinks.map((link, idx) => (
-                <motion.a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.08 * idx, duration: 0.3 }}
-                  className="font-sans text-3xl sm:text-4xl font-black uppercase tracking-tight text-white/80 hover:text-white transition-colors min-h-[44px] flex items-center justify-between border-b border-white/5 pb-3"
-                >
-                  <span>{link.label}</span>
-                  <span className="font-mono text-xs text-white/40 tracking-widest">
-                    0{idx + 1}
-                  </span>
-                </motion.a>
-              ))}
-
-              <motion.a
-                href="/Yash_Shinde.pdf"
-                download="Yash_Shinde_Resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.32, duration: 0.3 }}
-                className="font-sans text-3xl sm:text-4xl font-black uppercase tracking-tight text-white hover:text-white/80 transition-colors min-h-[44px] flex items-center justify-between border-b border-white/5 pb-3"
-              >
-                <span>Resume</span>
-                <ArrowUpRight className="w-6 h-6 text-white/60" />
-              </motion.a>
-            </nav>
-
-            <div className="flex items-center justify-between pt-4 border-t border-white/10 font-mono text-[11px] uppercase tracking-widest text-white/50">
-              <span>Kolhapur, India</span>
-              <span>Available 2026</span>
-            </div>
-          </motion.div>
+          <div className="md:hidden border-t border-white/10 bg-black/95 px-6 py-6 space-y-4">
+            <a
+              href="#about"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
+            >
+              <DecodeText text="About" on="hover" />
+            </a>
+            <a
+              href="#projects"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
+            >
+              <DecodeText text="Projects" on="hover" />
+            </a>
+            <a
+              href="#hackathons"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
+            >
+              <DecodeText text="Hackathons" on="hover" />
+            </a>
+            <a
+              href="#contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2"
+            >
+              <DecodeText text="Contact" on="hover" />
+            </a>
+            <a
+              href="/Yash_Shinde.pdf"
+              download="Yash_Shinde_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block font-mono text-sm uppercase tracking-widest text-white hover:text-white py-2"
+            >
+              <DecodeText text="Download Resume ↗" on="hover" />
+            </a>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setCommandPaletteOpen(true);
+              }}
+              className="w-full text-left font-mono text-sm uppercase tracking-widest text-white/70 hover:text-white py-2 flex items-center justify-between"
+            >
+              <span>Command Palette</span>
+              <span className="text-xs px-2 py-0.5 rounded border border-white/20 text-white/60">
+                Ctrl K
+              </span>
+            </button>
+          </div>
         )}
-      </AnimatePresence>
+      </nav>
 
       <section id="hero">
         <Hero />

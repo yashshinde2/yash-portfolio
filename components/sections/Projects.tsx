@@ -49,8 +49,7 @@ export function Projects() {
       );
     }
 
-    const hoverCapable = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    if (!hoverCapable) return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
 
     let targetX = 0;
     let targetY = 0;
@@ -99,19 +98,19 @@ export function Projects() {
   };
 
   return (
-    <div className="py-16 sm:py-36 px-4 sm:px-12 lg:px-20 border-b border-white/10 bg-black text-white relative">
-      <div className="max-w-7xl mx-auto mb-10 sm:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 border-b border-white/10 pb-6 sm:pb-8">
+    <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-black text-white relative">
+      <div className="max-w-7xl mx-auto mb-16 sm:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
         <div>
-          <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-2 sm:mb-3">
+          <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-3">
             <DecodeText text="[ 03 // PROJECTS ]" />
           </div>
           <DecodeText
             text="SELECTED WORKS"
-            className="text-3xl sm:text-6xl lg:text-7xl font-bold tracking-tighter uppercase font-sans text-white block"
+            className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tighter uppercase font-sans text-white block"
           />
         </div>
 
-        <p className="text-white/60 font-sans text-sm sm:text-base max-w-md font-light leading-relaxed">
+        <p className="text-white/60 font-sans text-base max-w-md font-light leading-relaxed">
           Projects built at hackathons and for the open-source community.
         </p>
       </div>
@@ -136,52 +135,39 @@ export function Projects() {
                 onClick={() => toggleExpand(project.id)}
                 data-cursor="view"
                 data-cursor-label="VIEW"
-                className="relative cursor-pointer py-6 sm:py-10 px-3 sm:px-8 flex flex-col justify-between gap-4 rounded-xl sm:rounded-2xl overflow-hidden transition-colors duration-300 min-h-[56px]"
+                className="relative cursor-pointer py-8 sm:py-12 px-4 sm:px-8 flex flex-col md:flex-row md:items-center justify-between gap-6 rounded-xl sm:rounded-2xl overflow-hidden transition-colors duration-300"
               >
-                <div className="absolute inset-0 bg-white origin-bottom scale-y-0 transition-transform duration-[450ms] ease-[cubic-bezier(0.16,1,0.3,1)] [@media(hover:hover)]:group-hover:scale-y-100 z-0 pointer-events-none rounded-xl sm:rounded-2xl" />
+                <div className="absolute inset-0 bg-white origin-bottom scale-y-0 transition-transform duration-[450ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-y-100 z-0 pointer-events-none rounded-xl sm:rounded-2xl" />
 
-                <div className="relative z-10 flex items-center justify-between w-full gap-3 sm:gap-6">
-                  <div className="flex items-center gap-3 sm:gap-8 min-w-0">
-                    <span className="font-mono text-xs sm:text-base tracking-widest text-white/70 [@media(hover:hover)]:group-hover:text-black/70 select-none shrink-0">
-                      <DecodeText text={num} on="hover" />
-                    </span>
-                    <h3 className="font-sans font-black text-[clamp(1.5rem,6vw,4.5rem)] tracking-normal uppercase leading-[1.05] transition-transform duration-300 ease-out [@media(hover:hover)]:group-hover:translate-x-4 truncate">
+                <div className="relative z-10 flex items-baseline gap-6 sm:gap-12 transition-colors duration-300 group-hover:text-black">
+                  <span className="font-mono text-sm sm:text-lg tracking-widest text-white/70 group-hover:text-black/70 select-none">
+                    <DecodeText text={num} on="hover" />
+                  </span>
+                  <div>
+                    <h3 className="font-sans font-black text-[clamp(2rem,5vw,4.5rem)] tracking-[-0.02em] uppercase leading-[0.95] transition-transform duration-300 ease-out group-hover:translate-x-6">
                       {project.title}
                     </h3>
                   </div>
-
-                  <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-                    {project.dates && (
-                      <span className="hidden sm:inline font-mono text-xs text-white/50 [@media(hover:hover)]:group-hover:text-black/60 transition-colors">
-                        {project.dates}
-                      </span>
-                    )}
-                    {(project.badge || project.award) && (
-                      <span className="hidden md:inline px-3 py-1 rounded-full border border-white/20 text-white font-mono text-[10px] uppercase tracking-wider [@media(hover:hover)]:group-hover:border-black/30 [@media(hover:hover)]:group-hover:text-black [@media(hover:hover)]:group-hover:bg-black/5 transition-colors">
-                        {project.badge || (project.award ? "Award Winner" : null)}
-                      </span>
-                    )}
-                    <div className="w-10 h-10 min-w-[40px] min-h-[40px] rounded-full border border-white/20 flex items-center justify-center text-white [@media(hover:hover)]:group-hover:border-black [@media(hover:hover)]:group-hover:bg-black [@media(hover:hover)]:group-hover:text-white transition-all duration-300">
-                      <ChevronDown
-                        className={`w-4 h-4 transition-transform duration-300 ${
-                          isExpanded ? "rotate-180" : ""
-                        }`}
-                      />
-                    </div>
-                  </div>
                 </div>
 
-                <div className="relative z-10 flex flex-wrap items-center gap-2 sm:hidden pt-1">
+                <div className="relative z-10 flex items-center gap-4 self-end md:self-center">
                   {project.dates && (
-                    <span className="font-mono text-[11px] text-white/50">
+                    <span className="font-mono text-xs text-white/50 group-hover:text-black/60 transition-colors">
                       {project.dates}
                     </span>
                   )}
                   {(project.badge || project.award) && (
-                    <span className="px-2 py-0.5 rounded-full border border-white/20 text-white/80 font-mono text-[9px] uppercase tracking-wider">
+                    <span className="px-3 py-1 rounded-full border border-white/20 text-white font-mono text-[10px] uppercase tracking-wider group-hover:border-black/30 group-hover:text-black group-hover:bg-black/5 transition-colors">
                       {project.badge || (project.award ? "Award Winner" : null)}
                     </span>
                   )}
+                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white group-hover:border-black group-hover:bg-black group-hover:text-white transition-all duration-300 group-hover:scale-105">
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform duration-300 ${
+                        isExpanded ? "rotate-180" : ""
+                      }`}
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -192,16 +178,16 @@ export function Projects() {
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    className="overflow-hidden bg-white/[0.03] rounded-2xl my-3 sm:my-4 border border-white/10"
+                    className="overflow-hidden bg-white/[0.03] rounded-2xl my-4 border border-white/10"
                   >
-                    <div className="p-5 sm:p-10 space-y-6 sm:space-y-8">
-                      <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 sm:gap-8">
-                        <div className="lg:col-span-8 space-y-5 sm:space-y-6">
+                    <div className="p-6 sm:p-10 space-y-8">
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <div className="lg:col-span-8 space-y-6">
                           <div>
                             <div className="font-mono text-xs uppercase tracking-widest text-white/40 mb-2">
                               <DecodeText text="[ Overview ]" />
                             </div>
-                            <p className="font-sans text-sm sm:text-xl text-white/80 font-light leading-relaxed">
+                            <p className="font-sans text-base sm:text-xl text-white/80 font-light leading-relaxed">
                               {project.description}
                             </p>
                           </div>
@@ -226,7 +212,7 @@ export function Projects() {
                           )}
                         </div>
 
-                        <div className="lg:col-span-4 flex flex-col justify-between gap-6 border-t lg:border-t-0 lg:border-l border-white/10 pt-5 lg:pt-0 lg:pl-8">
+                        <div className="lg:col-span-4 flex flex-col justify-between gap-6 border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-8">
                           <div>
                             <div className="font-mono text-xs uppercase tracking-widest text-white/40 mb-3">
                               <DecodeText text="[ Technologies ]" />
@@ -235,7 +221,7 @@ export function Projects() {
                               {project.technologies.map((tech) => (
                                 <span
                                   key={tech}
-                                  className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-white/80 font-mono text-xs uppercase tracking-wider"
+                                  className="px-3 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-white/80 font-mono text-xs uppercase tracking-wider"
                                 >
                                   {tech}
                                 </span>
@@ -250,7 +236,7 @@ export function Projects() {
                               rel="noopener noreferrer"
                               data-cursor="view"
                               data-cursor-label="GITHUB"
-                              className="inline-flex items-center justify-between px-6 py-3.5 sm:py-4 rounded-xl bg-white text-black font-mono text-xs uppercase tracking-widest font-semibold hover:bg-white/90 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none min-h-[44px] w-full"
+                              className="inline-flex items-center justify-between px-6 py-4 rounded-xl bg-white text-black font-mono text-xs uppercase tracking-widest font-semibold hover:bg-white/90 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                             >
                               <span>View on GitHub</span>
                               <ArrowUpRight className="w-4 h-4" />
@@ -269,7 +255,7 @@ export function Projects() {
 
       <div
         ref={cardRef}
-        className={`fixed top-0 left-0 pointer-events-none z-50 w-72 sm:w-80 rounded-2xl border border-white/20 bg-black/95 text-white p-5 shadow-2xl backdrop-blur-md transition-opacity duration-200 hidden md:block will-change-transform [@media(hover:none)]:hidden ${
+        className={`fixed top-0 left-0 pointer-events-none z-50 w-72 sm:w-80 rounded-2xl border border-white/20 bg-black/95 text-white p-5 shadow-2xl backdrop-blur-md transition-opacity duration-200 hidden md:block will-change-transform ${
           hoveredProject ? "opacity-100 scale-100" : "opacity-0 scale-95"
         }`}
       >
