@@ -98,19 +98,19 @@ export function Projects() {
   };
 
   return (
-    <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-black text-white relative">
-      <div className="max-w-7xl mx-auto mb-16 sm:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
+    <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-black text-white relative max-lg:py-20 max-lg:px-5">
+      <div className="max-w-7xl mx-auto mb-16 sm:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8 max-lg:mb-12 max-lg:pb-6">
         <div>
           <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-3">
             <DecodeText text="[ 03 // PROJECTS ]" />
           </div>
           <DecodeText
             text="SELECTED WORKS"
-            className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tighter uppercase font-sans text-white block"
+            className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tighter uppercase font-sans text-white block max-lg:text-3xl"
           />
         </div>
 
-        <p className="text-white/60 font-sans text-base max-w-md font-light leading-relaxed">
+        <p className="text-white/60 font-sans text-base max-w-md font-light leading-relaxed max-lg:text-sm">
           Projects built at hackathons and for the open-source community.
         </p>
       </div>
@@ -135,33 +135,33 @@ export function Projects() {
                 onClick={() => toggleExpand(project.id)}
                 data-cursor="view"
                 data-cursor-label="VIEW"
-                className="relative cursor-pointer py-8 sm:py-12 px-4 sm:px-8 flex flex-col md:flex-row md:items-center justify-between gap-6 rounded-xl sm:rounded-2xl overflow-hidden transition-colors duration-300"
+                className="relative cursor-pointer py-8 sm:py-12 px-4 sm:px-8 flex flex-col md:flex-row md:items-center justify-between gap-6 rounded-xl sm:rounded-2xl overflow-hidden transition-colors duration-300 max-lg:py-5 max-lg:px-3 max-lg:flex-row max-lg:items-center max-lg:gap-3 max-lg:min-h-[56px]"
               >
                 <div className="absolute inset-0 bg-white origin-bottom scale-y-0 transition-transform duration-[450ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-y-100 z-0 pointer-events-none rounded-xl sm:rounded-2xl" />
 
-                <div className="relative z-10 flex items-baseline gap-6 sm:gap-12 transition-colors duration-300 group-hover:text-black">
-                  <span className="font-mono text-sm sm:text-lg tracking-widest text-white/70 group-hover:text-black/70 select-none">
+                <div className="relative z-10 flex items-baseline gap-6 sm:gap-12 transition-colors duration-300 group-hover:text-black max-lg:items-center max-lg:gap-3 max-lg:flex-1 max-lg:min-w-0">
+                  <span className="font-mono text-sm sm:text-lg tracking-widest text-white/70 group-hover:text-black/70 select-none max-lg:text-xs max-lg:shrink-0">
                     <DecodeText text={num} on="hover" />
                   </span>
-                  <div>
-                    <h3 className="font-sans font-black text-[clamp(2rem,5vw,4.5rem)] tracking-[-0.02em] uppercase leading-[0.95] transition-transform duration-300 ease-out group-hover:translate-x-6">
+                  <div className="max-lg:min-w-0 max-lg:flex-1">
+                    <h3 className="font-sans font-black text-[clamp(2rem,5vw,4.5rem)] tracking-[-0.02em] uppercase leading-[0.95] transition-transform duration-300 ease-out group-hover:translate-x-6 max-lg:text-[clamp(1.5rem,6vw,4.5rem)] max-lg:truncate max-lg:leading-tight max-lg:group-hover:translate-x-0">
                       {project.title}
                     </h3>
                   </div>
                 </div>
 
-                <div className="relative z-10 flex items-center gap-4 self-end md:self-center">
+                <div className="relative z-10 flex items-center gap-4 self-end md:self-center max-lg:self-center max-lg:gap-2 max-lg:shrink-0">
                   {project.dates && (
-                    <span className="font-mono text-xs text-white/50 group-hover:text-black/60 transition-colors">
+                    <span className="font-mono text-xs text-white/50 group-hover:text-black/60 transition-colors max-lg:hidden">
                       {project.dates}
                     </span>
                   )}
                   {(project.badge || project.award) && (
-                    <span className="px-3 py-1 rounded-full border border-white/20 text-white font-mono text-[10px] uppercase tracking-wider group-hover:border-black/30 group-hover:text-black group-hover:bg-black/5 transition-colors">
+                    <span className="px-3 py-1 rounded-full border border-white/20 text-white font-mono text-[10px] uppercase tracking-wider group-hover:border-black/30 group-hover:text-black group-hover:bg-black/5 transition-colors max-lg:hidden">
                       {project.badge || (project.award ? "Award Winner" : null)}
                     </span>
                   )}
-                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white group-hover:border-black group-hover:bg-black group-hover:text-white transition-all duration-300 group-hover:scale-105">
+                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white group-hover:border-black group-hover:bg-black group-hover:text-white transition-all duration-300 group-hover:scale-105 max-lg:w-9 max-lg:h-9 max-lg:shrink-0">
                     <ChevronDown
                       className={`w-4 h-4 transition-transform duration-300 ${
                         isExpanded ? "rotate-180" : ""
@@ -180,14 +180,27 @@ export function Projects() {
                     transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     className="overflow-hidden bg-white/[0.03] rounded-2xl my-4 border border-white/10"
                   >
-                    <div className="p-6 sm:p-10 space-y-8">
-                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                        <div className="lg:col-span-8 space-y-6">
+                    <div className="p-6 sm:p-10 space-y-8 max-lg:p-5 max-lg:space-y-6">
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-lg:flex max-lg:flex-col max-lg:gap-6">
+                        <div className="lg:col-span-8 space-y-6 max-lg:space-y-4">
+                          <div className="hidden max-lg:flex max-lg:flex-wrap max-lg:items-center max-lg:gap-2">
+                            {project.dates && (
+                              <span className="font-mono text-xs text-white/60">
+                                {project.dates}
+                              </span>
+                            )}
+                            {(project.badge || project.award) && (
+                              <span className="px-2.5 py-0.5 rounded-full border border-white/20 text-white font-mono text-[10px] uppercase tracking-wider">
+                                {project.badge || (project.award ? "Award Winner" : null)}
+                              </span>
+                            )}
+                          </div>
+
                           <div>
                             <div className="font-mono text-xs uppercase tracking-widest text-white/40 mb-2">
                               <DecodeText text="[ Overview ]" />
                             </div>
-                            <p className="font-sans text-base sm:text-xl text-white/80 font-light leading-relaxed">
+                            <p className="font-sans text-base sm:text-xl text-white/80 font-light leading-relaxed max-lg:text-sm">
                               {project.description}
                             </p>
                           </div>
@@ -212,7 +225,7 @@ export function Projects() {
                           )}
                         </div>
 
-                        <div className="lg:col-span-4 flex flex-col justify-between gap-6 border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-8">
+                        <div className="lg:col-span-4 flex flex-col justify-between gap-6 border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-8 max-lg:border-t max-lg:pt-4 max-lg:gap-4">
                           <div>
                             <div className="font-mono text-xs uppercase tracking-widest text-white/40 mb-3">
                               <DecodeText text="[ Technologies ]" />
@@ -236,7 +249,7 @@ export function Projects() {
                               rel="noopener noreferrer"
                               data-cursor="view"
                               data-cursor-label="GITHUB"
-                              className="inline-flex items-center justify-between px-6 py-4 rounded-xl bg-white text-black font-mono text-xs uppercase tracking-widest font-semibold hover:bg-white/90 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                              className="inline-flex items-center justify-between px-6 py-4 rounded-xl bg-white text-black font-mono text-xs uppercase tracking-widest font-semibold hover:bg-white/90 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none max-lg:w-full max-lg:py-3.5 max-lg:min-h-[44px]"
                             >
                               <span>View on GitHub</span>
                               <ArrowUpRight className="w-4 h-4" />

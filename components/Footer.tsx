@@ -116,7 +116,7 @@ export function Footer() {
   const duplicated = [...tickerItems, ...tickerItems, ...tickerItems, ...tickerItems];
 
   return (
-    <footer className="relative bg-black text-white border-t border-white/10 overflow-hidden select-none">
+    <footer className="relative bg-black text-white border-t border-white/10 overflow-hidden select-none max-lg:pb-[calc(max(1rem,env(safe-area-inset-bottom)))]">
       <div className="py-6 border-b border-white/10 overflow-hidden">
         <div
           ref={trackRef}
@@ -134,9 +134,9 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 py-16 sm:py-24 space-y-16">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div>
+      <div className="max-w-7xl mx-auto px-6 sm:px-12 py-16 sm:py-24 space-y-16 max-lg:py-20 max-lg:px-5 max-sm:space-y-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 max-sm:items-center max-sm:text-center">
+          <div className="max-sm:flex max-sm:flex-col max-sm:items-center">
             <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-3">
               KOLHAPUR, MH, INDIA // 16.7050° N, 74.2433° E
             </div>
@@ -169,7 +169,7 @@ export function Footer() {
             onClick={scrollToTop}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="self-start md:self-auto px-6 py-4 rounded-full border border-white/20 bg-white/5 hover:border-white hover:bg-white hover:text-black transition-all duration-300 font-mono text-xs uppercase tracking-widest flex items-center gap-3 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+            className="self-start md:self-auto px-6 py-4 rounded-full border border-white/20 bg-white/5 hover:border-white hover:bg-white hover:text-black transition-all duration-300 font-mono text-xs uppercase tracking-widest flex items-center gap-3 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none max-sm:self-center max-lg:min-h-[44px]"
             aria-label="Back to top"
           >
             <span>Back to Top</span>
@@ -177,17 +177,17 @@ export function Footer() {
           </button>
         </div>
 
-        <div className="pt-12 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 font-mono text-xs uppercase tracking-widest text-white/70">
-          <div>© 2026 Yash Sandeep Shinde. Built with Next.js, GSAP & Tailwind.</div>
+        <div className="pt-12 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 font-mono text-xs uppercase tracking-widest text-white/70 max-sm:flex-col max-sm:items-center max-sm:text-center max-sm:gap-6">
+          <div className="max-sm:text-center max-sm:leading-relaxed">© 2026 Yash Sandeep Shinde. Built with Next.js, GSAP & Tailwind.</div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 max-sm:flex-col max-sm:gap-4">
             <a
               href="/Yash_Shinde.pdf"
               download="Yash_Shinde_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Download Resume PDF"
-              className="hover:text-white transition-colors flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none link-hover"
+              className="hover:text-white transition-colors flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none link-hover max-lg:min-h-[44px] max-lg:min-w-[44px] max-lg:justify-center max-lg:px-2"
             >
               <span>Resume</span>
               <ArrowUpRight className="w-3 h-3 text-white/50" />
@@ -199,7 +199,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.name}
-                className="hover:text-white transition-colors flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none link-hover"
+                className="hover:text-white transition-colors flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none link-hover max-lg:min-h-[44px] max-lg:min-w-[44px] max-lg:justify-center max-lg:px-2"
               >
                 <span>{link.name}</span>
                 <ArrowUpRight className="w-3 h-3 text-white/50" />

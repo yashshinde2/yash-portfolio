@@ -208,8 +208,8 @@ export function Contact() {
   };
 
   return (
-    <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-black text-white relative">
-      <div className="max-w-7xl mx-auto space-y-16 sm:space-y-24">
+    <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-black text-white relative max-lg:py-20 max-lg:px-5">
+      <div className="max-w-7xl mx-auto space-y-16 sm:space-y-24 max-lg:space-y-12">
         <div>
           <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-4">
             <DecodeText text="[ 05 // CONTACT ]" />
@@ -220,7 +220,7 @@ export function Contact() {
               ref={headlineRef}
               data-cursor="view"
               data-cursor-label="BUILD"
-              className="font-sans text-6xl sm:text-8xl md:text-9xl lg:text-[11vw] tracking-tighter uppercase leading-[0.88] text-white select-none"
+              className="font-sans text-6xl sm:text-8xl md:text-9xl lg:text-[11vw] tracking-tighter uppercase leading-[0.88] text-white select-none max-lg:text-[clamp(2.5rem,10vw,6rem)] max-lg:leading-[0.9] max-lg:break-words"
             >
               {titleChars.map((char, i) => (
                 <span
@@ -235,7 +235,7 @@ export function Contact() {
                 </span>
               ))}
             </h2>
-            <div className="font-serif italic text-2xl sm:text-4xl text-white/80 font-normal">
+            <div className="font-serif italic text-2xl sm:text-4xl text-white/80 font-normal max-lg:text-lg">
               Open to internships and entry-level software engineering roles.
             </div>
           </div>
@@ -243,7 +243,10 @@ export function Contact() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-8 border-t border-white/10">
           <div className="lg:col-span-5 space-y-6">
-            <div className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02] space-y-3">
+            <div
+              onClick={copyEmail}
+              className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02] space-y-3 max-lg:cursor-pointer max-lg:hover:bg-white/5 transition-colors"
+            >
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs uppercase tracking-widest text-white/70">
                   Email // Click to Copy
@@ -253,7 +256,7 @@ export function Contact() {
               <button
                 type="button"
                 onClick={copyEmail}
-                className="w-full text-left group flex items-center justify-between gap-3 p-3 -mx-3 rounded-xl hover:bg-white/5 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                className="w-full text-left group flex items-center justify-between gap-3 p-3 -mx-3 rounded-xl hover:bg-white/5 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none max-lg:min-h-[44px]"
                 aria-label={`Copy email address ${contact.email}`}
               >
                 <div className="flex items-center gap-3 min-w-0">
@@ -286,7 +289,7 @@ export function Contact() {
               href="https://linkedin.com/in/yashshinde2"
               target="_blank"
               rel="noopener noreferrer"
-              className="block p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02] hover:border-white/30 hover:bg-white/[0.04] transition-all group focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+              className="block p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02] hover:border-white/30 hover:bg-white/[0.04] transition-all group focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none max-lg:min-h-[44px]"
             >
               <div className="flex items-center justify-between">
                 <div className="flex gap-4 items-center">
@@ -308,7 +311,7 @@ export function Contact() {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-10 rounded-2xl border border-white/10 bg-white/[0.02]">
+            <div className="p-6 sm:p-10 rounded-2xl border border-white/10 bg-white/[0.02] max-lg:p-5">
               <form onSubmit={handleSubmit} noValidate className="space-y-6">
                 <div className="relative">
                   <label
@@ -322,12 +325,13 @@ export function Contact() {
                       type="text"
                       id="contact-name"
                       name="name"
+                      autoComplete="name"
                       value={formData.name}
                       onChange={handleChange}
                       onFocus={() => setFocusedField("name")}
                       onBlur={() => setFocusedField(null)}
                       placeholder="Your name"
-                      className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-sm focus:outline-none transition-colors ${
+                      className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-sm focus:outline-none transition-colors max-lg:h-[52px] max-lg:min-h-[52px] max-lg:text-base ${
                         errors.name ? "border-white/50" : "border-white/15"
                       }`}
                     />
@@ -356,12 +360,14 @@ export function Contact() {
                       type="email"
                       id="contact-email"
                       name="email"
+                      autoComplete="email"
+                      inputMode="email"
                       value={formData.email}
                       onChange={handleChange}
                       onFocus={() => setFocusedField("email")}
                       onBlur={() => setFocusedField(null)}
                       placeholder="your@email.com"
-                      className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-sm focus:outline-none transition-colors ${
+                      className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-sm focus:outline-none transition-colors max-lg:h-[52px] max-lg:min-h-[52px] max-lg:text-base ${
                         errors.email ? "border-white/50" : "border-white/15"
                       }`}
                     />
@@ -395,7 +401,7 @@ export function Contact() {
                       onBlur={() => setFocusedField(null)}
                       placeholder="Tell me about your project or architecture requirements..."
                       rows={4}
-                      className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-sm focus:outline-none transition-colors resize-none ${
+                      className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-sm focus:outline-none transition-colors resize-none max-lg:text-base ${
                         errors.message ? "border-white/50" : "border-white/15"
                       }`}
                     />
@@ -425,7 +431,7 @@ export function Contact() {
                   disabled={isSubmitting || isSubmitted}
                   onMouseMove={handleSendMagneticMove}
                   onMouseLeave={handleSendMagneticLeave}
-                  className="w-full px-6 py-4 rounded-xl bg-white text-black hover:bg-white/90 disabled:bg-white/50 font-mono text-xs uppercase tracking-widest font-semibold transition-all flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                  className="w-full px-6 py-4 rounded-xl bg-white text-black hover:bg-white/90 disabled:bg-white/50 font-mono text-xs uppercase tracking-widest font-semibold transition-all flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none max-lg:min-h-[52px]"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center gap-2">

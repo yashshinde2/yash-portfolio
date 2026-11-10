@@ -16,14 +16,14 @@ function ChequeredFlagIcon({ className }: { className?: string }) {
 }
 
 const desktopPositions = [
-  "md:top-[40px] md:left-[4%]",
-  "md:top-[230px] md:left-[54%]",
-  "md:top-[420px] md:left-[4%]",
-  "md:top-[610px] md:left-[54%]",
-  "md:top-[800px] md:left-[4%]",
-  "md:top-[990px] md:left-[54%]",
-  "md:top-[1180px] md:left-[4%]",
-  "md:top-[1370px] md:left-[54%]",
+  "lg:top-[40px] lg:left-[4%]",
+  "lg:top-[230px] lg:left-[54%]",
+  "lg:top-[420px] lg:left-[4%]",
+  "lg:top-[610px] lg:left-[54%]",
+  "lg:top-[800px] lg:left-[4%]",
+  "lg:top-[990px] lg:left-[54%]",
+  "lg:top-[1180px] lg:left-[4%]",
+  "lg:top-[1370px] lg:left-[54%]",
 ];
 
 interface Particle {
@@ -41,6 +41,8 @@ export function Hackathons() {
   const mobilePathRef = useRef<SVGPathElement>(null);
   const dotRef = useRef<SVGCircleElement>(null);
   const pulseRef = useRef<SVGCircleElement>(null);
+  const mobileDotRef = useRef<SVGCircleElement>(null);
+  const mobilePulseRef = useRef<SVGCircleElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [particles, setParticles] = useState<Particle[]>([]);
   const particlesRef = useRef<Particle[]>([]);
@@ -64,7 +66,7 @@ export function Hackathons() {
 
     gsap.registerPlugin(ScrollTrigger);
 
-    const isMobile = window.innerWidth < 768;
+    const isMobile = window.innerWidth < 1024;
     const path = isMobile ? mobilePathRef.current : desktopPathRef.current;
     if (!path || !containerRef.current) return;
 
@@ -85,13 +87,16 @@ export function Hackathons() {
         path.style.strokeDashoffset = `${totalLength * (1 - progress)}`;
 
         const point = path.getPointAtLength(progress * totalLength);
-        if (dotRef.current) {
-          dotRef.current.setAttribute("cx", `${point.x}`);
-          dotRef.current.setAttribute("cy", `${point.y}`);
+        const activeDot = isMobile ? mobileDotRef.current : dotRef.current;
+        const activePulse = isMobile ? mobilePulseRef.current : pulseRef.current;
+
+        if (activeDot) {
+          activeDot.setAttribute("cx", `${point.x}`);
+          activeDot.setAttribute("cy", `${point.y}`);
         }
-        if (pulseRef.current) {
-          pulseRef.current.setAttribute("cx", `${point.x}`);
-          pulseRef.current.setAttribute("cy", `${point.y}`);
+        if (activePulse) {
+          activePulse.setAttribute("cx", `${point.x}`);
+          activePulse.setAttribute("cy", `${point.y}`);
         }
 
         const now = performance.now();
@@ -197,7 +202,7 @@ export function Hackathons() {
   return (
     <div
       ref={containerRef}
-      className="py-24 sm:py-36 px-4 sm:px-8 lg:px-16 border-b border-white/10 bg-black text-white relative overflow-hidden"
+      className="py-24 sm:py-36 px-4 sm:px-8 lg:px-16 border-b border-white/10 bg-black text-white relative overflow-hidden max-lg:py-20 max-lg:px-5"
     >
       <div className="max-w-7xl mx-auto mb-16 sm:mb-24 text-center space-y-4">
         <div className="font-mono text-xs uppercase tracking-widest text-white/70">
@@ -205,19 +210,19 @@ export function Hackathons() {
         </div>
         <DecodeText
           text="GRAND PRIX // COMPETITIONS"
-          className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tighter uppercase font-sans text-white block"
+          className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tighter uppercase font-sans text-white block max-lg:text-3xl"
         />
-        <div className="flex items-center justify-center gap-3 font-mono text-xs uppercase tracking-widest text-white/70">
+        <div className="flex items-center justify-center gap-3 font-mono text-xs uppercase tracking-widest text-white/70 max-lg:flex-col max-lg:gap-1.5">
           <span>Circuit Telemetry</span>
-          <span>✦</span>
+          <span className="max-lg:hidden">✦</span>
           <span>8 Laps // Competitions, Organizing, Open Source</span>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto relative md:min-h-[1760px]">
+      <div className="max-w-6xl mx-auto relative lg:min-h-[1760px]">
         <svg
           viewBox="0 0 800 1650"
-          className="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-10"
+          className="hidden lg:block absolute inset-0 w-full h-full pointer-events-none z-10"
           preserveAspectRatio="none"
         >
           <path
@@ -276,7 +281,7 @@ export function Hackathons() {
 
         <svg
           viewBox="0 0 48 1650"
-          className="md:hidden absolute left-0 top-0 bottom-28 w-12 pointer-events-none z-10"
+          className="lg:hidden absolute left-0 top-0 bottom-28 w-12 pointer-events-none z-10"
           preserveAspectRatio="none"
         >
           <path
@@ -294,12 +299,29 @@ export function Hackathons() {
             strokeWidth="3"
             strokeLinecap="round"
           />
+          <circle
+            ref={mobilePulseRef}
+            cx="24"
+            cy="0"
+            r="10"
+            fill="none"
+            stroke="rgba(255, 255, 255, 0.6)"
+            strokeWidth="1.5"
+          />
+          <circle
+            ref={mobileDotRef}
+            cx="24"
+            cy="0"
+            r="5"
+            fill="#ffffff"
+            className="filter drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]"
+          />
         </svg>
 
-        <div className="relative z-20 space-y-8 md:space-y-0">
+        <div className="relative z-20 space-y-8 lg:space-y-0">
           {hackathons.map((event, index) => {
             const lapNum = String(index + 1).padStart(2, "0");
-            const posClass = desktopPositions[index] || "md:top-0 md:left-0";
+            const posClass = desktopPositions[index] || "lg:top-0 lg:left-0";
             const isWinner = event.achievement === "Winner";
             const isFinalist = event.achievement === "Finalist";
             const isOrganizer = event.achievement === "Organizer";
@@ -311,12 +333,14 @@ export function Hackathons() {
                 ref={(el) => {
                   cardsRef.current[index] = el;
                 }}
-                className={`relative md:absolute md:w-[42%] will-change-[clip-path,transform] ${posClass}`}
+                className={`relative lg:absolute lg:w-[42%] will-change-[clip-path,transform] ${posClass}`}
                 style={{ perspective: "900px" }}
               >
-                <div className="pl-12 md:pl-0">
-                  <div className="md:hidden absolute left-3 top-3 w-6 h-6 rounded-full border border-white/40 bg-black flex items-center justify-center font-mono text-[9px] text-white">
-                    <DecodeText text={lapNum} />
+                <div className="pl-14 lg:pl-0">
+                  <div className="lg:hidden absolute left-0 w-12 top-7 -translate-y-1/2 flex items-center justify-center">
+                    <div className="w-6 h-6 rounded-full border border-white/40 bg-black flex items-center justify-center font-mono text-[9px] text-white">
+                      <DecodeText text={lapNum} />
+                    </div>
                   </div>
 
                   <div
@@ -390,7 +414,7 @@ export function Hackathons() {
           })}
         </div>
 
-        <div className="flex flex-col items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/50 text-center my-16 md:my-0 md:absolute md:top-[1650px] md:left-1/2 md:-translate-x-1/2 z-20">
+        <div className="flex flex-col items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/50 text-center my-16 lg:my-0 lg:absolute lg:top-[1650px] lg:left-1/2 lg:-translate-x-1/2 z-20">
           <ChequeredFlagIcon className="w-4 h-4 text-white" />
           <span>Finish Line // Sector Completed</span>
         </div>
