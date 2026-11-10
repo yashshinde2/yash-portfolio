@@ -6,7 +6,7 @@ export function BinaryTrail({ className = "" }: { className?: string }) {
 
   useEffect(() => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    if (matchMedia("(pointer: coarse)").matches || matchMedia("(hover: none)").matches) return
+    if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return
     const canvas = ref.current!
     const host = canvas.parentElement!
     const ctx = canvas.getContext("2d")!
@@ -42,9 +42,8 @@ export function BinaryTrail({ className = "" }: { className?: string }) {
     let raf = 0
     const t0 = performance.now()
 
-    let visible = true
     const resize = () => {
-      dpr = Math.min(devicePixelRatio || 1, 1.5)
+      dpr = Math.min(devicePixelRatio || 1, 2)
       canvas.width = host.clientWidth * dpr
       canvas.height = host.clientHeight * dpr
       canvas.style.width = host.clientWidth + "px"
@@ -52,10 +51,6 @@ export function BinaryTrail({ className = "" }: { className?: string }) {
     }
 
     const loop = (now: number) => {
-      if (!visible) {
-        running = false
-        return
-      }
       const t = (now - t0) / 1000
       act *= 0.985
       cx += (tx - cx) * 0.18
@@ -129,15 +124,6 @@ export function BinaryTrail({ className = "" }: { className?: string }) {
       has = false
     }
 
-    const io = new IntersectionObserver(([en]) => {
-      visible = en.isIntersecting
-      if (!visible) {
-        running = false
-        cancelAnimationFrame(raf)
-      }
-    })
-    io.observe(canvas)
-
     resize()
     const ro = new ResizeObserver(resize)
     ro.observe(host)
@@ -146,7 +132,6 @@ export function BinaryTrail({ className = "" }: { className?: string }) {
 
     return () => {
       cancelAnimationFrame(raf)
-      io.disconnect()
       ro.disconnect()
       host.removeEventListener("pointermove", onMove)
       host.removeEventListener("pointerleave", onLeave)

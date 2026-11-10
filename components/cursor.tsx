@@ -6,7 +6,7 @@ export function Cursor() {
   const dot = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (matchMedia("(pointer: coarse)").matches || matchMedia("(hover: none)").matches) return
+    if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return
     const el = dot.current!
     gsap.set(el, { xPercent: -50, yPercent: -50, opacity: 0 })
     const qx = gsap.quickTo(el, "x", { duration: 0.18, ease: "power3" })
@@ -48,7 +48,7 @@ export function Cursor() {
   }, [])
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[9999] hidden mix-blend-difference [@media(pointer:fine)_and_(hover:hover)]:block">
+    <div className="pointer-events-none fixed inset-0 z-[9999] hidden mix-blend-difference [@media(pointer:fine)]:block">
       <div ref={dot} className="absolute left-0 top-0 h-[10px] w-[10px] rounded-full bg-white" />
     </div>
   )

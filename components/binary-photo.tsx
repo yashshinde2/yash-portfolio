@@ -14,7 +14,7 @@ export function BinaryPhoto({ src, alt, className = "", radius = 160, cellW = 9,
     const canvas = canvasRef.current!
     const ctx = canvas.getContext("2d")!
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches
-    const touch = matchMedia("(pointer: coarse)").matches
+    const touch = !matchMedia("(hover: hover) and (pointer: fine)").matches
 
     let cols = 0, rows = 0, w = 0, h = 0
     let lum = new Float32Array(0)
@@ -22,13 +22,13 @@ export function BinaryPhoto({ src, alt, className = "", radius = 160, cellW = 9,
     let heat = new Float32Array(0)
     let bits = new Uint8Array(0)
     let tx = 0, ty = 0, x = 0, y = 0
-    let hover = false, visible = false, started = false
+    let hover = false, visible = true, started = false
     let raf = 0, ripple = -1, rx = 0, ry = 0
     const t0 = performance.now()
 
     const build = () => {
       if (!img.complete || !img.clientWidth) return
-      const dpr = touch ? Math.min(devicePixelRatio || 1, 1.5) : Math.min(devicePixelRatio || 1, 2)
+      const dpr = Math.min(devicePixelRatio || 1, 2)
       w = img.clientWidth
       h = img.clientHeight
       canvas.width = w * dpr
@@ -61,8 +61,8 @@ export function BinaryPhoto({ src, alt, className = "", radius = 160, cellW = 9,
     }
 
     const frame = (now: number) => {
-      if (!visible || !cols) return
       raf = requestAnimationFrame(frame)
+      if (!visible || !cols) return
       if (touch || reduce) {
         const t = (now - t0) / 1000
         tx = w * (0.5 + 0.3 * Math.sin(t * 0.7))
@@ -132,14 +132,7 @@ export function BinaryPhoto({ src, alt, className = "", radius = 160, cellW = 9,
       ripple = performance.now()
     }
 
-    const io = new IntersectionObserver(([en]) => {
-      const prev = visible
-      visible = en.isIntersecting
-      if (visible && !prev && cols) {
-        cancelAnimationFrame(raf)
-        raf = requestAnimationFrame(frame)
-      }
-    })
+    const io = new IntersectionObserver(([en]) => { visible = en.isIntersecting })
     const ro = new ResizeObserver(build)
     io.observe(wrap)
     ro.observe(img)
