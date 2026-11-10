@@ -6,9 +6,7 @@ export function BinaryTrail({ className = "" }: { className?: string }) {
 
   useEffect(() => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return
     const canvas = ref.current!
-    const host = canvas.parentElement!
     const ctx = canvas.getContext("2d")!
     const gap = 19
 
@@ -43,11 +41,10 @@ export function BinaryTrail({ className = "" }: { className?: string }) {
     const t0 = performance.now()
 
     const resize = () => {
+      const r = canvas.getBoundingClientRect()
       dpr = Math.min(devicePixelRatio || 1, 2)
-      canvas.width = host.clientWidth * dpr
-      canvas.height = host.clientHeight * dpr
-      canvas.style.width = host.clientWidth + "px"
-      canvas.style.height = host.clientHeight + "px"
+      canvas.width = Math.max(1, Math.round(r.width * dpr))
+      canvas.height = Math.max(1, Math.round(r.height * dpr))
     }
 
     const loop = (now: number) => {
@@ -101,9 +98,14 @@ export function BinaryTrail({ className = "" }: { className?: string }) {
     }
 
     const onMove = (e: PointerEvent) => {
-      const r = host.getBoundingClientRect()
+      if (e.pointerType === "touch") return
+      const r = canvas.getBoundingClientRect()
       const x = e.clientX - r.left
       const y = e.clientY - r.top
+      if (x < 0 || y < 0 || x > r.width || y > r.height) {
+        has = false
+        return
+      }
       if (!has) {
         cx = x
         cy = y
@@ -120,21 +122,16 @@ export function BinaryTrail({ className = "" }: { className?: string }) {
         raf = requestAnimationFrame(loop)
       }
     }
-    const onLeave = () => {
-      has = false
-    }
 
     resize()
     const ro = new ResizeObserver(resize)
-    ro.observe(host)
-    host.addEventListener("pointermove", onMove)
-    host.addEventListener("pointerleave", onLeave)
+    ro.observe(canvas)
+    window.addEventListener("pointermove", onMove, { passive: true })
 
     return () => {
       cancelAnimationFrame(raf)
       ro.disconnect()
-      host.removeEventListener("pointermove", onMove)
-      host.removeEventListener("pointerleave", onLeave)
+      window.removeEventListener("pointermove", onMove)
     }
   }, [])
 
