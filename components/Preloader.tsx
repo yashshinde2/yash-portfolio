@@ -18,7 +18,20 @@ export function Preloader() {
       return;
     }
 
+    try {
+      if (sessionStorage.getItem("portfolio_preloader_seen")) {
+        setIsDone(true);
+        return;
+      }
+      sessionStorage.setItem("portfolio_preloader_seen", "1");
+    } catch {
+    }
+
     document.body.style.overflow = "hidden";
+
+    const isMobile = window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches;
+    const countDuration = isMobile ? 0.45 : 0.8;
+    const slideDuration = isMobile ? 0.35 : 0.5;
 
     const state = { count: 0 };
     const tl = gsap.timeline({
@@ -30,7 +43,7 @@ export function Preloader() {
 
     tl.to(state, {
       count: 100,
-      duration: 0.8,
+      duration: countDuration,
       ease: "power2.inOut",
       onUpdate: () => {
         if (counterRef.current) {
@@ -41,7 +54,7 @@ export function Preloader() {
 
     tl.to(containerRef.current, {
       yPercent: -100,
-      duration: 0.5,
+      duration: slideDuration,
       ease: "power4.inOut",
     });
 
@@ -56,7 +69,7 @@ export function Preloader() {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[9998] flex flex-col justify-between bg-black p-6 sm:p-12 text-white select-none"
+      className="fixed inset-0 z-[9998] flex flex-col justify-between bg-black p-6 sm:p-12 pt-[max(1.5rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))] text-white select-none"
     >
       <div className="flex items-center justify-between text-xs font-mono tracking-widest text-white/70 uppercase">
         <span>Yash Sandeep Shinde</span>

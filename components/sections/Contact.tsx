@@ -61,8 +61,9 @@ export function Contact() {
 
   useEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isTouch = window.matchMedia("(pointer: coarse), (hover: none)").matches;
 
-    if (reduceMotion) {
+    if (reduceMotion || isTouch) {
       letterRefs.current.forEach((el) => {
         if (el) el.style.fontWeight = "900";
       });
@@ -107,6 +108,7 @@ export function Contact() {
 
   const handleSendMagneticMove = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(pointer: coarse), (hover: none)").matches) return;
     const btn = sendBtnRef.current;
     if (!btn) return;
     const rect = btn.getBoundingClientRect();
@@ -208,19 +210,19 @@ export function Contact() {
   };
 
   return (
-    <div className="py-24 sm:py-36 px-6 sm:px-12 lg:px-20 border-b border-white/10 bg-black text-white relative">
-      <div className="max-w-7xl mx-auto space-y-16 sm:space-y-24">
+    <div className="py-16 sm:py-36 px-4 sm:px-12 lg:px-20 border-b border-white/10 bg-black text-white relative">
+      <div className="max-w-7xl mx-auto space-y-12 sm:space-y-24">
         <div>
-          <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-4">
+          <div className="font-mono text-xs uppercase tracking-widest text-white/70 mb-3 sm:mb-4">
             <DecodeText text="[ 05 // CONTACT ]" />
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             <h2
               ref={headlineRef}
               data-cursor="view"
               data-cursor-label="BUILD"
-              className="font-sans text-6xl sm:text-8xl md:text-9xl lg:text-[11vw] tracking-tighter uppercase leading-[0.88] text-white select-none"
+              className="font-sans text-[clamp(2.5rem,10vw,6rem)] tracking-tighter uppercase leading-[0.9] text-white select-none break-words"
             >
               {titleChars.map((char, i) => (
                 <span
@@ -235,38 +237,36 @@ export function Contact() {
                 </span>
               ))}
             </h2>
-            <div className="font-serif italic text-2xl sm:text-4xl text-white/80 font-normal">
+            <div className="font-serif italic text-xl sm:text-4xl text-white/80 font-normal">
               Open to internships and entry-level software engineering roles.
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-8 border-t border-white/10">
-          <div className="lg:col-span-5 space-y-6">
-            <div className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02] space-y-3">
-              <div className="flex items-center justify-between">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 pt-6 sm:pt-8 border-t border-white/10">
+          <div className="lg:col-span-5 space-y-4 sm:space-y-6">
+            <button
+              type="button"
+              onClick={copyEmail}
+              aria-label={`Copy email address ${contact.email}`}
+              className="w-full text-left p-5 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] transition-all group focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none min-h-[52px]"
+            >
+              <div className="flex items-center justify-between mb-2">
                 <span className="font-mono text-xs uppercase tracking-widest text-white/70">
-                  Email // Click to Copy
+                  Email // Tap to Copy
                 </span>
+                <Copy className="w-4 h-4 text-white/50 group-hover:text-white transition-colors" />
               </div>
 
-              <button
-                type="button"
-                onClick={copyEmail}
-                className="w-full text-left group flex items-center justify-between gap-3 p-3 -mx-3 rounded-xl hover:bg-white/5 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
-                aria-label={`Copy email address ${contact.email}`}
-              >
-                <div className="flex items-center gap-3 min-w-0">
-                  <Mail className="w-5 h-5 text-white/50 group-hover:text-white transition-colors flex-shrink-0" />
-                  <span className="font-mono text-sm sm:text-base text-white font-semibold tracking-tight truncate">
-                    <DecodeText key={emailText} text={emailText} />
-                  </span>
-                </div>
-                <Copy className="w-4 h-4 text-white/50 group-hover:text-white transition-colors flex-shrink-0" />
-              </button>
-            </div>
+              <div className="flex items-center gap-3 min-w-0 pt-1">
+                <Mail className="w-5 h-5 text-white/50 group-hover:text-white transition-colors flex-shrink-0" />
+                <span className="font-mono text-sm sm:text-base text-white font-semibold tracking-tight truncate">
+                  <DecodeText key={emailText} text={emailText} />
+                </span>
+              </div>
+            </button>
 
-            <div className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02]">
+            <div className="p-5 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02] min-h-[52px]">
               <div className="flex gap-4 items-start">
                 <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/70 flex-shrink-0">
                   <MapPin className="w-4 h-4" />
@@ -286,7 +286,8 @@ export function Contact() {
               href="https://linkedin.com/in/yashshinde2"
               target="_blank"
               rel="noopener noreferrer"
-              className="block p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02] hover:border-white/30 hover:bg-white/[0.04] transition-all group focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+              aria-label="Visit LinkedIn Profile"
+              className="block p-5 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.02] hover:border-white/30 hover:bg-white/[0.04] transition-all group focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none min-h-[52px]"
             >
               <div className="flex items-center justify-between">
                 <div className="flex gap-4 items-center">
@@ -308,8 +309,8 @@ export function Contact() {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-10 rounded-2xl border border-white/10 bg-white/[0.02]">
-              <form onSubmit={handleSubmit} noValidate className="space-y-6">
+            <div className="p-5 sm:p-10 rounded-2xl border border-white/10 bg-white/[0.02]">
+              <form onSubmit={handleSubmit} noValidate className="space-y-5 sm:space-y-6">
                 <div className="relative">
                   <label
                     htmlFor="contact-name"
@@ -322,12 +323,13 @@ export function Contact() {
                       type="text"
                       id="contact-name"
                       name="name"
+                      autoComplete="name"
                       value={formData.name}
                       onChange={handleChange}
                       onFocus={() => setFocusedField("name")}
                       onBlur={() => setFocusedField(null)}
                       placeholder="Your name"
-                      className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-sm focus:outline-none transition-colors ${
+                      className={`w-full h-[52px] min-h-[52px] px-4 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-base focus:outline-none transition-colors ${
                         errors.name ? "border-white/50" : "border-white/15"
                       }`}
                     />
@@ -356,12 +358,14 @@ export function Contact() {
                       type="email"
                       id="contact-email"
                       name="email"
+                      autoComplete="email"
+                      inputMode="email"
                       value={formData.email}
                       onChange={handleChange}
                       onFocus={() => setFocusedField("email")}
                       onBlur={() => setFocusedField(null)}
                       placeholder="your@email.com"
-                      className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-sm focus:outline-none transition-colors ${
+                      className={`w-full h-[52px] min-h-[52px] px-4 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-base focus:outline-none transition-colors ${
                         errors.email ? "border-white/50" : "border-white/15"
                       }`}
                     />
@@ -389,13 +393,14 @@ export function Contact() {
                     <textarea
                       id="contact-message"
                       name="message"
+                      enterKeyHint="send"
                       value={formData.message}
                       onChange={handleChange}
                       onFocus={() => setFocusedField("message")}
                       onBlur={() => setFocusedField(null)}
                       placeholder="Tell me about your project or architecture requirements..."
                       rows={4}
-                      className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-sm focus:outline-none transition-colors resize-none ${
+                      className={`w-full min-h-[120px] px-4 py-3.5 rounded-xl bg-white/[0.04] border text-white placeholder:text-white/30 font-sans text-base focus:outline-none transition-colors resize-none ${
                         errors.message ? "border-white/50" : "border-white/15"
                       }`}
                     />
@@ -425,7 +430,7 @@ export function Contact() {
                   disabled={isSubmitting || isSubmitted}
                   onMouseMove={handleSendMagneticMove}
                   onMouseLeave={handleSendMagneticLeave}
-                  className="w-full px-6 py-4 rounded-xl bg-white text-black hover:bg-white/90 disabled:bg-white/50 font-mono text-xs uppercase tracking-widest font-semibold transition-all flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                  className="w-full h-[52px] min-h-[52px] px-6 rounded-xl bg-white text-black hover:bg-white/90 disabled:bg-white/50 font-mono text-xs uppercase tracking-widest font-semibold transition-all flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center gap-2">
@@ -456,7 +461,7 @@ export function Contact() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 16 }}
-            className="fixed bottom-8 right-8 z-50 flex items-center gap-3 px-5 py-3 rounded-full bg-black text-white border border-white/30 shadow-2xl font-mono text-xs uppercase tracking-widest"
+            className="fixed bottom-[calc(max(1.5rem,env(safe-area-inset-bottom)))] right-4 sm:right-8 z-50 flex items-center gap-3 px-5 py-3 rounded-full bg-black text-white border border-white/30 shadow-2xl font-mono text-xs uppercase tracking-widest"
           >
             <Check className="w-3.5 h-3.5 text-white" />
             <span>Email copied to clipboard</span>

@@ -41,6 +41,8 @@ export function Hackathons() {
   const mobilePathRef = useRef<SVGPathElement>(null);
   const dotRef = useRef<SVGCircleElement>(null);
   const pulseRef = useRef<SVGCircleElement>(null);
+  const mobileDotRef = useRef<SVGCircleElement>(null);
+  const mobilePulseRef = useRef<SVGCircleElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [particles, setParticles] = useState<Particle[]>([]);
   const particlesRef = useRef<Particle[]>([]);
@@ -85,25 +87,38 @@ export function Hackathons() {
         path.style.strokeDashoffset = `${totalLength * (1 - progress)}`;
 
         const point = path.getPointAtLength(progress * totalLength);
-        if (dotRef.current) {
-          dotRef.current.setAttribute("cx", `${point.x}`);
-          dotRef.current.setAttribute("cy", `${point.y}`);
-        }
-        if (pulseRef.current) {
-          pulseRef.current.setAttribute("cx", `${point.x}`);
-          pulseRef.current.setAttribute("cy", `${point.y}`);
+        if (isMobile) {
+          if (mobileDotRef.current) {
+            mobileDotRef.current.setAttribute("cx", `${point.x}`);
+            mobileDotRef.current.setAttribute("cy", `${point.y}`);
+          }
+          if (mobilePulseRef.current) {
+            mobilePulseRef.current.setAttribute("cx", `${point.x}`);
+            mobilePulseRef.current.setAttribute("cy", `${point.y}`);
+          }
+        } else {
+          if (dotRef.current) {
+            dotRef.current.setAttribute("cx", `${point.x}`);
+            dotRef.current.setAttribute("cy", `${point.y}`);
+          }
+          if (pulseRef.current) {
+            pulseRef.current.setAttribute("cx", `${point.x}`);
+            pulseRef.current.setAttribute("cy", `${point.y}`);
+          }
         }
 
-        const now = performance.now();
-        if (now - lastEmit > 75) {
-          lastEmit = now;
-          particlesRef.current.push({
-            id: Math.random(),
-            x: point.x + (Math.random() - 0.5) * 12,
-            y: point.y + (Math.random() - 0.5) * 12,
-            char: Math.random() > 0.5 ? "1" : "0",
-            createdAt: now,
-          });
+        if (!isMobile) {
+          const now = performance.now();
+          if (now - lastEmit > 75) {
+            lastEmit = now;
+            particlesRef.current.push({
+              id: Math.random(),
+              x: point.x + (Math.random() - 0.5) * 12,
+              y: point.y + (Math.random() - 0.5) * 12,
+              char: Math.random() > 0.5 ? "1" : "0",
+              createdAt: now,
+            });
+          }
         }
 
         const currentLapIndex = Math.floor(progress * totalLaps);
@@ -111,13 +126,15 @@ export function Hackathons() {
       },
     });
 
-    const updateParticles = () => {
-      const now = performance.now();
-      particlesRef.current = particlesRef.current.filter((p) => now - p.createdAt < 600);
-      setParticles([...particlesRef.current]);
+    if (!isMobile) {
+      const updateParticles = () => {
+        const now = performance.now();
+        particlesRef.current = particlesRef.current.filter((p) => now - p.createdAt < 600);
+        setParticles([...particlesRef.current]);
+        rafId = requestAnimationFrame(updateParticles);
+      };
       rafId = requestAnimationFrame(updateParticles);
-    };
-    rafId = requestAnimationFrame(updateParticles);
+    }
 
     cardsRef.current.forEach((card, idx) => {
       if (!card) return;
@@ -156,12 +173,13 @@ export function Hackathons() {
 
     return () => {
       trigger.kill();
-      cancelAnimationFrame(rafId);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, [totalLaps]);
 
   const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(pointer: coarse), (hover: none)").matches) return;
     const target = e.currentTarget;
     const rect = target.getBoundingClientRect();
     const px = (e.clientX - rect.left) / rect.width - 0.5;
@@ -197,17 +215,17 @@ export function Hackathons() {
   return (
     <div
       ref={containerRef}
-      className="py-24 sm:py-36 px-4 sm:px-8 lg:px-16 border-b border-white/10 bg-black text-white relative overflow-hidden"
+      className="py-16 sm:py-36 px-4 sm:px-8 lg:px-16 border-b border-white/10 bg-black text-white relative overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto mb-16 sm:mb-24 text-center space-y-4">
+      <div className="max-w-7xl mx-auto mb-12 sm:mb-24 text-center space-y-3 sm:space-y-4">
         <div className="font-mono text-xs uppercase tracking-widest text-white/70">
           <DecodeText text="[ 04 // HACKATHONS & EXPERIENCE ]" />
         </div>
         <DecodeText
           text="GRAND PRIX // COMPETITIONS"
-          className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tighter uppercase font-sans text-white block"
+          className="text-3xl sm:text-6xl lg:text-7xl font-bold tracking-tighter uppercase font-sans text-white block"
         />
-        <div className="flex items-center justify-center gap-3 font-mono text-xs uppercase tracking-widest text-white/70">
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 font-mono text-[11px] sm:text-xs uppercase tracking-widest text-white/70">
           <span>Circuit Telemetry</span>
           <span>✦</span>
           <span>8 Laps // Competitions, Organizing, Open Source</span>
@@ -294,9 +312,26 @@ export function Hackathons() {
             strokeWidth="3"
             strokeLinecap="round"
           />
+          <circle
+            ref={mobilePulseRef}
+            cx="24"
+            cy="0"
+            r="8"
+            fill="none"
+            stroke="rgba(255, 255, 255, 0.6)"
+            strokeWidth="1.5"
+          />
+          <circle
+            ref={mobileDotRef}
+            cx="24"
+            cy="0"
+            r="4"
+            fill="#ffffff"
+            className="filter drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]"
+          />
         </svg>
 
-        <div className="relative z-20 space-y-8 md:space-y-0">
+        <div className="relative z-20 space-y-6 md:space-y-0">
           {hackathons.map((event, index) => {
             const lapNum = String(index + 1).padStart(2, "0");
             const posClass = desktopPositions[index] || "md:top-0 md:left-0";
@@ -315,7 +350,7 @@ export function Hackathons() {
                 style={{ perspective: "900px" }}
               >
                 <div className="pl-12 md:pl-0">
-                  <div className="md:hidden absolute left-3 top-3 w-6 h-6 rounded-full border border-white/40 bg-black flex items-center justify-center font-mono text-[9px] text-white">
+                  <div className="md:hidden absolute left-3 top-7 -translate-y-1/2 w-6 h-6 rounded-full border border-white/40 bg-black flex items-center justify-center font-mono text-[9px] text-white z-20">
                     <DecodeText text={lapNum} />
                   </div>
 
@@ -324,13 +359,13 @@ export function Hackathons() {
                     onMouseLeave={handleCardMouseLeave}
                     data-cursor="view"
                     data-cursor-label="RACE"
-                    className={`p-6 sm:p-8 rounded-2xl border transition-all duration-300 backdrop-blur-md will-change-transform ${
+                    className={`p-5 sm:p-8 rounded-2xl border transition-all duration-300 backdrop-blur-md will-change-transform ${
                       isPassed
                         ? "border-white/30 bg-white/[0.04] shadow-[0_0_30px_rgba(255,255,255,0.03)]"
                         : "border-white/10 bg-white/[0.01]"
                     }`}
                   >
-                    <div className="flex items-center justify-between gap-4 mb-4 pb-3 border-b border-white/10">
+                    <div className="flex items-center justify-between gap-3 mb-3 sm:mb-4 pb-3 border-b border-white/10">
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-xs uppercase tracking-widest text-white/40">
                           <DecodeText text={`LAP ${lapNum}`} />
@@ -342,7 +377,7 @@ export function Hackathons() {
                       </div>
 
                       <div
-                        className={`px-3 py-1 rounded-full font-mono text-[10px] uppercase tracking-wider font-semibold border flex items-center gap-1.5 ${
+                        className={`px-2.5 py-1 rounded-full font-mono text-[10px] uppercase tracking-wider font-semibold border flex items-center gap-1.5 ${
                           isWinner || isFinalist
                             ? "winner-badge bg-white text-black border-white"
                             : "border-white/20 text-white/70 bg-white/[0.02]"
@@ -361,7 +396,7 @@ export function Hackathons() {
                       </div>
                     </div>
 
-                    <h3 className="font-sans font-bold text-xl sm:text-2xl text-white tracking-tight mb-4">
+                    <h3 className="font-sans font-bold text-lg sm:text-2xl text-white tracking-tight mb-3 sm:mb-4">
                       {event.title}
                     </h3>
 

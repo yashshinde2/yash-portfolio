@@ -28,6 +28,7 @@ export function DecodeText({ text, className, duration = 0.9, on = "scroll" }: P
       gsap.to(state, { p: 1, duration, ease: "none", onUpdate: render, overwrite: true })
     }
     if (on === "hover") {
+      if (typeof window !== "undefined" && window.matchMedia("(hover: none)").matches) return
       const parent = el.parentElement!
       parent.addEventListener("pointerenter", run)
       return () => parent.removeEventListener("pointerenter", run)

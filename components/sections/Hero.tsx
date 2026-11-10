@@ -1,12 +1,21 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { portfolioData } from "@/lib/portfolio-data";
-import { BinaryPhoto } from "@/components/binary-photo";
-import { BinaryTrail } from "@/components/binary-trail";
 import { ArrowDown, ArrowUpRight, Download, Mail } from "lucide-react";
+
+const BinaryPhoto = dynamic(
+  () => import("@/components/binary-photo").then((m) => m.BinaryPhoto),
+  { ssr: false }
+);
+
+const BinaryTrail = dynamic(
+  () => import("@/components/binary-trail").then((m) => m.BinaryTrail),
+  { ssr: false }
+);
 
 function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -45,6 +54,7 @@ function MagneticAnchor({
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(pointer: coarse), (hover: none)").matches) return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -79,9 +89,15 @@ function MagneticAnchor({
 export function Hero() {
   const { hero, social } = portfolioData;
   const [istTime, setIstTime] = useState("");
+  const [mounted, setMounted] = useState(false);
   const textRef = useRef<HTMLDivElement>(null);
   const frontTextRef = useRef<HTMLDivElement>(null);
   const photoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   useEffect(() => {
     const updateTime = () => {
@@ -103,6 +119,7 @@ export function Hero() {
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(pointer: coarse), (hover: none)").matches) return;
     const { innerWidth, innerHeight } = window;
     const normX = (e.clientX / innerWidth - 0.5) * 2;
     const normY = (e.clientY / innerHeight - 0.5) * 2;
@@ -142,11 +159,14 @@ export function Hero() {
       data-cursor="binary"
       id="hero"
       onMouseMove={handleMouseMove}
-      className="relative h-screen min-h-[680px] w-full overflow-hidden bg-black text-white select-none flex flex-col justify-between pt-20 pb-8 px-6 sm:px-12 border-b border-white/10"
+      className="relative h-[100svh] min-h-[580px] w-full overflow-hidden bg-black text-white select-none flex flex-col justify-between pt-16 pb-6 px-4 sm:px-12 border-b border-white/10"
     >
-      <BinaryTrail className="pointer-events-none absolute inset-0 z-[15] mix-blend-difference" />
-      <div className="relative z-30 flex items-center justify-between w-full font-mono text-xs uppercase tracking-widest text-white/70 pointer-events-none">
-        <div>B.Tech CSE &apos;27</div>
+      <div className="pointer-events-none absolute inset-0 z-[15] mix-blend-difference">
+        {mounted && <BinaryTrail />}
+      </div>
+
+      <div className="relative z-30 flex items-center justify-between w-full font-mono text-[11px] sm:text-xs uppercase tracking-widest text-white/70 pointer-events-none pt-[calc(max(0.5rem,env(safe-area-inset-top)))]">
+        <div>B.Tech CSE &apos;27 <span className="hidden sm:inline">• Kolhapur, IN</span></div>
         <div className="tabular-nums">{istTime || "LIVE IST"}</div>
       </div>
 
@@ -154,7 +174,7 @@ export function Hero() {
         ref={textRef}
         className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none"
       >
-        <div className="text-center font-sans font-black tracking-tighter uppercase leading-[0.82] text-[18vw] sm:text-[18vw] text-white">
+        <div className="text-center font-sans font-black tracking-tighter uppercase leading-[0.85] sm:leading-[0.82] text-[clamp(2.75rem,14vw,18vw)] text-white">
           <div className="overflow-hidden">
             {line1.map((char, i) => (
               <motion.span
@@ -197,12 +217,14 @@ export function Hero() {
         ref={photoRef}
         className="absolute bottom-0 inset-x-0 z-20 pointer-events-none flex justify-center items-end h-[58vh] sm:h-[80vh] w-full"
       >
-        <div className="relative h-full w-full max-w-4xl flex items-end justify-center pointer-events-none [mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)]">
-          <BinaryPhoto
-            src="/yash.png"
-            alt={hero.name}
-            className="pointer-events-auto filter grayscale contrast-[1.15] w-[min(520px,88vw)] max-w-full"
-          />
+        <div className="relative h-full w-full max-w-4xl flex items-end justify-center pointer-events-none [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]">
+          {mounted && (
+            <BinaryPhoto
+              src="/yash.png"
+              alt={hero.name}
+              className="pointer-events-auto filter grayscale contrast-[1.15] w-[clamp(200px,60vw,520px)] sm:w-[min(520px,88vw)] max-w-full"
+            />
+          )}
         </div>
       </div>
 
@@ -211,7 +233,7 @@ export function Hero() {
         className="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-none"
       >
         <div
-          className="text-center font-sans font-black tracking-tighter uppercase leading-[0.82] text-[18vw] sm:text-[18vw] pointer-events-none"
+          className="text-center font-sans font-black tracking-tighter uppercase leading-[0.85] sm:leading-[0.82] text-[clamp(2.75rem,14vw,18vw)] pointer-events-none"
           style={{
             WebkitTextStroke: "1px rgba(255, 255, 255, 0.35)",
             color: "transparent",
@@ -258,7 +280,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
-          className="mt-4 font-serif italic text-xl sm:text-3xl md:text-4xl text-white/90 font-normal tracking-wide pointer-events-none"
+          className="mt-3 sm:mt-4 font-serif italic text-lg sm:text-3xl md:text-4xl text-white/90 font-normal tracking-wide pointer-events-none px-4 text-center"
         >
           {hero.headline}
         </motion.div>
@@ -266,40 +288,42 @@ export function Hero() {
 
       <div className="pointer-events-none absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-black via-black/80 to-transparent z-25" />
 
-      <div className="relative z-40 w-full flex flex-col sm:flex-row items-center sm:items-end justify-between gap-6 pointer-events-none">
-        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/70">
+      <div className="relative z-40 w-full flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4 sm:gap-6 pointer-events-none pb-[calc(max(0.5rem,env(safe-area-inset-bottom)))]">
+        <div className="hidden sm:flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/70">
           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
           <span>Kolhapur, IN</span>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-3">
-          <MagneticAnchor
-            href="#projects"
-            className="pointer-events-auto px-6 py-3 rounded-full bg-white text-black font-mono text-xs uppercase tracking-widest font-semibold hover:bg-white/90 transition-all flex items-center gap-1.5"
-          >
-            <span>View Projects</span>
-            <ArrowUpRight className="w-3.5 h-3.5" />
-          </MagneticAnchor>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
+          <div className="flex flex-col min-[480px]:flex-row items-center justify-center gap-2.5 sm:gap-3 w-full sm:w-auto">
+            <MagneticAnchor
+              href="#projects"
+              className="pointer-events-auto w-full min-[480px]:w-auto min-h-[44px] px-6 py-3 rounded-full bg-white text-black font-mono text-xs uppercase tracking-widest font-semibold hover:bg-white/90 transition-all flex items-center justify-center gap-1.5"
+            >
+              <span>View Projects</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </MagneticAnchor>
 
-          <MagneticAnchor
-            href={hero.resumeLink}
-            download="Yash_Shinde_Resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            ariaLabel="Download Yash Shinde Resume PDF"
-            className="pointer-events-auto px-6 py-3 rounded-full border border-white/20 text-white font-mono text-xs uppercase tracking-widest hover:border-white hover:bg-white/10 transition-all flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
-          >
-            <span>Download Resume</span>
-            <Download className="w-3.5 h-3.5" />
-          </MagneticAnchor>
+            <MagneticAnchor
+              href={hero.resumeLink}
+              download="Yash_Shinde_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              ariaLabel="Download Yash Shinde Resume PDF"
+              className="pointer-events-auto w-full min-[480px]:w-auto min-h-[44px] px-6 py-3 rounded-full border border-white/20 text-white font-mono text-xs uppercase tracking-widest hover:border-white hover:bg-white/10 transition-all flex items-center justify-center gap-1.5 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+            >
+              <span>Download Resume</span>
+              <Download className="w-3.5 h-3.5" />
+            </MagneticAnchor>
+          </div>
 
-          <div className="flex items-center gap-1 pl-2">
+          <div className="flex items-center justify-center gap-2 pt-1 sm:pt-0 sm:pl-2">
             {social.map((link) => (
               <MagneticAnchor
                 key={link.name}
                 href={link.url}
                 ariaLabel={link.name}
-                className="pointer-events-auto w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white hover:bg-white/10 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                className="pointer-events-auto w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white hover:bg-white/10 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
               >
                 {socialIcons[link.name] || <ArrowUpRight className="w-3.5 h-3.5" />}
               </MagneticAnchor>
@@ -307,7 +331,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/70">
+        <div className="hidden sm:flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/70">
           <span>Scroll</span>
           <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
         </div>

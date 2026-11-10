@@ -28,7 +28,7 @@ export function BinaryPhoto({ src, alt, className = "", radius = 160, cellW = 9,
 
     const build = () => {
       if (!img.complete || !img.clientWidth) return
-      const dpr = Math.min(devicePixelRatio || 1, 2)
+      const dpr = touch ? Math.min(devicePixelRatio || 1, 1.5) : Math.min(devicePixelRatio || 1, 2)
       w = img.clientWidth
       h = img.clientHeight
       canvas.width = w * dpr
@@ -61,8 +61,8 @@ export function BinaryPhoto({ src, alt, className = "", radius = 160, cellW = 9,
     }
 
     const frame = (now: number) => {
-      raf = requestAnimationFrame(frame)
       if (!visible || !cols) return
+      raf = requestAnimationFrame(frame)
       if (touch || reduce) {
         const t = (now - t0) / 1000
         tx = w * (0.5 + 0.3 * Math.sin(t * 0.7))
@@ -132,7 +132,14 @@ export function BinaryPhoto({ src, alt, className = "", radius = 160, cellW = 9,
       ripple = performance.now()
     }
 
-    const io = new IntersectionObserver(([en]) => { visible = en.isIntersecting })
+    const io = new IntersectionObserver(([en]) => {
+      const prev = visible
+      visible = en.isIntersecting
+      if (visible && !prev && cols) {
+        cancelAnimationFrame(raf)
+        raf = requestAnimationFrame(frame)
+      }
+    })
     const ro = new ResizeObserver(build)
     io.observe(wrap)
     ro.observe(img)

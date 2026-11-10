@@ -24,13 +24,20 @@ html {
 body {
   background-color: #000000;
   color: #ffffff;
-  overflow-x: hidden;
+  overflow-x: clip;
+  min-height: 100svh;
 }
 
-@media (pointer: fine) {
+@media (pointer: fine) and (hover: hover) {
   html, a, button, [role="button"], input, textarea { cursor: none; }
 }
 ::selection { background: #fff; color: #000; }
+
+@media (hover: none) {
+  .link-hover::after {
+    display: none !important;
+  }
+}
 
 .link-hover {
   position: relative;
